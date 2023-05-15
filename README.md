@@ -11,7 +11,7 @@ Le professionnel R&T doit donc mobiliser son expertise en développement informa
 
 ## Descriptif et objectifs de la SAÉ
 Progression
-
+![Progression SAÉ](progression_sae23.png)
 Volume horaire
 
     16h encadrées : 1C (1.5h) semaine 20, 3 TP (12h) semaine 19, 20 et 22, 1 TP évaluation en semaine 24
