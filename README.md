@@ -1,4 +1,4 @@
-# SAE23
+# Présentation SAÉ23
 ## Problématique professionnelle
 
 Le professionnel R&T, au cœur du système d'information de l'entreprise, est amené à développer différentes solutions informatiques : ces solutions peuvent faciliter son travail quotidien (outil pour centraliser les données d'administration du réseau) ou être commandées pour les besoins de ses collaborateurs (annuaire des personnels, partage d'informations, ...).
@@ -11,7 +11,7 @@ Le professionnel R&T doit donc mobiliser son expertise en développement informa
 ---
 ## Descriptif et objectifs de la SAÉ
 Progression
-![Progression SAÉ](progression_sae23.png)
+![Progression SAÉ](images/progression_sae23.png)
 
 ### Volume horaire
 
