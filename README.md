@@ -45,3 +45,28 @@ Contraintes techniques
     Codes documentés (commentaires pertinents dans le code) en anglais
     Publication sur un serveur web dédié (xampp)
     Gestion de version via Git et Github
+   
+## Déroulement et évaluation
+
+NB : les informations pouvant évoluées d'ici à la fin du projet, consultez régulièrement cette section. Vous serez bien entendu prévenu en cas de changements.
+Productions
+
+    Diagramme de GANTT
+    Codes informatiques commentés en anglais
+    Schéma de conception base de données 
+    Dashboard Grafana
+    Flow Node-RED
+    Projet Github
+    Démonstration technique à l’oral
+
+Livrables
+
+    L1 (Semaine 22) : Diagramme de GANTT, schéma conception BD (onglet concepteur sous PhpMyAdmin) (28/05/23 à 18h)
+    L2 et L3 (Semaine 23) : flow Node-RED et dashboard Grafana (11/06/23 à 18h)
+    L4 (Semaine 24) : Version finale du projet (codes et fichiers), URL projet Github (19/06/23 à 18h)
+
+Critères d'évaluation
+
+    Gestion de projet (coeff. 1) : régularité du travail, avancement pendant les créneaux prévus dans l’EDT, respect des échéances pour les rendus des livrables, gestion de version mise en place, page gestion de projet sur site web
+    Projet (coeff. 2) : fonctionnalités développées, qualité de la documentation, qualité du code, authenticité du code.
+    Présentation orale (coeff. 1) : explication claire du travail effectuée, qualité de l’expression, pertinences des réponses aux questions.
