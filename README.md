@@ -8,7 +8,7 @@ Ces solutions sont plus larges que le simple traitement des données et visent l
 Les résultats peuvent être documentés grâce à des pages Web voire mis à disposition des utilisateurs directement dans des navigateurs Web.  
 
 Le professionnel R&T doit donc mobiliser son expertise en développement informatique pour le compte de son entreprise.
----
+
 ## Descriptif et objectifs de la SAÉ
 Progression
 ![Progression SAÉ](images/progression_sae23.png)
