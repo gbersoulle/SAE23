@@ -1,7 +1,7 @@
 <!-- Menu en bandeau -->
 <nav>
 		<ul>
-			<li><a href="#">Accueil</a></li>
+			<li><a href="index.php">Accueil</a></li>
 			<li><a href="affiche_base.php">Affichage de la BDD</a></li>
 			<li><a href="#">Piere C'est un BG</a></li>
             <li><a href="#">Sylvio tu pu</a></li>
