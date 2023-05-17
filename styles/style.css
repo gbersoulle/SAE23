@@ -1,0 +1,112 @@
+
+/* Styles pour le corps de la page */
+body {
+    margin: 0;
+    padding: 0;
+}
+nav {
+    background-color: #333;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+  }
+  
+  nav ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
+
+  nav li{
+    margin : 0px 10px;
+  }
+
+  nav li:nth-last-child(2) {
+    margin-left: auto;
+  }
+  
+  nav a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 5px 10px;
+    transition: all 0.3s ease;
+  }
+  
+  nav a:last-child {
+    font-size: 14px;
+    letter-spacing: 0.5px;
+    padding: 3px 8px;
+  }
+  
+  nav a:hover {
+    background-color: #fff;
+    color: #333;
+    border-radius: 5px;
+  }
+
+
+
+main{
+  display: flex;
+  min-height: calc(100vh - 50px);
+}
+main section{
+  flex-grow: 1;
+  flex-basis: 0;
+}
+main section.Last_Data{
+  background-color: lightblue;
+  border-right: #333 solid 10px;
+  padding: 10px;
+}
+main section.autres{
+  background-color: green;
+  border-left: #333 solid 10px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+
+}
+main section.Dashboard {
+  flex-grow: 2;
+  flex-basis: 0;
+  background-color: blue;
+  padding: 10px;
+}
+
+
+.autres div{
+  flex-grow: 1;
+  flex-basis: 0;
+  border : solid ;
+  margin :2px;
+  padding: 0 20px;
+}
+
+
+
+
+@media screen and (max-width: 768px) {
+  main{
+    flex-direction: column;
+  }
+
+  main section.Last_Data{
+    border:  0px;
+  }
+  main section.autres{
+    border:  0px;
+  }
+  main section.Dashboard {
+    order: -1;
+  }
+}
