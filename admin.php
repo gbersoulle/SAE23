@@ -147,9 +147,8 @@ if(isset($_POST['submit_ajouter_capteur'])){
     $sql = "INSERT INTO capteur (nom_capteur, type_capteur, id_batiment) VALUES ('$nomCapteur', '$typeCapteur', $idBatiment)";
     mysqli_query($connexion, $sql);  
     mysqli_close($connexion);
-    header("Location: admin.php"); //On redirige vers la même page pour réinitialiser le formulaire
-    exit(); 
-
+    header("Location: admin.php");
+    exit();
     
 }
 
@@ -159,9 +158,9 @@ if(isset($_POST['submit_ajouter_battiment'])){
     $login_gest = $_POST['login_gest'];
     $mdp_gest = $_POST['mdp_gest'];
     $sql = "INSERT INTO batiment (nom_bat, login_gest, mdp_gest) VALUES ('$nom_bat', '$login_gest', '$mdp_gest')";
-    mysqli_close($connexion);
-    header("Location: admin.php"); //On redirige vers la même page pour réinitialiser le formulaire
-    exit(); 
+    mysqli_close($connexion); 
+    header("Location: admin.php");
+    exit();
 }
 if (isset($_POST['submit_supprimer_capteur']) && isset($_POST['capteurs'])) {
     require('connexion_bdd.php');
@@ -176,9 +175,8 @@ if (isset($_POST['submit_supprimer_capteur']) && isset($_POST['capteurs'])) {
         mysqli_query($connexion, $sqlCapteurSuppr);
     }
     mysqli_close($connexion);
-
-    header("Location: admin.php"); //On redirige vers la même page pour réinitialiser le formulaire
-    exit(); 
+    header("Location: admin.php");
+    exit();
 }
 
 
@@ -204,8 +202,6 @@ if (isset($_POST['submit_supprimer_batt']) && isset($_POST['batiment'])) {
     }
 
     mysqli_close($connexion);
-    header("Location: admin.php"); // On redirige vers la même page pour réinitialiser le formulaire
-    exit(); 
 }
 
 
