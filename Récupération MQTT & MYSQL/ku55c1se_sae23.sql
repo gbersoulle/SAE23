@@ -169,6 +169,17 @@ ALTER TABLE `mesure`
   ADD CONSTRAINT `mesure_ibfk_2` FOREIGN KEY (`id_capteur`) REFERENCES `capteur` (`id_capteur`);
 COMMIT;
 
+--insert data into the table batiment
+
+INSERT INTO batiment (ID_bat, Nom_bat, Login_Gest, MDP_Gest)
+VALUES
+    ('1', 'A', 'Ange', 'Ange'),
+    ('2', 'B', 'Pierre', 'Pierre'),
+    ('3', 'C', 'Sylvio', 'Sylvio'),
+    ('4', 'D', 'Gaspard', 'Gaspard'),
+    ('5', '5', 'Gael', 'Gael');
+
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
