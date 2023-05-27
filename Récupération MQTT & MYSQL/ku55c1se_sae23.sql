@@ -69,7 +69,7 @@ INSERT INTO `batiment` (`id_batiment`, `nom_bat`, `login_gest`, `mdp_gest`) VALU
 --
 
 CREATE TABLE `capteur` (
-  `id_capteur` varchar(16) NOT NULL,
+  `id_capteur` varchar(20) NOT NULL,
   `nom_capteur` varchar(9) NOT NULL,
   `type_capteur` varchar(20) NOT NULL,
   `Salle` int (3) NOT NULL,
@@ -92,18 +92,17 @@ INSERT INTO `capteur` (`id_capteur`, `nom_capteur`, `type_capteur`, `id_batiment
 
 CREATE TABLE `mesure` (
   `id_mesure` int(11) NOT NULL,
-  `id_capteur` int(11) NOT NULL,
   `date_mesure` date NOT NULL,
-  `horaires` date NOT NULL,
-  `valeur_mesure` varchar(20) NOT NULL
+  `valeur_mesure` varchar(20) NOT NULL,
+  `id_capteur` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `mesure`
 --
 
-INSERT INTO `mesure` (`id_mesure`, `id_capteur`, `date_mesure`, `horaires`, `valeur_mesure`) VALUES
-(3, 39, '2023-05-16', '2023-05-13', 'uh');
+INSERT INTO `mesure` (`id_mesure`, `id_capteur`, `date_mesure`, `valeur_mesure`) VALUES
+(3, 39, '2023-05-16', 'uh');
 
 --
 -- Index pour les tables déchargées
@@ -140,12 +139,6 @@ ALTER TABLE `batiment`
   MODIFY `id_batiment` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
--- AUTO_INCREMENT pour la table `capteur`
---
-ALTER TABLE `capteur`
-  MODIFY `id_capteur` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
-
---
 -- AUTO_INCREMENT pour la table `mesure`
 --
 ALTER TABLE `mesure`
@@ -165,28 +158,30 @@ ALTER TABLE `capteur`
 -- Contraintes pour la table `mesure`
 --
 ALTER TABLE `mesure`
-  ADD CONSTRAINT `mesure_ibfk_1` FOREIGN KEY (`ID_Capteur`) REFERENCES `capteur` (`id_capteur`),
+  ADD CONSTRAINT `mesure_ibfk_1` FOREIGN KEY (`id_Capteur`) REFERENCES `capteur` (`id_capteur`),
   ADD CONSTRAINT `mesure_ibfk_2` FOREIGN KEY (`id_capteur`) REFERENCES `capteur` (`id_capteur`);
 COMMIT;
 
+
+-- insert data into the table batiment
+
+INSERT INTO batiment (ID_batiment, Nom_bat, Login_Gest, MDP_Gest)
+VALUES
+    ('1', 'A', 'Ange', 'Ange'),
+    ('2', 'B', 'Pierre', 'Pierre'),
+    ('3', 'C', 'Sylvio', 'Sylvio'),
+    ('4', 'D', 'Gaspard', 'Gaspard'),
+    ('5', 'E', 'Gael', 'Gael');
+
 -- insert data into the capteur table 
 
-INSERT INTO capteur (ID_capteur, Nom_capt, Type_capt, Salle, ID_Batiment)
+INSERT INTO capteur (ID_capteur, Nom_capteur, type_capteur, Salle, ID_Batiment)
 VALUES
     ('24e124128c012259', 'AM107-7', 'CO2', 'B001', '2'),
     ('24e124128c011778', 'AM107-6', 'Humidité', 'B203', '2'),
     ('24e124128c016509', 'AM107-29', 'CO2', 'E006', '5'),
     ('24e124128c016122', 'AM107-32', 'Humidité', 'E102', '5');
     
---insert data into the table batiment
-
-INSERT INTO batiment (ID_bat, Nom_bat, Login_Gest, MDP_Gest)
-VALUES
-    ('1', 'A', 'Ange', 'Ange'),
-    ('2', 'B', 'Pierre', 'Pierre'),
-    ('3', 'C', 'Sylvio', 'Sylvio'),
-    ('4', 'D', 'Gaspard', 'Gaspard'),
-    ('5', '5', 'Gael', 'Gael');
 
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
