@@ -13,7 +13,7 @@
     <!-- Ajouter ou supprimer un capteur -->
     <fieldset>
         <legend>Ajouter un capteur</legend>
-    <form method="POST">
+    <form method="POST" action="script_admin.php">
         <label for="nom_capteur">Saisir le nom du capteur</label>
         <input type="texte" name="nom_capteur" placeholder="Par ici le texte">
         
@@ -51,7 +51,7 @@
             <p>ATTENTION SUPPRIMER UN CAPTEUR SUPPRIMERA TOUTES LES valeurs associées</p>
     
     <!-- Afficher un tableau qui contiens tout les capteurs -->
-    <form method="POST">
+    <form method="POST" action="script_admin.php">
   <table>
     <tr>
       <th>Nom du Capteur</th>
@@ -87,7 +87,7 @@
     <!-- Ajouter ou supprimer un batt -->
     <fieldset>
         <legend>Ajouter un battiment</legend>
-    <form method="POST">
+    <form method="POST" action="script_admin.php">
         <label for="nom_bat">Saisir le nom du batiment</label>
         <input type="texte" name="nom_bat" placeholder="Par ici le texte">
         
@@ -106,7 +106,7 @@
             <p>ATTENTION SUPPRIMER UN CAPTEUR SUPPRIMERA TOUTES LES CAPTEURS ainsi que leurs valeurs associées</p>
     
     <!-- Afficher un tableau qui contiens tout les capteurs -->
-    <form method="POST">
+    <form method="POST" action="script_admin.php">
   <table>
     <tr>
       <th>Nom du Battiment</th>
@@ -138,75 +138,7 @@
 
 
 
-    <?php
-if(isset($_POST['submit_ajouter_capteur'])){
-    require('connexion_bdd.php');
-    $nomCapteur = $_POST['nom_capteur'];
-    $typeCapteur = $_POST['type_capteur'];
-    $idBatiment = $_POST['nom_bat'];
-    $sql = "INSERT INTO capteur (nom_capteur, type_capteur, id_batiment) VALUES ('$nomCapteur', '$typeCapteur', $idBatiment)";
-    mysqli_query($connexion, $sql);  
-    mysqli_close($connexion);
-    header("Location: admin.php");
-    exit();
     
-}
-
-if(isset($_POST['submit_ajouter_battiment'])){
-    require('connexion_bdd.php');
-    $nom_bat = $_POST['nom_bat'];
-    $login_gest = $_POST['login_gest'];
-    $mdp_gest = $_POST['mdp_gest'];
-    $sql = "INSERT INTO batiment (nom_bat, login_gest, mdp_gest) VALUES ('$nom_bat', '$login_gest', '$mdp_gest')";
-    mysqli_close($connexion); 
-    header("Location: admin.php");
-    exit();
-}
-if (isset($_POST['submit_supprimer_capteur']) && isset($_POST['capteurs'])) {
-    require('connexion_bdd.php');
-    foreach ($_POST['capteurs'] as $index => $idCapteur) {
-
-        // Supprimer les valeurs associées à ce capteur dans la table `mesure`
-        $sqlMesureSuppr = "DELETE FROM mesure WHERE id_capteur = " . intval($idCapteur);
-
-        mysqli_query($connexion, $sqlMesureSuppr);
-        // Effectuer la suppression du capteur dans la base de données
-        $sqlCapteurSuppr = "DELETE FROM capteur WHERE id_capteur = " . intval($idCapteur);
-        mysqli_query($connexion, $sqlCapteurSuppr);
-    }
-    mysqli_close($connexion);
-    header("Location: admin.php");
-    exit();
-}
-
-
-
-if (isset($_POST['submit_supprimer_batt']) && isset($_POST['batiment'])) {
-    require('connexion_bdd.php');
-    foreach ($_POST['batiment'] as $id_batiment) {
-        // Récupérer les capteurs associés au bâtiment
-        $sqlCapteurs = "SELECT id_capteur FROM capteur WHERE id_batiment = " . intval($id_batiment);
-        $resultCapteurs = mysqli_query($connexion, $sqlCapteurs);
-
-        if ($resultCapteurs) {
-            while ($ligne = mysqli_fetch_assoc($resultCapteurs)) {
-                $idCapteur = $ligne['id_capteur'];
-
-                $sqlMesureSuppr = "DELETE FROM mesure WHERE id_capteur = " . intval($idCapteur); // Supprimer les valeurs associées à ce capteur dans la table `mesure`
-                $sqlCapteurSuppr = "DELETE FROM capteur WHERE id_capteur = " . intval($idCapteur); // Supprimer le capteur dans la table `capteur`
-
-                mysqli_query($connexion, $sqlMesureSuppr);
-                mysqli_query($connexion, $sqlCapteurSuppr);
-            }
-        }
-    }
-
-    mysqli_close($connexion);
-}
-
-
-
-?>
 </body>
 </html>
 
