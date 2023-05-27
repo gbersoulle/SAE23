@@ -18,18 +18,21 @@ while true; do
     # MQTT subscription and data processing
     data=$(mosquitto_sub -h "$mqtt_host" -p "$mqtt_port" -t "$mqtt_topic" -C 1)
     Time=$(date '+%H:%M:%S')
+    ID_capteur=$(echo "$data" | jq -r '.[1].devEUI')
 
-    # Parse JSON data
-    temperature=$(echo "$data" | jq -r '.[0].temperature')
-    humidity=$(echo "$data" | jq -r '.[0].humidity')
-    activity=$(echo "$data" | jq -r '.[0].activity')
-    co2=$(echo "$data" | jq -r '.[0].co2')
-    tvoc=$(echo "$data" | jq -r '.[0].tvoc')
-    illumination=$(echo "$data" | jq -r '.[0].illumination')
-    infrared=$(echo "$data" | jq -r '.[0].infrared')
-    infrared_and_visible=$(echo "$data" | jq -r '.[0].infrared_and_visible')
-    pressure=$(echo "$data" | jq -r '.[0].pressure')
-
-    # Insert data into MySQL database
-    mysql -h "$servername" -P "$mysql_port" -u "$username" -p"$password" -D "$dbname" -e "INSERT INTO mesure (temperature, humidity, activity, co2, tvoc, illumination, infrared, infrared_and_visible, pressure) VALUES ($temperature, $humidity, $activity, $co2, $tvoc, $illumination, $infrared, $infrared_and_visible, $pressure);"
+    # Insert data into MySQL database based on ID_capteur
+    case $ID_capteur in
+        24e124128c012259 | 24e124128c016509)
+            # Parse JSON data depending on what we need
+            co2=$(echo "$data" | jq -r '.[0].co2')
+            # Insert data into MySQL database
+            echo "$ID_capteur, $co2"
+            ;;
+        24e124128c011778 | 24e124128c016122)
+            # Parse JSON data depending on what we need
+            humidity=$(echo "$data" | jq -r '.[0].humidity')
+            # Insert data into MySQL database
+            echo "$ID_capteur, $humidity"
+            ;;
+    esac
 done
