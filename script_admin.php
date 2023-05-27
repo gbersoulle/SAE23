@@ -3,7 +3,8 @@ if(isset($_POST['submit_ajouter_capteur'])){
     if (empty($_POST['nom_capteur']) || empty($_POST['type_capteur']) || empty($_POST['nom_bat'])) { //Teste si les champs sont vides pour éviter les capteurs vides
         exit; 
     }
-    require('connexion_bdd.php');
+    require('connexion_bdd.php'); 
+    // Récup des valeurs et les met dans la BDD
     $nomCapteur = $_POST['nom_capteur'];
     $typeCapteur = $_POST['type_capteur'];
     $idBatiment = $_POST['nom_bat'];
@@ -19,6 +20,7 @@ if(isset($_POST['submit_ajouter_battiment'])){
         exit; 
     }
     require('connexion_bdd.php');
+    // Récup des valeurs et les met dans la BDD
     $nom_bat = $_POST['nom_bat'];
     $login_gest = $_POST['login_gest'];
     $mdp_gest = $_POST['mdp_gest'];
@@ -29,11 +31,12 @@ if(isset($_POST['submit_ajouter_battiment'])){
 
 
 if (isset($_POST['submit_supprimer_capteur']) && isset($_POST['capteurs'])) {
-    if (empty($_POST['capteurs'])) {
+    if (empty($_POST['capteurs'])) { //Teste si les champs sont vides pour éviter les capteurs vides
         exit();
     }
     require('connexion_bdd.php');
-    foreach ($_POST['capteurs'] as $index => $idCapteur) {
+    foreach ($_POST['capteurs'] as $idCapteur) {
+        //Pour supprimer capteurs faut avoir suppr toutes les données associées
 
         $sqlMesureSuppr = "DELETE FROM mesure WHERE id_capteur = " . intval($idCapteur);
         $sqlCapteurSuppr = "DELETE FROM capteur WHERE id_capteur = " . intval($idCapteur);
@@ -48,11 +51,12 @@ if (isset($_POST['submit_supprimer_capteur']) && isset($_POST['capteurs'])) {
 
 
 if (isset($_POST['submit_supprimer_batt']) && isset($_POST['batiment'])) {
-    if (empty($_POST['capteurs'])) {
+    if (empty($_POST['capteurs'])) { //Teste si les champs sont vides pour éviter les capteurs vides
         exit();
     }
     require('connexion_bdd.php');
     foreach ($_POST['batiment'] as $id_batiment) {
+            //Pour supprimer un batt faut avoir supprimé tout les capteurs et toutes les données associées
 
             $sqlMesureSuppr = "DELETE FROM mesure WHERE id_capteur IN (SELECT id_capteur FROM capteur WHERE id_batiment = $id_batiment)";
             $sqlCapteurSuppr = "DELETE FROM capteur WHERE id_batiment = $id_batiment";
