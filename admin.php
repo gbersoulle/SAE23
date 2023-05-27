@@ -15,17 +15,17 @@
         <legend>Ajouter un capteur</legend>
     <form method="POST" action="script_admin.php">
         <label for="nom_capteur">Saisir le nom du capteur</label>
-        <input type="texte" name="nom_capteur" placeholder="Par ici le texte">
+        <input type="texte" name="nom_capteur" placeholder="Par ici le texte" required>
         
         <p>Choisir le type du capteur</p>
-        <input type="radio" name="type_capteur" value="oxygene">
+        <input type="radio" name="type_capteur" value="oxygene" required>
         <label for="oxygene">Oxygèene</label><br>
         <input type="radio" name="type_capteur" value="lux">
         <label for="lux">lux</label><br>
         <input type="radio" name="type_capteur" value="co2">
         <label for="co2">co2</label><br>  
 
-        <select name="nom_bat">
+        <select name="nom_bat" required>
         <?php
             require('connexion_bdd.php');
             $requeteBattiment = mysqli_query($connexion, "SELECT nom_bat, id_batiment FROM batiment");
@@ -89,17 +89,19 @@
         <legend>Ajouter un battiment</legend>
     <form method="POST" action="script_admin.php">
         <label for="nom_bat">Saisir le nom du batiment</label>
-        <input type="texte" name="nom_bat" placeholder="Par ici le texte">
+        <input type="texte" name="nom_bat" placeholder="Par ici le texte" required>
         
         <label for="login_gest">Saisir le nom du gestionaire</label>
-        <input type="texte" name="login_gest" placeholder="Par ici le texte"> 
+        <input type="texte" name="login_gest" placeholder="Par ici le texte" required> 
 
         <label for="mdp_gest">Saisir le Mdp du gestionaire</label>
-        <input type="texte" name="mdp_gest" placeholder="Par ici le texte">
+        <input type="password" name="mdp_gest" placeholder="Par ici le texte" required>
 
         <input type="submit" name="submit_ajouter_battiment" value="Ajouter un Battiment">
     </form>
     </fieldset>
+
+
     <!-- Afficher tout les batt -->
     <fieldset>
         <legend>Supprimer un battiment</legend>
@@ -135,7 +137,7 @@
     </table>
    <input type="submit" name="submit_supprimer_batt" value="Supprimer les battiments sélectionnés">
 </form>
-
+</fieldset>
 
 
     

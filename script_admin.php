@@ -1,5 +1,8 @@
 <?php
 if(isset($_POST['submit_ajouter_capteur'])){
+    if (empty($_POST['nom_capteur']) || empty($_POST['type_capteur']) || empty($_POST['nom_bat'])) { //Teste si les champs sont vides pour éviter les capteurs vides
+        exit; 
+    }
     require('connexion_bdd.php');
     $nomCapteur = $_POST['nom_capteur'];
     $typeCapteur = $_POST['type_capteur'];
@@ -12,6 +15,9 @@ if(isset($_POST['submit_ajouter_capteur'])){
 }
 
 if(isset($_POST['submit_ajouter_battiment'])){
+    if (empty($_POST['login_gest']) || empty($_POST['mdp_gest']) || empty($_POST['nom_bat'])) { //Teste si les champs sont vides pour éviter les capteurs vides
+        exit; 
+    }
     require('connexion_bdd.php');
     $nom_bat = $_POST['nom_bat'];
     $login_gest = $_POST['login_gest'];
@@ -23,6 +29,9 @@ if(isset($_POST['submit_ajouter_battiment'])){
 
 
 if (isset($_POST['submit_supprimer_capteur']) && isset($_POST['capteurs'])) {
+    if (empty($_POST['capteurs'])) {
+        exit();
+    }
     require('connexion_bdd.php');
     foreach ($_POST['capteurs'] as $index => $idCapteur) {
 
@@ -39,6 +48,9 @@ if (isset($_POST['submit_supprimer_capteur']) && isset($_POST['capteurs'])) {
 
 
 if (isset($_POST['submit_supprimer_batt']) && isset($_POST['batiment'])) {
+    if (empty($_POST['capteurs'])) {
+        exit();
+    }
     require('connexion_bdd.php');
     foreach ($_POST['batiment'] as $id_batiment) {
 
