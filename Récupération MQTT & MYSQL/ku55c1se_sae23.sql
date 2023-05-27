@@ -69,10 +69,11 @@ INSERT INTO `batiment` (`id_batiment`, `nom_bat`, `login_gest`, `mdp_gest`) VALU
 --
 
 CREATE TABLE `capteur` (
-  `id_capteur` int(11) NOT NULL,
-  `nom_capteur` varchar(50) NOT NULL,
-  `type_capteur` varchar(50) NOT NULL,
-  `id_batiment` int(11) NOT NULL
+  `id_capteur` varchar(16) NOT NULL,
+  `nom_capteur` varchar(9) NOT NULL,
+  `type_capteur` varchar(20) NOT NULL,
+  `Salle` int (3) NOT NULL,
+  `id_batiment` int(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
