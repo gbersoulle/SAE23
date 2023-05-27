@@ -169,6 +169,15 @@ ALTER TABLE `mesure`
   ADD CONSTRAINT `mesure_ibfk_2` FOREIGN KEY (`id_capteur`) REFERENCES `capteur` (`id_capteur`);
 COMMIT;
 
+-- insert data into the capteur table 
+
+INSERT INTO capteur (ID_capteur, Nom_capt, Type_capt, Salle, ID_Batiment)
+VALUES
+    ('24e124128c012259', 'AM107-7', 'CO2', 'B001', '2'),
+    ('24e124128c011778', 'AM107-6', 'Humidité', 'B203', '2'),
+    ('24e124128c016509', 'AM107-29', 'CO2', 'E006', '5'),
+    ('24e124128c016122', 'AM107-32', 'Humidité', 'E102', '5');
+    
 --insert data into the table batiment
 
 INSERT INTO batiment (ID_bat, Nom_bat, Login_Gest, MDP_Gest)
