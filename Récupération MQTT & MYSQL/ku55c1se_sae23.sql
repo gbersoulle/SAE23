@@ -2,10 +2,10 @@
 -- version 4.9.7
 -- https://www.phpmyadmin.net/
 --
--- Hôte : localhost:3306
--- Généré le : sam. 27 mai 2023 à 13:32
--- Version du serveur :  5.7.33-cll-lve
--- Version de PHP : 7.4.29
+-- Host: localhost:3306
+-- Generated on: Sat, 27 May 2023 at 13:32
+-- Server version: 5.7.33-cll-lve
+-- PHP version: 7.4.29
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,153 +19,68 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données : `ku55c1se_sae23`
+-- Database: `ku55c1se_sae23`
 --
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `administration`
+-- Table structure for table `administration`
 --
-
 CREATE TABLE `administration` (
-  `user` varchar(20) NOT NULL,
-  `password` varchar(100) NOT NULL
+  `user` varchar(50) NOT NULL,
+  `password` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Déchargement des données de la table `administration`
+-- Dumping data for table `administration`
 --
-
 INSERT INTO `administration` (`user`, `password`) VALUES
 ('Sebastien', 'Patoche');
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `batiment`
+-- Table structure for table `batiment`
 --
-
 CREATE TABLE `batiment` (
-  `id_batiment` int(11) NOT NULL,
-  `nom_bat` varchar(50) NOT NULL,
+  `id_batiment` int(1) NOT NULL,
+  `nom_bat` varchar(1) NOT NULL,
   `login_gest` varchar(50) NOT NULL,
   `mdp_gest` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Déchargement des données de la table `batiment`
---
-
-INSERT INTO `batiment` (`id_batiment`, `nom_bat`, `login_gest`, `mdp_gest`) VALUES
-(6, 'Batiment en Bois', 'gze', 'fregtr'),
-(7, 'Batiment sur un Nuage', 'dzq', 'fr'),
-(8, 'dzqd', 'grdg', 'erfesfes');
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `capteur`
+-- Table structure for table `capteur`
 --
-
 CREATE TABLE `capteur` (
-  `id_capteur` varchar(20) NOT NULL,
+  `id_capteur` varchar(16) NOT NULL,
   `nom_capteur` varchar(9) NOT NULL,
   `type_capteur` varchar(20) NOT NULL,
-  `Salle` int (3) NOT NULL,
+  `Salle` varchar(4) NOT NULL,
   `id_batiment` int(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Déchargement des données de la table `capteur`
---
-
-INSERT INTO `capteur` (`id_capteur`, `nom_capteur`, `type_capteur`, `id_batiment`) VALUES
-(35, 'AH AAIUHDFZIUAHD', 'oxygene', 6),
-(39, 'rgreg', 'lux', 6);
-
 -- --------------------------------------------------------
 
 --
--- Structure de la table `mesure`
+-- Table structure for table `mesure`
 --
-
 CREATE TABLE `mesure` (
-  `id_mesure` int(11) NOT NULL,
+  `id_mesure` int(10) NOT NULL,
   `date_mesure` date NOT NULL,
-  `valeur_mesure` varchar(20) NOT NULL,
-  `id_capteur` varchar(20) NOT NULL
+  `valeur_mesure` varchar(10) NOT NULL,
+  `id_capteur` varchar(16) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Déchargement des données de la table `mesure`
---
-
-INSERT INTO `mesure` (`id_mesure`, `id_capteur`, `date_mesure`, `valeur_mesure`) VALUES
-(3, 39, '2023-05-16', 'uh');
 
 --
--- Index pour les tables déchargées
---
-
---
--- Index pour la table `batiment`
---
-ALTER TABLE `batiment`
-  ADD PRIMARY KEY (`id_batiment`);
-
---
--- Index pour la table `capteur`
---
-ALTER TABLE `capteur`
-  ADD PRIMARY KEY (`id_capteur`),
-  ADD KEY `id_batiment` (`id_batiment`);
-
---
--- Index pour la table `mesure`
---
-ALTER TABLE `mesure`
-  ADD PRIMARY KEY (`id_mesure`),
-  ADD KEY `id_capteur` (`id_capteur`);
-
---
--- AUTO_INCREMENT pour les tables déchargées
---
-
---
--- AUTO_INCREMENT pour la table `batiment`
---
-ALTER TABLE `batiment`
-  MODIFY `id_batiment` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
-
---
--- AUTO_INCREMENT pour la table `mesure`
---
-ALTER TABLE `mesure`
-  MODIFY `id_mesure` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- Contraintes pour les tables déchargées
---
-
---
--- Contraintes pour la table `capteur`
---
-ALTER TABLE `capteur`
-  ADD CONSTRAINT `capteur_ibfk_1` FOREIGN KEY (`id_batiment`) REFERENCES `batiment` (`ID_Batiment`);
-
---
--- Contraintes pour la table `mesure`
---
-ALTER TABLE `mesure`
-  ADD CONSTRAINT `mesure_ibfk_1` FOREIGN KEY (`id_Capteur`) REFERENCES `capteur` (`id_capteur`),
-  ADD CONSTRAINT `mesure_ibfk_2` FOREIGN KEY (`id_capteur`) REFERENCES `capteur` (`id_capteur`);
-COMMIT;
-
-
 -- insert data into the table batiment
-
-INSERT INTO batiment (ID_batiment, Nom_bat, Login_Gest, MDP_Gest)
+--
+INSERT INTO batiment (id_batiment, nom_bat, login_gest, mdp_gest)
 VALUES
     ('1', 'A', 'Ange', 'Ange'),
     ('2', 'B', 'Pierre', 'Pierre'),
@@ -173,15 +88,71 @@ VALUES
     ('4', 'D', 'Gaspard', 'Gaspard'),
     ('5', 'E', 'Gael', 'Gael');
 
+--
 -- insert data into the capteur table 
-
-INSERT INTO capteur (ID_capteur, Nom_capteur, type_capteur, Salle, ID_Batiment)
+--
+INSERT INTO capteur (id_capteur, nom_capteur, type_capteur, Salle, id_batiment)
 VALUES
     ('24e124128c012259', 'AM107-7', 'CO2', 'B001', '2'),
-    ('24e124128c011778', 'AM107-6', 'Humidité', 'B203', '2'),
-    ('24e124128c016509', 'AM107-29', 'CO2', 'E006', '5'),
-    ('24e124128c016122', 'AM107-32', 'Humidité', 'E102', '5');
+    ('24e124128c011778', 'AM107-6', 'Humidity', 'B203', '2'),
+    ('24e124128c016509', 'AM107-29', 'CO2
+
+', 'E006', '5'),
+    ('24e124128c016122', 'AM107-32', 'Humidity', 'E102', '5');
     
+
+
+--
+-- Indexes for table `batiment`
+--
+ALTER TABLE `batiment`
+  ADD PRIMARY KEY (`id_batiment`);
+
+--
+-- Indexes for table `capteur`
+--
+ALTER TABLE `capteur`
+  ADD PRIMARY KEY (`id_capteur`),
+  ADD KEY `id_batiment` (`id_batiment`);
+
+--
+-- Indexes for table `mesure`
+--
+ALTER TABLE `mesure`
+  ADD PRIMARY KEY (`id_mesure`),
+  ADD KEY `id_capteur` (`id_capteur`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `batiment`
+--
+ALTER TABLE `batiment`
+  MODIFY `id_batiment` int(1) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `mesure`
+--
+ALTER TABLE `mesure`
+  MODIFY `id_mesure` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- Constraints for table `capteur`
+--
+ALTER TABLE `capteur`
+  ADD CONSTRAINT `capteur_ibfk_1` FOREIGN KEY (`id_batiment`) REFERENCES `batiment` (`id_batiment`);
+
+--
+-- Constraints for table `mesure`
+--
+ALTER TABLE `mesure`
+  ADD CONSTRAINT `mesure_ibfk_1` FOREIGN KEY (`id_capteur`) REFERENCES `capteur` (`id_capteur`),
+  ADD CONSTRAINT `mesure_ibfk_2` FOREIGN KEY (`id_capteur`) REFERENCES `capteur` (`id_capteur`);
+COMMIT;
+
+
 
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
