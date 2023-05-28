@@ -71,7 +71,7 @@ CREATE TABLE `capteur` (
 --
 CREATE TABLE `mesure` (
   `id_mesure` int(10) NOT NULL,
-  `date_mesure` date NOT NULL,
+  `date_mesure` varchar(20) NOT NULL,
   `valeur_mesure` varchar(10) NOT NULL,
   `id_capteur` varchar(16) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
