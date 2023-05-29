@@ -38,7 +38,10 @@ var history_E006 = <?php echo json_encode($history_E006); ?>;
 function createChart(elementId, label, data, color) {
   // Get the canvas element by ID
   var canvas = document.getElementById(elementId);
-
+  
+  // reverse the array to have data classified in the right order
+  var data = data[0].reverse();
+  
   // specify each caracteristic of our chart for chart.js to make
   var chart = new Chart(canvas, {
     type: 'line',
@@ -49,7 +52,7 @@ function createChart(elementId, label, data, color) {
         {
           label: label,
           // Specify which data to use for the graph for example "history_B203"
-          data: data[0],
+          data: data,
           borderColor: color,
           borderWidth: 2
         }
