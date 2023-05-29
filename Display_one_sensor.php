@@ -30,6 +30,7 @@ function Display_one($Sensor_ID, $data_type) {
             echo implode("</td><td>", $line);
             echo "</td>";
             echo "</tr>";
+            // store the 10 measurement values in this array for the chart
             $values_history[] = $line["valeur_mesure"];
 
         }

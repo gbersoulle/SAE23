@@ -12,40 +12,58 @@
     
     echo "<h1>Salle E102</h1>";
     $history_E102[] = Display_one("24e124128c016122", "Humidité");
-    
+    echo '<canvas id="Chart_E102"></canvas>';
+
     echo "<h1>Salle B001</h1>";
     $history_B001[] = Display_one("24e124128c012259", "CO2");
+    echo '<canvas id="Chart_B001"></canvas>';
 
     echo "<h1>Salle E006</h1>";
     $history_E006[] = Display_one("24e124128c016509", "CO2");
-    
+    echo '<canvas id="Chart_E006"></canvas>';
+
     // Close the database connection
     mysqli_close($connexion);
 ?>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
-  // Retrieve the PHP array data
-  var history_B203 = <?php echo json_encode($history_B203); ?>;
+// Retrieve the PHP array data
+var history_B203 = <?php echo json_encode($history_B203); ?>;
+var history_E102 = <?php echo json_encode($history_E102); ?>;
+var history_B001 = <?php echo json_encode($history_B001); ?>;
+var history_E006 = <?php echo json_encode($history_E006); ?>;
 
-  // Create a new chart instance
-  var B203 = document.getElementById('Chart_B203');
-  var chart = new Chart(B203, {
+// Function to create a new chart (graph)
+function createChart(elementId, label, data, color) {
+  // Get the canvas element by ID
+  var canvas = document.getElementById(elementId);
+
+  // specify each caracteristic of our chart for chart.js to make
+  var chart = new Chart(canvas, {
     type: 'line',
     data: {
-
-    //labels are the name of each point of the graph
-      labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 
-      datasets: [{
-
-        label: 'Humidité',
-        // specify which data it has to make the graph with
-        data: history_B203[0],
-        borderColor: 'rgba(0, 123, 1 , 1)', 
-        borderWidth: 2
-      }]
+      // Labels are the name of each point of the graph
+      labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+      datasets: [
+        {
+          label: label,
+          // Specify which data to use for the graph for example "history_B203"
+          data: data[0],
+          borderColor: color,
+          borderWidth: 2
+        }
+      ]
     }
   });
+}
+
+// Call the function to create charts for each room
+createChart('Chart_B203', 'Humidité B203', history_B203, 'red');
+createChart('Chart_E102', 'Humidité E102', history_E102, 'blue');
+createChart('Chart_B001', 'CO2 B001', history_B001, 'green');
+createChart('Chart_E006', 'CO2 E006', history_E006, 'purple');
+
 </script>
 
 </body>
