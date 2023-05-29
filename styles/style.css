@@ -79,7 +79,7 @@ main section.autres{
 main section.Dashboard {
   flex-grow: 2;
   flex-basis: 0;
-  background-color: blue;
+  background-color: rgb(250, 198, 198);
   padding: 10px;
 }
 

@@ -17,6 +17,7 @@
 			<div>
 				<h1>Dashboard</h1>
 				<p>Ou il y aura toutes les informations des capteurs</p>
+				<?php require_once 'affiche_mesures.php' ?>
 			</div>
 		</section>
 		<section class="autres">
