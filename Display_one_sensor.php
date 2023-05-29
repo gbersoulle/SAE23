@@ -2,7 +2,7 @@
 
 // Function to display data for a specific sensor
 function Display_one($Sensor_ID, $data_type) {
-        echo "
+    echo "
     <table>
         <tr>
             <th>ID</th>
@@ -30,6 +30,9 @@ function Display_one($Sensor_ID, $data_type) {
             echo implode("</td><td>", $line);
             echo "</td>";
             echo "</tr>";
+            // store the 10 measurement values in this array for the chart
+            $values_history[] = $line["valeur_mesure"];
+
         }
         echo "</table>";
     } else {
@@ -37,6 +40,9 @@ function Display_one($Sensor_ID, $data_type) {
     }
 
     echo "<br>";
+
+    // Display the values stored in the values_history array
+    return $values_history;
 }
 
 ?>

@@ -2,7 +2,7 @@
 <html>
 <head>
 	<title>Mon site avec menu en bandeau</title>
-    <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet" href="styles/table.css">
 </head>
 <body>
     <?php require_once 'header.php' ?>
