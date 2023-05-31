@@ -13,38 +13,49 @@
     <!-- Ajouter ou supprimer un capteur -->
     <fieldset>
         <legend>Ajouter un capteur</legend>
-    <form method="POST" action="script_admin.php">
-        <label for="nom_capteur">Saisir le nom du capteur</label>
-        <input type="texte" name="nom_capteur" placeholder="Par ici le texte" required>
-        
-        <p>Choisir le type du capteur</p>
-        <input type="radio" name="type_capteur" value="oxygene" required>
-        <label for="oxygene">Oxygèene</label><br>
-        <input type="radio" name="type_capteur" value="lux">
-        <label for="lux">lux</label><br>
-        <input type="radio" name="type_capteur" value="co2">
-        <label for="co2">co2</label><br>  
+        <form method="POST" action="script_admin.php">
+            <label for="nom_capteur">Saisir le nom du capteur</label>
+            <input type="texte" name="nom_capteur" placeholder="Ex : AM107-6" required>
+            <label for="id_capteur">Saisir l'id' capteur</label>
+            <input type="texte" name="id_capteur" placeholder="Ex : 24e124128c011778" required>
+            
+            <label for="type_capteur">Choisir le type du capteur</label>
+            <select name="type_capteur" required>
+                <option value="temperature">Température</option>
+                <option value="humidity">Humiditée</option>
+                <option value="activity">Activitée</option>
+                <option value="co2">CO2</option>
+                <option value="tvoc">Tvoc</option>
+                <option value="illumination">Illumination</option>
+                <option value="infrared">Infrarouge</option>
+                <option value="infrared_and_visible">Infrarouge et Visible</option>
+                <option value="pressure">Pression</option>
+            </select>
 
-        <select name="nom_bat" required>
-        <?php
-            require('connexion_bdd.php');
-            $requeteBattiment = mysqli_query($connexion, "SELECT nom_bat, id_batiment FROM batiment");
-            mysqli_close($connexion);
-            if (!$requeteBattiment) {
-                die("Soucis de requête" . mysqli_error($connexion));
-            }
-            while ($ligne = mysqli_fetch_assoc($requeteBattiment)) {
-                $nomBatiment = $ligne['nom_bat'];
-                $idBatiment = $ligne['id_batiment'];
-                
-                // Ajout de l'option au select
-                echo '<option value="' . $idBatiment . '">' . $nomBatiment . '</option>';
-            }
 
-        ?>
-        </select>
-        <input type="submit" name="submit_ajouter_capteur" value="Ajouter un Capteur">
-    </form>
+            <label for="nom_bat">Choisir le battiment attribué au capteur</label>
+            <select name="nom_bat" required>
+            <?php
+                require('connexion_bdd.php');
+                $requeteBattiment = mysqli_query($connexion, "SELECT nom_bat, id_batiment FROM batiment");
+                mysqli_close($connexion);
+                if (!$requeteBattiment) {
+                    die("Soucis de requête" . mysqli_error($connexion));
+                }
+                while ($ligne = mysqli_fetch_assoc($requeteBattiment)) {
+                    $nomBatiment = $ligne['nom_bat'];
+                    $idBatiment = $ligne['id_batiment'];
+                    
+                    // Ajout de l'option au select
+                    echo '<option value="' . $idBatiment . '">' . $nomBatiment . '</option>';
+                }
+
+            ?>
+            </select>
+            <label for="salle_capteur">Saisir la salle du capteur</label>
+            <input type="texte" name="salle_capteur" placeholder="Ex : B206" required>
+            <input type="submit" name="submit_ajouter_capteur" value="Valider">
+        </form>
     </fieldset>
     <fieldset>
         <legend>Supprimer un capteur</legend>
@@ -54,14 +65,16 @@
     <form method="POST" action="script_admin.php">
   <table>
     <tr>
+      <th>ID du Capteur</th>
       <th>Nom du Capteur</th>
       <th>Type de Capteur</th>
       <th>Bâtiment affecté</th>
+      <th>Salle affecté</th>
       <th>Supprimer</th>
     </tr>
     <?php
     require('connexion_bdd.php');
-    $sql = "SELECT capteur.id_capteur, capteur.nom_capteur, capteur.type_capteur, batt.nom_bat
+    $sql = "SELECT capteur.*, batt.nom_bat
             FROM capteur
             INNER JOIN batiment batt ON capteur.id_batiment = batt.id_batiment";
     $ToutLesCapteurs = mysqli_query($connexion, $sql);
@@ -71,10 +84,14 @@
         $nomCapteur = $ligne['nom_capteur'];
         $typeCapteur = $ligne['type_capteur'];
         $nomBatiment = $ligne['nom_bat'];
+        $Salle = $ligne['Salle'];
+
         echo "<tr>";
+        echo "<td>" . $idCapteur . "</td>";
         echo "<td>" . $nomCapteur . "</td>";
         echo "<td>" . $typeCapteur . "</td>";
         echo "<td>" . $nomBatiment . "</td>";
+        echo "<td>" . $Salle . "</td>";
         echo "<td><input type='checkbox' name='capteurs[]' value='" . $idCapteur . "'></td>";
         echo "</tr>";
     }
