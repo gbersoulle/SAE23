@@ -33,14 +33,14 @@ while true; do
             co2=$(echo "$data" | jq -r '.[0].co2')
             # Insert data into MySQL database
             echo "$ID_capteur, $co2"
-            mysql -h "$servername" -P "$mysql_port" -u "$username" -p"$password" -D "$dbname" -e "INSERT INTO mesure (id_capteur, date_mesure, valeur_mesure) VALUES ('$ID_capteur', DATE_FORMAT(NOW(), '%d %b %H:%i:%s'), $co2);"
+            mysql -h "$servername" -P "$mysql_port" -u "$username" -p"$password" -D "$dbname" -e "INSERT INTO mesure (id_capteur, valeur_mesure) VALUES ('$ID_capteur', $co2);"
             ;;
         24e124128c011778 | 24e124128c016122)
             # Parse JSON data depending on what we need
             humidity=$(echo "$data" | jq -r '.[0].humidity')
             # Insert data into MySQL database
             echo "$ID_capteur, $humidity"
-            mysql -h "$servername" -P "$mysql_port" -u "$username" -p"$password" -D "$dbname" -e "INSERT INTO mesure (id_capteur, date_mesure, valeur_mesure) VALUES ('$ID_capteur', DATE_FORMAT(NOW(), '%d %b %H:%i:%s'), $humidity);"
+            mysql -h "$servername" -P "$mysql_port" -u "$username" -p"$password" -D "$dbname" -e "INSERT INTO mesure (id_capteur, valeur_mesure) VALUES ('$ID_capteur', $humidity);"
             ;;
     esac
 done
