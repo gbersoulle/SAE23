@@ -3,18 +3,17 @@ echo "Accès au fichier de modification <br/>";
 
 if(isset($_POST['submit_ajouter_capteur'])){
     echo "En cours d'ajout de capteur <br/>";
-    if (empty($_POST['nom_capteur']) || empty($_POST['id_capteur']) || empty($_POST['type_capteur']) || empty($_POST['nom_bat']) || empty($_POST['salle_capteur'])) { //Teste si les champs sont vides pour éviter les capteurs vides
+    if (empty($_POST['nom_capteur']) || empty($_POST['type_capteur']) || empty($_POST['nom_bat']) || empty($_POST['salle_capteur'])) { //Teste si les champs sont vides pour éviter les capteurs vides
         echo "Il manque un élément dans les champs renseignés";
         exit;
     }
     require('connexion_bdd.php'); 
     // Récup des valeurs et échappes
-    $id_capteur = mysqli_real_escape_string($connexion,htmlspecialchars($_POST['id_capteur'], ENT_QUOTES, 'UTF-8'));
     $nomCapteur = mysqli_real_escape_string($connexion,htmlspecialchars($_POST['nom_capteur'], ENT_QUOTES, 'UTF-8'));
     $typeCapteur = mysqli_real_escape_string($connexion,htmlspecialchars($_POST['type_capteur'], ENT_QUOTES, 'UTF-8'));
     $Salle = mysqli_real_escape_string($connexion,htmlspecialchars($_POST['salle_capteur'], ENT_QUOTES, 'UTF-8'));
     $idBatiment = intval($_POST['nom_bat']);
-    $sql = "INSERT INTO capteur (id_capteur, nom_capteur, type_capteur, Salle, id_batiment) VALUES (?, ?, ?, ?, ?)"; 
+    $sql = "INSERT INTO capteur (nom_capteur, type_capteur, Salle, id_batiment) VALUES (?, ?, ?, ?)"; 
     $stmt = mysqli_prepare($connexion, $sql); // permet de préparer la requete dans $stmt 
 
     // Vérification de la préparation de la requête
@@ -22,7 +21,7 @@ if(isset($_POST['submit_ajouter_capteur'])){
         echo "Erreur dans la prep de la requete: " . mysqli_error($connexion);
         exit;
     }
-    mysqli_stmt_bind_param($stmt, "ssssi", $id_capteur, $nomCapteur, $typeCapteur, $Salle, $idBatiment); // s = string (chaine de caractères) i = integrer
+    mysqli_stmt_bind_param($stmt, "sssi", $nomCapteur, $typeCapteur, $Salle, $idBatiment); // s = string (chaine de caractères) i = integrer
     
     if (!mysqli_stmt_execute($stmt)) {
         echo "Erreur: " . mysqli_stmt_error($stmt);
@@ -100,7 +99,6 @@ if (isset($_POST['submit_supprimer_capteur']) && isset($_POST['capteurs'])) {
         
     }
 
-    // Fermeture des statements et de la connexion à la base de données
     mysqli_stmt_close($stmtMesureSuppr);
     mysqli_stmt_close($stmtCapteurSuppr);
     mysqli_close($connexion);
@@ -109,7 +107,7 @@ if (isset($_POST['submit_supprimer_capteur']) && isset($_POST['capteurs'])) {
 
 
 
-if (isset($_POST['submit_supprimer_batt']) && isset($_POST['batiment'])) {
+if (isset($_POST['submit_supprimer_batt'])) {
     if (empty($_POST['batiment'])) {
         echo "Il y a un soucis au niveau des champs renseignés";
         exit();
@@ -156,9 +154,53 @@ if (isset($_POST['submit_supprimer_batt']) && isset($_POST['batiment'])) {
     mysqli_close($connexion); //fermeture des statement et de la connexion mysql
 }
 
+if (isset($_POST['submit_change_gestionnaire'])) {
+    $id_batiment = $_POST['id_bat'];
+    echo $id_batiment;
+    require 'connexion_bdd.php';
+    $sql_Login_Gest = "SELECT login_gest, mdp_gest FROM batiment WHERE id_batiment = $id_batiment";
+    $LoginMdpGestionnaire = mysqli_query($connexion, $sql_Login_Gest);
+    if (!$LoginMdpGestionnaire) {
+        die("Soucis de requête" . mysqli_error($connexion));
+    }
+    $ligne = mysqli_fetch_assoc($LoginMdpGestionnaire);
+    $ancienUser = mysqli_real_escape_string($connexion, htmlspecialchars($ligne['login_gest'], ENT_QUOTES, 'UTF-8'));
+    $ancienMdp = mysqli_real_escape_string($connexion, htmlspecialchars($ligne['mdp_gest'], ENT_QUOTES, 'UTF-8'));
+    $nvUser = $ancienUser; // Valeur par défaut
+    $nvMdp = $ancienMdp; // Valeur par défaut
+
+    // Vérifier si les nouvelles valeurs ont été fournies dans le formulaire
+    if (!empty($_POST['change_login_gest'])) {
+        $nvUser = mysqli_real_escape_string($connexion, htmlspecialchars($_POST['change_login_gest'], ENT_QUOTES, 'UTF-8'));
+    }
+    if (!empty($_POST['change_mdp_gest'])) {
+        $nvMdp = mysqli_real_escape_string($connexion, htmlspecialchars($_POST['change_mdp_gest'], ENT_QUOTES, 'UTF-8'));
+    }
+  
+    $sql_update_gest = "UPDATE batiment SET login_gest = ?, mdp_gest = ? WHERE id_batiment = ?";
+    $stmt_update_gest = mysqli_prepare($connexion, $sql_update_gest);
+    if ($stmt_update_gest === false) {
+        echo "Erreur dans la préparation de la requête : " . mysqli_error($connexion);
+        exit();
+    }
+    mysqli_stmt_bind_param($stmt_update_gest, "ssi", $nvUser, $nvMdp, $id_batiment);
+    if (!mysqli_stmt_execute($stmt_update_gest)) {
+        echo "Erreur: " . mysqli_stmt_error($stmt_update_gest);
+    } else {
+        echo "Modifié";
+    }
+}
+
+
+    // echo "ancien mdp". $ancienMdp;
+    // echo "ancien user". $ancienUser;
+    // echo "nv mdp". $nvMdp;
+    // echo "nv user". $nvUser;
 
 
 
-header("Location: admin.php");
+
+
+// header("Location: admin.php");
 exit();
 ?>

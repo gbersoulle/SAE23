@@ -16,8 +16,6 @@
         <form method="POST" action="script_admin.php">
             <label for="nom_capteur">Saisir le nom du capteur</label>
             <input type="texte" name="nom_capteur" placeholder="Ex : AM107-6" required>
-            <label for="id_capteur">Saisir l'id' capteur</label>
-            <input type="texte" name="id_capteur" placeholder="Ex : 24e124128c011778" required>
             
             <label for="type_capteur">Choisir le type du capteur</label>
             <select name="type_capteur" required>
@@ -38,7 +36,6 @@
             <?php
                 require('connexion_bdd.php');
                 $requeteBattiment = mysqli_query($connexion, "SELECT nom_bat, id_batiment FROM batiment");
-                mysqli_close($connexion);
                 if (!$requeteBattiment) {
                     die("Soucis de requête" . mysqli_error($connexion));
                 }
@@ -49,6 +46,7 @@
                     // Ajout de l'option au select
                     echo '<option value="' . $idBatiment . '">' . $nomBatiment . '</option>';
                 }
+                mysqli_close($connexion);
 
             ?>
             </select>
@@ -122,7 +120,7 @@
     <!-- Afficher tout les batt -->
     <fieldset>
         <legend>Supprimer un battiment</legend>
-            <p>ATTENTION SUPPRIMER UN CAPTEUR SUPPRIMERA TOUTES LES CAPTEURS ainsi que leurs valeurs associées</p>
+            <p>ATTENTION SUPPRIMER UN BATTIMENT SUPPRIMERA TOUS LES CAPTEURS ET LES MEUSURES ASSOCIÉES </p>
     
     <!-- Afficher un tableau qui contiens tout les capteurs -->
     <form method="POST" action="script_admin.php">
@@ -130,23 +128,26 @@
     <tr>
       <th>Nom du Battiment</th>
       <th>Nombre Capteurs associées</th>
+      <th>Gestionaire</th>
       <th>Supprimer</th>
     </tr>
 <?php
     require('connexion_bdd.php');
-    $sql = "SELECT batt.nom_bat AS nom_batiment, COUNT(capteur.id_capteur) AS nombre_capteurs, batt.id_batiment
+    $sql = "SELECT batt.nom_bat AS nom_batiment, batt.login_gest, COUNT(capteur.id_capteur) AS nombre_capteurs, batt.id_batiment
             FROM batiment batt 
             LEFT JOIN capteur capteur ON batt.id_batiment = capteur.id_batiment 
-            GROUP BY batt.id_batiment";
+            GROUP BY batt.id_batiment"; // Left join --> Récupère les battiments meme ceux qui n'ont pas de correspondance dans la base capteur
     $ToutLesBattiments = mysqli_query($connexion, $sql);
     mysqli_close($connexion);
     while ($ligne = mysqli_fetch_assoc($ToutLesBattiments)) {
         $id_batiment = $ligne['id_batiment'];
         $nomBatiment = $ligne['nom_batiment'];
         $nombreCapteurs = $ligne['nombre_capteurs'];
+        $getionnaire = $ligne['login_gest'];
         echo "<tr>";
         echo "<td>" . $nomBatiment . "</td>";
         echo "<td>" . $nombreCapteurs . "</td>";
+        echo "<td>" . $getionnaire . "</td>";
         echo "<td><input type='checkbox' name='batiment[]' value='" . $id_batiment . "'></td>";
         echo "</tr>";
     }
@@ -154,6 +155,35 @@
     </table>
    <input type="submit" name="submit_supprimer_batt" value="Supprimer les battiments sélectionnés">
 </form>
+</fieldset>
+<fieldset>
+    <legend>Modifier un gestionnaire</legend>
+    <form method="POST" action="script_admin.php">
+    <label for="id_bat">Nom du gestionnaire à modifier</label>
+        <select name="id_bat" required>
+        <?php
+            require('connexion_bdd.php');
+            $sqlgestionnaire = mysqli_query($connexion, "SELECT login_gest, id_batiment FROM batiment");
+            if (!$sqlgestionnaire) {
+                die("Soucis de requête" . mysqli_error($connexion));
+            }
+            while ($ligne = mysqli_fetch_assoc($sqlgestionnaire)) {
+                $login_gest = $ligne['login_gest'];
+                $idBatiment = $ligne['id_batiment'];
+                
+                // Ajout de l'option au select
+                echo '<option value="' . $idBatiment . '">' . $login_gest . '</option>';
+            }
+            mysqli_close($connexion);
+
+        ?>
+        </select>
+        <label for="change_login_gest">Remplir pour changer le nom du gestionaire</label>
+        <input type="texte" name="change_login_gest" placeholder="Par ici le texte"> 
+        <label for="change_mdp_gest">Remplir pour changer le mdp du gestionaire</label>
+        <input type="password" name="change_mdp_gest" placeholder="Par ici le texte"> 
+        <input type="submit" name="submit_change_gestionnaire" value="Modifier">
+    </form>
 </fieldset>
 
 
