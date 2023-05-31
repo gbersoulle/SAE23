@@ -22,13 +22,15 @@
     $history_E006[] = Display_one("24e124128c016509", "CO2");
     echo '<canvas id="Chart_E006"></canvas>';
 
-    echo "<h1>Moyennes par Salles</h1>";
+    echo "<h1>Métriques par Salles</h1>";
     echo "
     <table>
         <tr>
             <th>Salle</th>
             <th>Type de Donnée</th>
             <th>Moyenne</th>
+            <th>Minimum</th>
+            <th>Maximum</th>
         </tr>";
       $moyenne[] = Display_moyenne("E102","24e124128c016122","Humidité");
       $moyenne[] = Display_moyenne("B203","24e124128c011778","Humidité");
@@ -36,14 +38,17 @@
       $moyenne[] = Display_moyenne("E006","24e124128c016509","CO2");
     echo "</table>";
 
-    echo "<h1>Moyennes par Type de données</h1>";
+    echo "<h1>Métriques par Type de données</h1>";
     echo "
     <table>
         <tr>
             <th>Type de Donnée</th>
             <th>Moyenne</th>
+            <th>Minimum</th>
+            <th>Maximum</th>
         </tr>";
-
+      $mptd[] = Metrique_type($moyenne,"Humidité");
+      $mptd[] = Metrique_type($moyenne,"CO2");
     echo "</table>";
 
 
