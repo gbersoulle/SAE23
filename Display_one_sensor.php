@@ -79,26 +79,22 @@ function Display_moyenne($salle_ID,$Sensor_ID,$data_type){
         echo "</tr>";
     }
 
-    return $result;
+    return $line;
 }
 
-function Metrique_type($table, $data_type) {
+function Metrique_type($table, $d_type) {
+    $v = array_values($table);
     $total = 0;
-    $c = 0;
 
-    for ($i = 0; $i < sizeof($table); $i += 2) {
-        $n = $table[$i];
-        $m = $table[$i + 1];
-        if ($n == $data_type) {
-            $total += $m;
-            $c++;
-        }
+    for ($i = 0; $i < sizeof($v); $i++) {
+        $n = $v[$i];
+        $total += $n;
     }
 
-    $moy = ($c != 0) ? ($total / $c) : 0;
+    $moy = $total / 2;
 
     echo "<tr>";
-    echo "<td>$data_type</td>";
+    echo "<td>$d_type</td>";
     echo "<td>$moy</td>";
     echo "</tr>";
 }
