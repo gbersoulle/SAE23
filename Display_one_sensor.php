@@ -45,4 +45,31 @@ function Display_one($Sensor_ID, $data_type) {
     return $values_history;
 }
 
+function Display_moyenne($salle_ID,$Sensor_ID,$data_type){
+
+    global $connexion;
+
+    $query = "SELECT AVG(valeur_mesure) as moyenne FROM mesure WHERE id_capteur = '$Sensor_ID' ORDER BY date_mesure DESC LIMIT 10";
+    $result = mysqli_query($connexion, $query);
+
+    if (!$result) {
+        die("Error: Can't retrieve data from mesure. " . mysqli_error($connexion));
+    }
+    
+    while ($line = mysqli_fetch_assoc($result)) {
+        echo "<tr>";
+        echo "<td>$salle_ID</td>";
+        echo "<td>$data_type</td>";
+        echo "<td>" . $line['moyenne'] . "</td>";
+        echo "</tr>";
+    }
+
+
+    return $result;
+}
+
+function Moyenne_type($data_type){
+    
+}
+
 ?>
