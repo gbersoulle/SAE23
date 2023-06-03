@@ -14,7 +14,7 @@ function Display_one($Sensor_ID, $data_type) {
 
     global $connexion; // Access the global $connexion variable inside the function
     // Retrieve the mesure table content
-    $request_content = mysqli_query($connexion, "SELECT * FROM mesure WHERE id_capteur = '$Sensor_ID' ORDER BY id_mesure DESC LIMIT 10");
+    $request_content = mysqli_query($connexion, "SELECT * FROM mesure WHERE nom_capteur = '$Sensor_ID' ORDER BY id_mesure DESC LIMIT 10");
     if (!$request_content) {
         die("Error: Can't retrieve data from mesure. " . mysqli_error($connexion));
     }
@@ -49,12 +49,12 @@ function Display_moyenne($salle_ID,$Sensor_ID,$data_type){
 
     global $connexion;
 
-    $query = "SELECT AVG(valeur_mesure) as moyenne FROM ( SELECT valeur_mesure FROM mesure WHERE id_capteur = '$Sensor_ID' ORDER BY id_mesure DESC LIMIT 10) subquery";
+    $query = "SELECT AVG(valeur_mesure) as moyenne FROM ( SELECT valeur_mesure FROM mesure WHERE nom_capteur = '$Sensor_ID' ORDER BY id_mesure DESC LIMIT 10) subquery";
     $result = mysqli_query($connexion, $query);
 
-    $min = mysqli_query($connexion, "SELECT MIN(valeur_mesure) as mini FROM (SELECT valeur_mesure FROM mesure WHERE id_capteur = '$Sensor_ID' ORDER BY id_mesure LIMIT 10) subquery" ) ;
+    $min = mysqli_query($connexion, "SELECT MIN(valeur_mesure) as mini FROM (SELECT valeur_mesure FROM mesure WHERE nom_capteur = '$Sensor_ID' ORDER BY id_mesure LIMIT 10) subquery" ) ;
 
-    $max = mysqli_query($connexion, "SELECT MAX(valeur_mesure) as maxi FROM (SELECT valeur_mesure FROM mesure WHERE id_capteur = '$Sensor_ID' ORDER BY id_mesure LIMIT 10) subquery") ;
+    $max = mysqli_query($connexion, "SELECT MAX(valeur_mesure) as maxi FROM (SELECT valeur_mesure FROM mesure WHERE nom_capteur = '$Sensor_ID' ORDER BY id_mesure LIMIT 10) subquery") ;
 
 
     if (!$result) {
