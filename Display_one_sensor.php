@@ -12,7 +12,7 @@ function Display_one($Sensor_ID, $data_type) {
 
     global $connexion; // Access the global $connexion variable inside the function
     // Retrieve the mesure table content
-    $request_content = mysqli_query($connexion, "SELECT * FROM mesure WHERE id_capteur = '$Sensor_ID' ORDER BY id_mesure DESC LIMIT 10");
+    $request_content = mysqli_query($connexion, "SELECT * FROM mesure WHERE nom_capteur = '$Sensor_ID' ORDER BY id_mesure DESC LIMIT 10");
     if (!$request_content) {
         die("Error: Can't retrieve data from mesure. " . mysqli_error($connexion));
     }
@@ -43,27 +43,55 @@ function Display_moyenne($salle_ID,$Sensor_ID,$data_type){
 
     global $connexion;
 
-    $query = "SELECT AVG(valeur_mesure) as moyenne FROM mesure WHERE id_capteur = '$Sensor_ID' ORDER BY date_mesure DESC LIMIT 10";
+    $query = "SELECT AVG(valeur_mesure) as moyenne FROM ( SELECT valeur_mesure FROM mesure WHERE nom_capteur = '$Sensor_ID' ORDER BY id_mesure DESC LIMIT 10) subquery";
     $result = mysqli_query($connexion, $query);
+
+    $min = mysqli_query($connexion, "SELECT MIN(valeur_mesure) as mini FROM (SELECT valeur_mesure FROM mesure WHERE nom_capteur = '$Sensor_ID' ORDER BY id_mesure LIMIT 10) subquery" ) ;
+
+    $max = mysqli_query($connexion, "SELECT MAX(valeur_mesure) as maxi FROM (SELECT valeur_mesure FROM mesure WHERE nom_capteur = '$Sensor_ID' ORDER BY id_mesure LIMIT 10) subquery") ;
+
 
     if (!$result) {
         die("Error: Can't retrieve data from mesure. " . mysqli_error($connexion));
     }
+
+    if (!$min) {
+        die("Error: Can't retrieve data from mesure. " . mysqli_error($connexion));
+    }
+
+    if (!$max) {
+        die("Error: Can't retrieve data from mesure. " . mysqli_error($connexion));
+    }
     
-    while ($line = mysqli_fetch_assoc($result)) {
+    while ($line = mysqli_fetch_assoc($result) and $li = mysqli_fetch_assoc($min) and $lin = mysqli_fetch_assoc($max)) {
         echo "<tr>";
         echo "<td>$salle_ID</td>";
         echo "<td>$data_type</td>";
         echo "<td>" . $line['moyenne'] . "</td>";
+        echo "<td>" . $li['mini'] . "</td>" ;
+        echo "<td>" . $lin['maxi'] . "</td>" ;
         echo "</tr>";
     }
 
-
-    return $result;
+    return $line;
 }
 
-function Moyenne_type($data_type){
-    
+function Metrique_type($table, $d_type) {
+    $v = array_values($table);
+    $total = 0;
+
+    for ($i = 0; $i < sizeof($v); $i++) {
+        $n = $v[$i];
+        $total += $n;
+    }
+
+    $moy = $total / 2;
+
+    echo "<tr>";
+    echo "<td>$d_type</td>";
+    echo "<td>$moy</td>";
+    echo "</tr>";
 }
+
 
 ?>
