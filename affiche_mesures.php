@@ -3,13 +3,13 @@
     require_once 'Display_one_sensor.php'; 
     // Require the script used to connect to the DB
     require_once('connexion_bdd.php');
-    
+
     // display the last 10 measurements for the room B203
     echo "<h1>Salle B203</h1>";
     // Call the function to display data for a specific sensor, and store the history of values he returns
     $history_B203[] = Display_one("24e124128c011778", "Humidité");
     echo '<canvas id="Chart_B203"></canvas>';
-    
+
     echo "<h1>Salle E102</h1>";
     $history_E102[] = Display_one("24e124128c016122", "Humidité");
     echo '<canvas id="Chart_E102"></canvas>';
@@ -76,6 +76,8 @@ function createChart(elementId, label, data, color) {
       datasets: [
         {
           label: label,
+          pointRadius: 10,
+          pointHoverRadius: 15
           // Specify which data to use for the graph for example "history_B203"
           data: data,
           borderColor: color,

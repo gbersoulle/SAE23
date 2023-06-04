@@ -4,11 +4,9 @@
 function Display_one($Sensor_ID, $data_type) {
     echo "
     <table>
-        <tr>
-            <th>ID</th>
+        <tr> 
             <th>Date</th>
             <th>$data_type</th>
-            <th>ID du capteur</th>
         </tr>
     ";
 
@@ -24,14 +22,10 @@ function Display_one($Sensor_ID, $data_type) {
 
     if ($LineCount) {
         while ($line = mysqli_fetch_assoc($request_content)) {
-            // Display the values of each row
-            echo "<tr>";
-            echo "<td>";
-            echo implode("</td><td>", $line);
-            echo "</td>";
-            echo "</tr>";
-            // store the 10 measurement values in this array for the chart
-            $values_history[] = $line["valeur_mesure"];
+            // Display the values of each row and  store the 10 measurement values in value history for the chart
+            echo "<tr><td>$line[date_mesure]</td><td>$line[valeur_mesure]</td></tr>";
+            $values_history[] = $line['valeur_mesure'];
+
 
         }
         echo "</table>";
