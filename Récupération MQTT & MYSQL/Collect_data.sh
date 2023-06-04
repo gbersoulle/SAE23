@@ -24,7 +24,8 @@ while true; do
 
     # MQTT subscription and data processing
     data=$(mosquitto_sub -h "$mqtt_host" -p "$mqtt_port" -t "$mqtt_topic" -C 1)
-    deviceName=$(echo "$data" | jq -r '.[1].room')
+    deviceName=$(echo "$data" | jq -r '.[1].deviceName')
+    echo "$deviceName"
 
     # Insert data into MySQL database based on ID_capteur
     case $deviceName in
@@ -34,7 +35,7 @@ while true; do
             co2=$(echo "$data" | jq -r '.[0].co2')
             # Insert data into MySQL database
             echo "$deviceName, $co2"
-            mysql -h "$servername" -P "$mysql_port" -u "$username" -p"$password" -D "$dbname" -e "INSERT INTO mesure (valeur_mesure, nom_capteur) VALUES ($co2, $deviceName);"
+            mysql -h "$servername" -P "$mysql_port" -u "$username" -p"$password" -D "$dbname" -e "INSERT INTO mesure (valeur_mesure, nom_capteur) VALUES ('$co2', '$deviceName');"
             ;;
         # B203 et E102
         AM107-6 | AM107-32 )
@@ -42,7 +43,7 @@ while true; do
             humidity=$(echo "$data" | jq -r '.[0].humidity')
             # Insert data into MySQL database
             echo "$deviceName, $humidity"
-            mysql -h "$servername" -P "$mysql_port" -u "$username" -p"$password" -D "$dbname" -e "INSERT INTO mesure (valeur_mesure, nom_capteur) VALUES ($humidity, $deviceName);"
+            mysql -h "$servername" -P "$mysql_port" -u "$username" -p"$password" -D "$dbname" -e "INSERT INTO mesure (valeur_mesure, nom_capteur) VALUES ('$humidity', '$deviceName');"
             ;;
     esac
 done

@@ -7,19 +7,19 @@
     // display the last 10 measurements for the room B203
     echo "<h1>Salle B203</h1>";
     // Call the function to display data for a specific sensor, and store the history of values he returns
-    $history_B203[] = Display_one("24e124128c011778", "Humidité");
+    $history_B203[] = Display_one("AM107-6", "Humidité");
     echo '<canvas id="Chart_B203"></canvas>';
 
     echo "<h1>Salle E102</h1>";
-    $history_E102[] = Display_one("24e124128c016122", "Humidité");
+    $history_E102[] = Display_one("AM107-32", "Humidité");
     echo '<canvas id="Chart_E102"></canvas>';
 
     echo "<h1>Salle B001</h1>";
-    $history_B001[] = Display_one("24e124128c012259", "CO2");
+    $history_B001[] = Display_one("AM107-7", "CO2");
     echo '<canvas id="Chart_B001"></canvas>';
 
     echo "<h1>Salle E006</h1>";
-    $history_E006[] = Display_one("24e124128c016509", "CO2");
+    $history_E006[] = Display_one("AM107-29", "CO2");
     echo '<canvas id="Chart_E006"></canvas>';
 
     echo "<h1>Métriques par Salles</h1>";
@@ -82,7 +82,7 @@ function createChart(elementId, label, data, color) {
         {
           label: label,
           pointRadius: 10,
-          pointHoverRadius: 15
+          pointHoverRadius: 15,
           // Specify which data to use for the graph for example "history_B203"
           data: data,
           borderColor: color,
