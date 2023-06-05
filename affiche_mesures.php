@@ -32,10 +32,10 @@
             <th>Minimum</th>
             <th>Maximum</th>
         </tr>";
-      $moyenne_h[] = Display_moyenne("B203","24e124128c011778","Humidité");
-      $moyenne_h[] = Display_moyenne("E102","24e124128c016122","Humidité");
-      $moyenne_c[] = Display_moyenne("B001","24e124128c012259","CO2");
-      $moyenne_c[] = Display_moyenne("E006","24e124128c016509","CO2");
+      $moyenne_h[] = Display_moyenne("B203","AM107-6","Humidité");
+      $moyenne_h[] = Display_moyenne("E102","AM107-32","Humidité");
+      $moyenne_c[] = Display_moyenne("B001","AM107-7","CO2");
+      $moyenne_c[] = Display_moyenne("E006","AM107-29","CO2");
     echo "</table>";
 
     echo "<h1>Métriques par Type de données</h1>";
@@ -47,8 +47,8 @@
             <th>Minimum</th>
             <th>Maximum</th>
         </tr>";
-      $mptd[] = Metrique_type($moyenne_h,"Humidité");
-      $mptd[] = Metrique_type($moyenne_c,"CO2");
+      $mptd[] = Metrique_type($moyenne_h, "Humidité");
+      $mptd[] = Metrique_type($moyenne_c, "CO2");
     echo "</table>";
 
 

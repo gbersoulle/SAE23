@@ -38,7 +38,7 @@ function Display_one($nom_capteur, $data_type) {
     return $values_history;
 }
 
-function Display_moyenne($salle_ID,$nom_capteur,$data_type){
+function Display_moyenne($salle_ID, $nom_capteur, $data_type){
 
     global $connexion;
 
@@ -76,15 +76,14 @@ function Display_moyenne($salle_ID,$nom_capteur,$data_type){
 }
 
 function Metrique_type($table, $d_type) {
-    $v = array_values($table);
     $total = 0;
 
-    for ($i = 0; $i < sizeof($v); $i++) {
-        $n = $v[$i];
+    for ($i = 0; $i < sizeof($table); $i++) {
+        $n = $table[$i];
         $total += $n;
     }
 
-    $moy = $total / 2;
+    $moy = $total / sizeof($table);
 
     echo "<tr>";
     echo "<td>$d_type</td>";
