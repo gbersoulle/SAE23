@@ -11,26 +11,31 @@
     <?php require('header.php');?>
 
     <!-- Ajouter ou supprimer un capteur -->
-    <div class="add_c">
-        <fieldset>
-            <legend>Ajouter un capteur</legend>
+    <fieldset>
+        <legend>Ajouter un capteur</legend>
         <form method="POST" action="script_admin.php">
             <label for="nom_capteur">Saisir le nom du capteur</label>
-            <input type="texte" name="nom_capteur" placeholder="Par ici le texte" required>
+            <input type="texte" name="nom_capteur" placeholder="Ex : AM107-6" required>
             
-            <p>Choisir le type du capteur</p>
-            <input type="radio" name="type_capteur" value="oxygene" required>
-            <label for="oxygene">Oxygèene</label><br>
-            <input type="radio" name="type_capteur" value="lux">
-            <label for="lux">lux</label><br>
-            <input type="radio" name="type_capteur" value="co2">
-            <label for="co2">co2</label><br>  
+            <label for="type_capteur">Choisir le type du capteur</label>
+            <select name="type_capteur" required>
+                <option value="temperature">Température</option>
+                <option value="humidity">Humiditée</option>
+                <option value="activity">Activitée</option>
+                <option value="co2">CO2</option>
+                <option value="tvoc">Tvoc</option>
+                <option value="illumination">Illumination</option>
+                <option value="infrared">Infrarouge</option>
+                <option value="infrared_and_visible">Infrarouge et Visible</option>
+                <option value="pressure">Pression</option>
+            </select>
 
+
+            <label for="nom_bat">Choisir le battiment attribué au capteur</label>
             <select name="nom_bat" required>
             <?php
                 require('connexion_bdd.php');
                 $requeteBattiment = mysqli_query($connexion, "SELECT nom_bat, id_batiment FROM batiment");
-                mysqli_close($connexion);
                 if (!$requeteBattiment) {
                     die("Soucis de requête" . mysqli_error($connexion));
                 }
@@ -41,53 +46,54 @@
                     // Ajout de l'option au select
                     echo '<option value="' . $idBatiment . '">' . $nomBatiment . '</option>';
                 }
+                mysqli_close($connexion);
 
             ?>
             </select>
-            <input class="bu" type="submit" name="submit_ajouter_capteur" value="Ajouter un Capteur">
+            <label for="salle_capteur">Saisir la salle du capteur</label>
+            <input type="texte" name="salle_capteur" placeholder="Ex : B206" required>
+            <input type="submit" name="submit_ajouter_capteur" value="Valider">
         </form>
-        </fieldset>
-    </div>
-    <div class="del_c">
-        <fieldset>
-            <legend>Supprimer un capteur</legend>
-                <p>ATTENTION SUPPRIMER UN CAPTEUR SUPPRIMERA TOUTES LES valeurs associées</p>
-        
-        <!-- Afficher un tableau qui contiens tout les capteurs -->
-        <form method="POST" action="script_admin.php">
-    <table>
-        <tr>
-        <th>Nom du Capteur</th>
-        <th>Type de Capteur</th>
-        <th>Bâtiment affecté</th>
-        <th>Supprimer</th>
-        </tr>
-        <?php
-        require('connexion_bdd.php');
-        $sql = "SELECT capteur.id_capteur, capteur.nom_capteur, capteur.type_capteur, batt.nom_bat
-                FROM capteur
-                INNER JOIN batiment batt ON capteur.id_batiment = batt.id_batiment";
-        $ToutLesCapteurs = mysqli_query($connexion, $sql);
-        mysqli_close($connexion);
-        while ($ligne = mysqli_fetch_assoc($ToutLesCapteurs)) {
-            $idCapteur = $ligne['id_capteur'];
-            $nomCapteur = $ligne['nom_capteur'];
-            $typeCapteur = $ligne['type_capteur'];
-            $nomBatiment = $ligne['nom_bat'];
-            echo "<tr>";
-            echo "<td>" . $nomCapteur . "</td>";
-            echo "<td>" . $typeCapteur . "</td>";
-            echo "<td>" . $nomBatiment . "</td>";
-            echo "<td><input type='checkbox' name='capteurs[]' value='" . $idCapteur . "'></td>";
-            echo "</tr>";
-        }
-    ?>
-
-    </table></br>
-    <input class="bu" type="submit" name="submit_supprimer_capteur" value="Supprimer les capteurs sélectionnés">
-    </form>
     </fieldset>
-    </div>
+    <fieldset>
+        <legend>Supprimer un capteur</legend>
+            <p>ATTENTION SUPPRIMER UN CAPTEUR SUPPRIMERA TOUTES LES valeurs associées</p>
+    
+    <!-- Afficher un tableau qui contiens tout les capteurs -->
+    <form method="POST" action="script_admin.php">
+  <table>
+    <tr>
+      <th>ID du Capteur</th>
+      <th>Nom du Capteur</th>
+      <th>Type de Capteur</th>
+      <th>Bâtiment affecté</th>
+      <th>Salle affecté</th>
+      <th>Supprimer</th>
+    </tr>
+    <?php
+    require('connexion_bdd.php');
+    $sql = "SELECT capteur.*, batt.nom_bat
+            FROM capteur
+            INNER JOIN batiment batt ON capteur.id_batiment = batt.id_batiment";
+    $ToutLesCapteurs = mysqli_query($connexion, $sql);
+    mysqli_close($connexion);
+    while ($ligne = mysqli_fetch_assoc($ToutLesCapteurs)) {
+        $idCapteur = $ligne['id_capteur'];
+        $nomCapteur = $ligne['nom_capteur'];
+        $typeCapteur = $ligne['type_capteur'];
+        $nomBatiment = $ligne['nom_bat'];
+        $Salle = $ligne['Salle'];
+
+        echo "<tr>";
+        echo "<td>" . $idCapteur . "</td>";
+        echo "<td>" . $nomCapteur . "</td>";
+        echo "<td>" . $typeCapteur . "</td>";
+        echo "<td>" . $nomBatiment . "</td>";
+        echo "<td>" . $Salle . "</td>";
+        echo "<td><input type='checkbox' name='capteurs[]' value='" . $idCapteur . "'></td>";
+        echo "</tr>";
+    }
+?>
 
     <!-- Ajouter ou supprimer un batt -->
     <div class="add_b">
@@ -112,7 +118,7 @@
     <!-- Afficher tout les batt -->
     <fieldset>
         <legend>Supprimer un battiment</legend>
-            <p>ATTENTION SUPPRIMER UN CAPTEUR SUPPRIMERA TOUTES LES CAPTEURS ainsi que leurs valeurs associées</p>
+            <p>ATTENTION SUPPRIMER UN BATTIMENT SUPPRIMERA TOUS LES CAPTEURS ET LES MEUSURES ASSOCIÉES </p>
     
     <!-- Afficher un tableau qui contiens tout les capteurs -->
     <form method="POST" action="script_admin.php">
@@ -120,23 +126,26 @@
     <tr>
       <th>Nom du Battiment</th>
       <th>Nombre Capteurs associées</th>
+      <th>Gestionaire</th>
       <th>Supprimer</th>
     </tr>
 <?php
     require('connexion_bdd.php');
-    $sql = "SELECT batt.nom_bat AS nom_batiment, COUNT(capteur.id_capteur) AS nombre_capteurs, batt.id_batiment
+    $sql = "SELECT batt.nom_bat AS nom_batiment, batt.login_gest, COUNT(capteur.id_capteur) AS nombre_capteurs, batt.id_batiment
             FROM batiment batt 
             LEFT JOIN capteur capteur ON batt.id_batiment = capteur.id_batiment 
-            GROUP BY batt.id_batiment";
+            GROUP BY batt.id_batiment"; // Left join --> Récupère les battiments meme ceux qui n'ont pas de correspondance dans la base capteur
     $ToutLesBattiments = mysqli_query($connexion, $sql);
     mysqli_close($connexion);
     while ($ligne = mysqli_fetch_assoc($ToutLesBattiments)) {
         $id_batiment = $ligne['id_batiment'];
         $nomBatiment = $ligne['nom_batiment'];
         $nombreCapteurs = $ligne['nombre_capteurs'];
+        $getionnaire = $ligne['login_gest'];
         echo "<tr>";
         echo "<td>" . $nomBatiment . "</td>";
         echo "<td>" . $nombreCapteurs . "</td>";
+        echo "<td>" . $getionnaire . "</td>";
         echo "<td><input type='checkbox' name='batiment[]' value='" . $id_batiment . "'></td>";
         echo "</tr>";
     }
@@ -145,7 +154,35 @@
    <input class="bu" type="submit" name="submit_supprimer_batt" value="Supprimer les battiments sélectionnés">
 </form>
 </fieldset>
-</div>
+<fieldset>
+    <legend>Modifier un gestionnaire</legend>
+    <form method="POST" action="script_admin.php">
+    <label for="id_bat">Nom du gestionnaire à modifier</label>
+        <select name="id_bat" required>
+        <?php
+            require('connexion_bdd.php');
+            $sqlgestionnaire = mysqli_query($connexion, "SELECT login_gest, id_batiment FROM batiment");
+            if (!$sqlgestionnaire) {
+                die("Soucis de requête" . mysqli_error($connexion));
+            }
+            while ($ligne = mysqli_fetch_assoc($sqlgestionnaire)) {
+                $login_gest = $ligne['login_gest'];
+                $idBatiment = $ligne['id_batiment'];
+                
+                // Ajout de l'option au select
+                echo '<option value="' . $idBatiment . '">' . $login_gest . '</option>';
+            }
+            mysqli_close($connexion);
+
+        ?>
+        </select>
+        <label for="change_login_gest">Remplir pour changer le nom du gestionaire</label>
+        <input type="texte" name="change_login_gest" placeholder="Par ici le texte"> 
+        <label for="change_mdp_gest">Remplir pour changer le mdp du gestionaire</label>
+        <input type="password" name="change_mdp_gest" placeholder="Par ici le texte"> 
+        <input type="submit" name="submit_change_gestionnaire" value="Modifier">
+    </form>
+</fieldset>
 
 
     
