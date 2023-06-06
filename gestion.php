@@ -25,7 +25,7 @@
     ?>
     <fieldset>
         <legend>Filtrer la recherche</legend>
-    <form method='GET'>
+    <form method='POST'>
     <label for='capteur'>Choisir un capteur :</label>
     <select name='capteur' id='capteur'>
     <option value=''>Tous les capteurs</option>
@@ -93,28 +93,28 @@
     <section>
         <h1>Affichage de tout les capteurs selon le filtre choisi</h1>
     <?php
-    $typeCapteurSelectionne = isset($_GET['type_capteur']) ? $_GET['type_capteur'] : '';
-    $nomCapteurSelectionne = isset($_GET['nom_capteur']) ? $_GET['nom_capteur'] : '';
-    $triDate = isset($_GET['tri_date']) ? $_GET['tri_date'] : '';
-    $jourChoisi = isset($_GET['choix_jour']) ? $_GET['choix_jour'] : '';
-    $triValeur = isset($_GET['tri_valeur']) ? $_GET['tri_valeur'] : '';
-    $salleSelectionnee = isset($_GET['salle']) ? $_GET['salle'] : '';
+    $typeCapteurSelectionne = isset($_POST['type_capteur']) ? $_POST['type_capteur'] : '';
+    $nomCapteurSelectionne = isset($_POST['nom_capteur']) ? $_POST['nom_capteur'] : '';
+    $triDate = isset($_POST['tri_date']) ? $_POST['tri_date'] : '';
+    $jourChoisi = isset($_POST['choix_jour']) ? $_POST['choix_jour'] : '';
+    $triValeur = isset($_POST['tri_valeur']) ? $_POST['tri_valeur'] : '';
+    $salleSelectionnee = isset($_POST['salle']) ? $_POST['salle'] : '';
 
 
     // Requête SQL pour obtenir les capteurs en fonction des filtres
     $requeteCapteursFiltre = "SELECT * FROM capteur WHERE id_batiment = '$idBatiment'";
     
-    if (!empty($typeCapteurSelectionne) && empty($nomCapteurSelectionne)) {
+    if (!empty($typeCapteurSelectionne)) {
         $requeteCapteursFiltre .= " AND type_capteur = '$typeCapteurSelectionne'";
-    } elseif (empty($typeCapteurSelectionne) && !empty($nomCapteurSelectionne)) {
-        $requeteCapteursFiltre .= " AND nom_capteur = '$nomCapteurSelectionne'";
-    } elseif (!empty($typeCapteurSelectionne) && !empty($nomCapteurSelectionne)) {
-        $requeteCapteursFiltre .= " AND type_capteur = '$typeCapteurSelectionne' AND nom_capteur = '$nomCapteurSelectionne'";
     }
-
+    
+    if (!empty($nomCapteurSelectionne)) {
+        $requeteCapteursFiltre .= " AND nom_capteur = '$nomCapteurSelectionne'";
+    }
     if (!empty($salleSelectionnee)) {
         $requeteCapteursFiltre .= " AND Salle = '$salleSelectionnee'";
     }
+    
     $resultatCapteursFiltre = mysqli_query($connexion, $requeteCapteursFiltre);
     
     // pour chaque capteur, en fonction de son type, avoir l'unité et en faire un tableau
@@ -167,21 +167,34 @@
         // Récupérer et afficher les valeurs historiques en fonction du tri (asc ou desc)
         $requeteValHistorique = "SELECT * FROM mesure WHERE nom_capteur = '$nomCapteur'";
 
-            if (!empty($jourChoisi)) {
-                $requeteValHistorique .= " AND DATE(date_mesure) = '$jourChoisi'";
-            }
+        if (!empty($jourChoisi)) {
+            $requeteValHistorique .= " AND DATE(date_mesure) = '$jourChoisi'";
+        }
 
+        if (!empty($triValeur)) {
+            if ($triValeur == 'asc') {
+                $requeteValHistorique .= " ORDER BY valeur_mesure ASC";
+            } elseif ($triValeur == 'desc') {
+                $requeteValHistorique .= " ORDER BY valeur_mesure DESC";
+            }
+        }
+        if (!empty($triDate)) {
             if (!empty($triValeur)) {
-                if ($triValeur == 'asc') {
-                    $requeteValHistorique .= " ORDER BY valeur_mesure ASC";
-                } elseif ($triValeur == 'desc') {
-                    $requeteValHistorique .= " ORDER BY valeur_mesure DESC";
-                }
+                $requeteValHistorique .= ", date_mesure";
             } else {
-                $requeteValHistorique .= " ORDER BY date_mesure DESC"; // Tri par date par défaut si aucun tri par valeur n'est sélectionné
+                $requeteValHistorique .= " ORDER BY date_mesure";
             }
-
-            $resultatValHistorique = mysqli_query($connexion, $requeteValHistorique);
+            
+            if ($triDate == 'asc') {
+                $requeteValHistorique .= " ASC";
+            } elseif ($triDate == 'desc') {
+                $requeteValHistorique .= " DESC";
+            }
+        } else {
+            if (empty($triValeur)) {
+                $requeteValHistorique .= " ORDER BY date_mesure DESC"; // Tri par date par défaut si aucun tri n'est spécifié
+            }
+        }
 
         $resultatValHistorique = mysqli_query($connexion, $requeteValHistorique);
         
