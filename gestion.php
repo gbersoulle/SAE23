@@ -11,5 +11,6 @@
     require('header.php');
     ?>
     <h1>Page de gestion (affichage des capteurs du batiment du gestionnaire qui s'es log)</h1>
+    <p>Le gestionnaire connecté est stocké dans la variable "$_SESSION["user"]"</p>
 </body>
 </html>
