@@ -10,6 +10,6 @@
     <?php
     require('header.php');
     ?>
-    <h1>Page d'acceuil' (Présentation du projet etc cf doc partagé)</h1>
+    <h1>Page de gestion (affichage des capteurs du batiment du gestionnaire qui s'es log)</h1>
 </body>
 </html>
