@@ -1,5 +1,7 @@
 <?php
+echo 'Retour en arrière <a href="admin.php">retour</a><br>';
 echo "Accès au fichier de modification <br/>";
+
 
 if(isset($_POST['submit_ajouter_capteur'])){
     echo "En cours d'ajout de capteur <br/>";
@@ -32,6 +34,8 @@ if(isset($_POST['submit_ajouter_capteur'])){
     mysqli_close($connexion);
     
 }
+
+
 
 if (isset($_POST['submit_ajouter_battiment'])) {
     if (empty($_POST['login_gest']) || empty($_POST['mdp_gest']) || empty($_POST['nom_bat'])) {
@@ -67,36 +71,31 @@ if (isset($_POST['submit_ajouter_battiment'])) {
 
 if (isset($_POST['submit_supprimer_capteur']) && isset($_POST['capteurs'])) {
     if (empty($_POST['capteurs'])) {
-        echo "Il y a un soucis au niveau des champs renseignés";
+        echo "Il y a un souci au niveau des champs renseignés (capteurs)";
         exit();
     }
     require('connexion_bdd.php');
-
-    $sqlMesureSuppr = "DELETE FROM mesure WHERE id_capteur = ?"; // Requetes préparées
+    $sqlMesureSuppr = "DELETE FROM mesure WHERE nom_capteur IN (SELECT nom_capteur FROM capteur WHERE id_capteur = ?)";
     $sqlCapteurSuppr = "DELETE FROM capteur WHERE id_capteur = ?";
 
-    $stmtMesureSuppr = mysqli_prepare($connexion, $sqlMesureSuppr); // Les statements qui vont avec la connxion
+    $stmtMesureSuppr = mysqli_prepare($connexion, $sqlMesureSuppr);
     $stmtCapteurSuppr = mysqli_prepare($connexion, $sqlCapteurSuppr);
 
     if ($stmtMesureSuppr === false || $stmtCapteurSuppr === false) {
-        echo "Erreur dans la préparation des requêtes : " . mysqli_error($connexion); //Test si erreur de prep
+        echo "Erreur dans la préparation des requêtes : " . mysqli_error($connexion);
         exit();
     }
 
-    mysqli_stmt_bind_param($stmtMesureSuppr, "i", $idCapteur); //bind de parametres
+    mysqli_stmt_bind_param($stmtMesureSuppr, "i", $idCapteur);
     mysqli_stmt_bind_param($stmtCapteurSuppr, "i", $idCapteur);
 
-    foreach ($_POST['capteurs'] as $idCapteur) { //execute pour chaque capteurs
+    foreach ($_POST['capteurs'] as $idCapteur) {
         if (!mysqli_stmt_execute($stmtMesureSuppr)) {
-            echo "Erreur: " . mysqli_stmt_error($stmtMesureSuppr); // execute et  renvoie les erreurs si il y en a 
+            echo "Erreur: " . mysqli_stmt_error($stmtMesureSuppr);
         }
         if (!mysqli_stmt_execute($stmtCapteurSuppr)) {
-            echo "Erreur: " . mysqli_stmt_error($stmtCapteurSuppr); // execute et  renvoie les erreurs si il y en a 
+            echo "Erreur: " . mysqli_stmt_error($stmtCapteurSuppr);
         }
-        
-        // mysqli_stmt_execute($stmtMesureSuppr);
-        // mysqli_stmt_execute($stmtCapteurSuppr);
-        
     }
 
     mysqli_stmt_close($stmtMesureSuppr);
@@ -107,51 +106,42 @@ if (isset($_POST['submit_supprimer_capteur']) && isset($_POST['capteurs'])) {
 
 
 
+
 if (isset($_POST['submit_supprimer_batt'])) {
     if (empty($_POST['batiment'])) {
-        echo "Il y a un soucis au niveau des champs renseignés";
+        echo "Il y a un souci au niveau des champs renseignés";
         exit();
     }
     require('connexion_bdd.php');
 
-    $sqlMesureSuppr = "DELETE FROM mesure WHERE id_capteur IN (SELECT id_capteur FROM capteur WHERE id_batiment = ?)";
+    $sqlMesureSuppr = "DELETE FROM mesure WHERE nom_capteur IN (SELECT nom_capteur FROM capteur WHERE id_batiment = ?);";
     $sqlCapteurSuppr = "DELETE FROM capteur WHERE id_batiment = ?";
-    $sqlBattimentSuppr = "DELETE FROM batiment WHERE id_batiment = ?"; //requetes préparés
+    $sqlBatimentSuppr = "DELETE FROM batiment WHERE id_batiment = ?";
 
     $stmtMesureSuppr = mysqli_prepare($connexion, $sqlMesureSuppr);
     $stmtCapteurSuppr = mysqli_prepare($connexion, $sqlCapteurSuppr);
-    $stmtBattimentSuppr = mysqli_prepare($connexion, $sqlBattimentSuppr); //prparation des statements
+    $stmtBatimentSuppr = mysqli_prepare($connexion, $sqlBatimentSuppr);
 
-    if ($stmtMesureSuppr === false || $stmtCapteurSuppr === false || $stmtBattimentSuppr === false) {
-        echo "Erreur dans la préparation des requêtes : " . mysqli_error($connexion); //test d'erreur
-        exit();
-    }
-
-    mysqli_stmt_bind_param($stmtMesureSuppr, "i", $id_batiment);
-    mysqli_stmt_bind_param($stmtCapteurSuppr, "i", $id_batiment);
-    mysqli_stmt_bind_param($stmtBattimentSuppr, "i", $id_batiment); // Liaison des paramètres des statements
-
-    foreach ($_POST['batiment'] as $id_batiment) { //execution pour chaque batiments
+    foreach ($_POST['batiment'] as $id_batiment) {
+        mysqli_stmt_bind_param($stmtMesureSuppr, "i", $id_batiment);
+        mysqli_stmt_bind_param($stmtCapteurSuppr, "i", $id_batiment);
+        mysqli_stmt_bind_param($stmtBatimentSuppr, "i", $id_batiment);
 
         if (!mysqli_stmt_execute($stmtMesureSuppr)) {
-            echo "Erreur: " . mysqli_stmt_error($stmtMesureSuppr); // execute et  renvoie les erreurs si il y en a  pour les meusures
+            echo "Erreur: " . mysqli_stmt_error($stmtMesureSuppr);
         }
         if (!mysqli_stmt_execute($stmtCapteurSuppr)) {
-            echo "Erreur: " . mysqli_stmt_error($stmtCapteurSuppr); // execute et  renvoie les erreurs si il y en a pour les capteurs
+            echo "Erreur: " . mysqli_stmt_error($stmtCapteurSuppr);
         }
-        if (!mysqli_stmt_execute($stmtBattimentSuppr)) {
-            echo "Erreur: " . mysqli_stmt_error($stmtBattimentSuppr); // execute et  renvoie les erreurs si il y en a pour les battimetns
+        if (!mysqli_stmt_execute($stmtBatimentSuppr)) {
+            echo "Erreur: " . mysqli_stmt_error($stmtBatimentSuppr);
         }
-
-        // mysqli_stmt_execute($stmtMesureSuppr);
-        // mysqli_stmt_execute($stmtCapteurSuppr);
-        // mysqli_stmt_execute($stmtBattimentSuppr);
     }
 
     mysqli_stmt_close($stmtMesureSuppr);
     mysqli_stmt_close($stmtCapteurSuppr);
-    mysqli_stmt_close($stmtBattimentSuppr);
-    mysqli_close($connexion); //fermeture des statement et de la connexion mysql
+    mysqli_stmt_close($stmtBatimentSuppr);
+    mysqli_close($connexion);
 }
 
 if (isset($_POST['submit_change_gestionnaire'])) {
@@ -166,8 +156,8 @@ if (isset($_POST['submit_change_gestionnaire'])) {
     $ligne = mysqli_fetch_assoc($LoginMdpGestionnaire);
     $ancienUser = mysqli_real_escape_string($connexion, htmlspecialchars($ligne['login_gest'], ENT_QUOTES, 'UTF-8'));
     $ancienMdp = mysqli_real_escape_string($connexion, htmlspecialchars($ligne['mdp_gest'], ENT_QUOTES, 'UTF-8'));
-    $nvUser = $ancienUser; // Valeur par défaut
-    $nvMdp = $ancienMdp; // Valeur par défaut
+    $nvUser = $ancienUser; 
+    $nvMdp = $ancienMdp; // si mdp ou user pas changé, ça remet le meme par défaut
 
     // Vérifier si les nouvelles valeurs ont été fournies dans le formulaire
     if (!empty($_POST['change_login_gest'])) {
@@ -201,6 +191,6 @@ if (isset($_POST['submit_change_gestionnaire'])) {
 
 
 
-// header("Location: admin.php");
+header("Location: admin.php");
 exit();
 ?>

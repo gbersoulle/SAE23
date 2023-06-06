@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles/admin.css">
+    <!-- <link rel="stylesheet" href="styles/admin.css"> -->
     <title>Administration</title>
 </head>
 <body>
@@ -94,6 +94,10 @@
         echo "</tr>";
     }
 ?>
+</table>
+  <input type="submit" name="submit_supprimer_capteur" value="Supprimer les capteurs sélectionnés">
+</form>
+</fieldset>
 
     <!-- Ajouter ou supprimer un batt -->
     <div class="add_b">
@@ -117,43 +121,43 @@
     <div class="del_b">
     <!-- Afficher tout les batt -->
     <fieldset>
-        <legend>Supprimer un battiment</legend>
-            <p>ATTENTION SUPPRIMER UN BATTIMENT SUPPRIMERA TOUS LES CAPTEURS ET LES MEUSURES ASSOCIÉES </p>
-    
-    <!-- Afficher un tableau qui contiens tout les capteurs -->
-    <form method="POST" action="script_admin.php">
-  <table>
-    <tr>
-      <th>Nom du Battiment</th>
-      <th>Nombre Capteurs associées</th>
-      <th>Gestionaire</th>
-      <th>Supprimer</th>
-    </tr>
-<?php
-    require('connexion_bdd.php');
-    $sql = "SELECT batt.nom_bat AS nom_batiment, batt.login_gest, COUNT(capteur.id_capteur) AS nombre_capteurs, batt.id_batiment
-            FROM batiment batt 
-            LEFT JOIN capteur capteur ON batt.id_batiment = capteur.id_batiment 
-            GROUP BY batt.id_batiment"; // Left join --> Récupère les battiments meme ceux qui n'ont pas de correspondance dans la base capteur
-    $ToutLesBattiments = mysqli_query($connexion, $sql);
-    mysqli_close($connexion);
-    while ($ligne = mysqli_fetch_assoc($ToutLesBattiments)) {
-        $id_batiment = $ligne['id_batiment'];
-        $nomBatiment = $ligne['nom_batiment'];
-        $nombreCapteurs = $ligne['nombre_capteurs'];
-        $getionnaire = $ligne['login_gest'];
-        echo "<tr>";
-        echo "<td>" . $nomBatiment . "</td>";
-        echo "<td>" . $nombreCapteurs . "</td>";
-        echo "<td>" . $getionnaire . "</td>";
-        echo "<td><input type='checkbox' name='batiment[]' value='" . $id_batiment . "'></td>";
-        echo "</tr>";
-    }
-?>
-    </table></br>
-   <input class="bu" type="submit" name="submit_supprimer_batt" value="Supprimer les battiments sélectionnés">
-</form>
-</fieldset>
+        <legend>Supprimer un bâtiment</legend>
+        <p>ATTENTION SUPPRIMER UN BÂTIMENT SUPPRIMERA TOUS LES CAPTEURS ET LES MESURES ASSOCIÉES </p>
+
+        <form method="POST" action="script_admin.php">
+            <table>
+                <tr>
+                    <th>Nom du Bâtiment</th>
+                    <th>Nombre Capteurs associés</th>
+                    <th>Gestionnaire</th>
+                    <th>Supprimer</th>
+                </tr>
+                <?php
+                require('connexion_bdd.php');
+                $sql = "SELECT batt.nom_bat AS nom_batiment, batt.login_gest, COUNT(capteur.id_capteur) AS nombre_capteurs, batt.id_batiment
+                        FROM batiment batt 
+                        LEFT JOIN capteur capteur ON batt.id_batiment = capteur.id_batiment 
+                        GROUP BY batt.id_batiment"; // Left join --> Récupère les bâtiments même ceux qui n'ont pas de correspondance dans la base capteur
+                $ToutLesBattiments = mysqli_query($connexion, $sql);
+                mysqli_close($connexion);
+                while ($ligne = mysqli_fetch_assoc($ToutLesBattiments)) {
+                    $id_batiment = $ligne['id_batiment'];
+                    $nomBatiment = $ligne['nom_batiment'];
+                    $nombreCapteurs = $ligne['nombre_capteurs'];
+                    $gestionnaire = $ligne['login_gest'];
+                    echo "<tr>";
+                    echo "<td>" . $nomBatiment . "</td>";
+                    echo "<td>" . $nombreCapteurs . "</td>";
+                    echo "<td>" . $gestionnaire . "</td>";
+                    echo "<td><input type='checkbox' name='batiment[]' value='" . $id_batiment . "'></td>";
+                    echo "</tr>";
+                }
+                ?>
+            </table></br>
+            <input class="bu" type="submit" name="submit_supprimer_batt" value="Supprimer les bâtiments sélectionnés">
+        </form>
+    </fieldset>
+</div>
 <fieldset>
     <legend>Modifier un gestionnaire</legend>
     <form method="POST" action="script_admin.php">
