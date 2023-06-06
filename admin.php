@@ -4,13 +4,14 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- <link rel="stylesheet" href="styles/admin.css"> -->
+    <link rel="stylesheet" href="styles/style.css">
     <title>Administration</title>
 </head>
 <body>
     <?php require('header.php');?>
 
     <!-- Ajouter ou supprimer un capteur -->
+    <div class="add_c">
     <fieldset>
         <legend>Ajouter un capteur</legend>
         <form method="POST" action="script_admin.php">
@@ -55,6 +56,9 @@
             <input type="submit" name="submit_ajouter_capteur" value="Valider">
         </form>
     </fieldset>
+    </div>
+
+    <div class="add_c">
     <fieldset>
         <legend>Supprimer un capteur</legend>
             <p>ATTENTION SUPPRIMER UN CAPTEUR SUPPRIMERA TOUTES LES valeurs associées</p>
@@ -98,6 +102,7 @@
   <input type="submit" name="submit_supprimer_capteur" value="Supprimer les capteurs sélectionnés">
 </form>
 </fieldset>
+</div>
 
     <!-- Ajouter ou supprimer un batt -->
     <div class="add_b">
@@ -157,7 +162,9 @@
             <input class="bu" type="submit" name="submit_supprimer_batt" value="Supprimer les bâtiments sélectionnés">
         </form>
     </fieldset>
-</div>
+    </div>
+
+<div class="updt_g">
 <fieldset>
     <legend>Modifier un gestionnaire</legend>
     <form method="POST" action="script_admin.php">
@@ -186,8 +193,8 @@
         <input type="password" name="change_mdp_gest" placeholder="Par ici le texte"> 
         <input type="submit" name="submit_change_gestionnaire" value="Modifier">
     </form>
-</fieldset>
-
+    </fieldset>
+    </div>
 
     
 </body>

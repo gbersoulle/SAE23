@@ -3,7 +3,49 @@
 body {
     margin: 0;
     padding: 0;
+    font-family: 'Roboto', sans-serif;
+    background-color: #d3d3d3;
 }
+
+
+.homepage {
+  transform: translateY(100%);
+  transition: transform 0.5s ease;
+  text-align: center;
+  justify-content: center;
+  font-size: larger;
+}
+
+.homepage.active {
+  transform: translateY(0);
+}
+
+.content {
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.content.active {
+  opacity: 1;
+}
+
+.b_index{
+  font-family: 'Montserrat', sans-serif;
+  position: absolute;
+  bottom: 100px;
+  width: 10%;
+  left: 45%;
+  border-radius: 10px;
+  border: 0;
+  background-color: whitesmoke;
+  color: black;
+}
+
+.b_index:hover{
+  background-color: black;
+  color: whitesmoke;
+}
+
 nav {
     background-color: #333;
     height: 50px;
@@ -114,8 +156,12 @@ main section.Dashboard {
 	display: block;
 }
 
-
-
+fieldset{
+  position: relative;
+  height: 90%;
+  width: 90%;
+  border-radius: 15px;
+}
 
 @media screen and (max-width: 768px) {
   main{
