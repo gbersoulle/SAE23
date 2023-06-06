@@ -15,43 +15,85 @@
     <?php
     require_once 'connexion_bdd.php';
 
-    $requeteBatiment = "SELECT id_batiment FROM batiment WHERE login_gest = '$nomUtilisateur'";
+    $requeteBatiment = "SELECT id_batiment, nom_bat FROM batiment WHERE login_gest = '$nomUtilisateur'";
     $resultatBatiment = mysqli_query($connexion, $requeteBatiment);
     $ligneBatiment = mysqli_fetch_assoc($resultatBatiment);
     $idBatiment = $ligneBatiment['id_batiment']; //Récupère le bâtiment géré par cet utilisateur
-
+    $nomBatiment = $ligneBatiment['nom_bat'];
+    echo "<h1>Batiment : $nomBatiment</h1>";
     $requeteCapteurs = "SELECT nom_capteur, type_capteur FROM capteur WHERE id_batiment = '$idBatiment'";
     $resultatCapteurs = mysqli_query($connexion, $requeteCapteurs); //récupère tous les capteurs du bâtiment en question
     ?>
+    <fieldset>
+        <legend>Filtrer la recherche</legend>
     <form method='GET'>
     <label for='capteur'>Choisir un capteur :</label>
     <select name='capteur' id='capteur'>
     <option value=''>Tous les capteurs</option>
         <?php
-        // Ajout des options pour chaque capteur
         while ($ligneCapteur = mysqli_fetch_assoc($resultatCapteurs)) {
             $nomCapteur = $ligneCapteur['nom_capteur'];
-            echo "<option value='$nomCapteur'>$nomCapteur</option>";
+            echo "<option value='$nomCapteur'>$nomCapteur</option>"; //rajoute tout les capteurs disponibles dans la liste
         }
         ?>
     </select>
+    <label for='type_capteur'>Choisir un type de capteur :</label>
+    <select name='type_capteur' id='type_capteur'>
+        <option value='' >Tous les types</option>
+        <?php
+        $typesCapteurs = array(
+            "temperature" => "Température",
+            "humidity" => "Humidité",
+            "activity" => "Activité",
+            "co2" => "CO2",
+            "tvoc" => "TVOC",
+            "illumination" => "Illumination",
+            "infrared" => "Infrarouge",
+            "infrared_and_visible" => "Infrarouge et visible",
+            "pressure" => "Pression"
+        );
+
+        foreach ($typesCapteurs as $type => $nom) {
+            echo "<option value='$type'>$nom</option>";
+        }
+        ?>
+    </select>
+    <label for='tri_date'>Trier par date :</label>
+    <select name='tri_date' id='tri_date'>
+        <option value='asc'>Plus ancienne d'abord</option>
+        <option value='desc' selected>Plus récente d'abord</option>
+    </select>
+    <label for='choix_jour'>Choisir un jour :</label>
+    <input type='date' name='choix_jour' id='choix_jour'>
+
     <input type='submit' value='Filtrer'>
+    <p>Si rien de renseigné, par défaut tout sera affiché</p>
     </form>
+    </fieldset>
 
-
-
+    <section>
+        <h1>Affichage de tout les capteurs selon le filtre choisi</h1>
     <?php
-    $capteurSelectionne = isset($_GET['capteur']) ? $_GET['capteur'] : ''; //capteur sélectionné
+    $typeCapteurSelectionne = isset($_GET['type_capteur']) ? $_GET['type_capteur'] : '';
+    $nomCapteurSelectionne = isset($_GET['nom_capteur']) ? $_GET['nom_capteur'] : '';
+    $triDate = isset($_GET['tri_date']) ? $_GET['tri_date'] : '';
+    $jourChoisi = isset($_GET['choix_jour']) ? $_GET['choix_jour'] : '';
 
-    // Requête SQL pour obtenir les capteurs en fonction du filtre
+
+
+    // Requête SQL pour obtenir les capteurs en fonction des filtres
     $requeteCapteursFiltre = "SELECT nom_capteur, type_capteur FROM capteur WHERE id_batiment = '$idBatiment'";
-
-    if (!empty($capteurSelectionne)) {
-        $requeteCapteursFiltre .= " AND nom_capteur = '$capteurSelectionne'";
+    
+    if (!empty($typeCapteurSelectionne) && empty($nomCapteurSelectionne)) {
+        $requeteCapteursFiltre .= " AND type_capteur = '$typeCapteurSelectionne'";
+    } elseif (empty($typeCapteurSelectionne) && !empty($nomCapteurSelectionne)) {
+        $requeteCapteursFiltre .= " AND nom_capteur = '$nomCapteurSelectionne'";
+    } elseif (!empty($typeCapteurSelectionne) && !empty($nomCapteurSelectionne)) {
+        $requeteCapteursFiltre .= " AND type_capteur = '$typeCapteurSelectionne' AND nom_capteur = '$nomCapteurSelectionne'";
     }
-
+    
     $resultatCapteursFiltre = mysqli_query($connexion, $requeteCapteursFiltre);
-
+    
     // pour chaque capteur, en fonction de son type, avoir l'unité et en faire un tableau
     while ($ligneCapteur = mysqli_fetch_assoc($resultatCapteursFiltre)) {//fait un tableau pour chaque capteur sélectionné dans la requete SQL (qui font parti du filtre)
         $nomCapteur = $ligneCapteur['nom_capteur'];
@@ -91,16 +133,29 @@
         }
 
         // Obtenir la moyenne pour le capteur
-        $requeteMoyCapteur = "SELECT AVG(valeur_mesure) AS moyenne FROM mesure WHERE nom_capteur = '$nomCapteur'";
+        $requeteMoyCapteur = "SELECT ROUND(AVG(valeur_mesure), 2) AS moyenne FROM mesure WHERE nom_capteur = '$nomCapteur'";
         $resultatMoyCapteur = mysqli_query($connexion, $requeteMoyCapteur);
         $ligneMoyCapteur = mysqli_fetch_assoc($resultatMoyCapteur);
         $moyenneCapteur = $ligneMoyCapteur['moyenne'];
 
         echo "<h2>Moyenne du capteur de $type_capteur : $nomCapteur : $moyenneCapteur $unite</h2>";
 
-        // Récupérer et afficher les valeurs historiques
+        // Récupérer et afficher les valeurs historiques en fonction du tri (asc ou desc)
         $requeteValHistorique = "SELECT * FROM mesure WHERE nom_capteur = '$nomCapteur'";
+
+        if (!empty($jourChoisi)) {
+            $requeteValHistorique .= " AND DATE(date_mesure) = '$jourChoisi'";
+        }
+        if (!empty($triDate)) {
+            if ($triDate == 'asc') {
+                $requeteValHistorique .= " ORDER BY date_mesure ASC";
+            } elseif ($triDate == 'desc') {
+                $requeteValHistorique .= " ORDER BY date_mesure DESC";
+            }
+        }
+        
         $resultatValHistorique = mysqli_query($connexion, $requeteValHistorique);
+        
 
         if (mysqli_num_rows($resultatValHistorique) > 0) {
             echo "<table>
@@ -123,10 +178,11 @@
                     </tr>";
             }
             echo "</table>";
-        } else {
-            echo "<p>Ce capteur n'a pas de valeurs renseignées.</p>";
+        } else  {
+            echo "<p>Ce capteur n'a pas de valeurs renseignées avec les filtres choisis.</p>";
         }
     }
     ?>
+    </section>
 </body>
 </html>
