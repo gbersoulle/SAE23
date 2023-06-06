@@ -5,14 +5,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Page de Gestion</title>
+    <link rel="stylesheet" href="styles/style.css">
 </head>
 <body>
     <?php
     require('header.php');
     $nomUtilisateur = $_SESSION["user"];
-    ?>
-    <h1>Page de gestion de <?php echo $nomUtilisateur ?> (affichage des capteurs du bâtiment du gestionnaire qui s'est connecté)</h1>
-    <?php
+
     require_once 'connexion_bdd.php';
 
     $requeteBatiment = "SELECT id_batiment, nom_bat FROM batiment WHERE login_gest = '$nomUtilisateur'";
@@ -20,7 +19,7 @@
     $ligneBatiment = mysqli_fetch_assoc($resultatBatiment);
     $idBatiment = $ligneBatiment['id_batiment']; //Récupère le bâtiment géré par cet utilisateur
     $nomBatiment = $ligneBatiment['nom_bat'];
-    echo "<h1>Batiment : $nomBatiment</h1>";
+    echo "<h1>Page de gestion de $nomUtilisateur (Batiment : $nomBatiment)</h1>";
     $requeteCapteurs = "SELECT nom_capteur, type_capteur FROM capteur WHERE id_batiment = '$idBatiment'";
     $resultatCapteurs = mysqli_query($connexion, $requeteCapteurs); //récupère tous les capteurs du bâtiment en question
     ?>
@@ -63,11 +62,18 @@
         <option value='asc'>Plus ancienne d'abord</option>
         <option value='desc' selected>Plus récente d'abord</option>
     </select>
+    <label for='tri_valeur'>Trier par valeur :</label>
+    <select name='tri_valeur' id='tri_valeur'>
+        <option value=''>Aucun tri</option>
+        <option value='asc'>Plus petite d'abord</option>
+        <option value='desc'>Plus grande d'abord</option>
+    </select>
+
     <label for='choix_jour'>Choisir un jour :</label>
     <input type='date' name='choix_jour' id='choix_jour'>
 
     <input type='submit' value='Filtrer'>
-    <p>Si rien de renseigné, par défaut tout sera affiché</p>
+    <p>Si rien de renseigné, par défaut tout sera affiché tri par valeur puis date</p>
     </form>
     </fieldset>
 
@@ -78,6 +84,7 @@
     $nomCapteurSelectionne = isset($_GET['nom_capteur']) ? $_GET['nom_capteur'] : '';
     $triDate = isset($_GET['tri_date']) ? $_GET['tri_date'] : '';
     $jourChoisi = isset($_GET['choix_jour']) ? $_GET['choix_jour'] : '';
+    $triValeur = isset($_GET['tri_valeur']) ? $_GET['tri_valeur'] : '';
 
 
 
@@ -143,17 +150,24 @@
         // Récupérer et afficher les valeurs historiques en fonction du tri (asc ou desc)
         $requeteValHistorique = "SELECT * FROM mesure WHERE nom_capteur = '$nomCapteur'";
 
-        if (!empty($jourChoisi)) {
-            $requeteValHistorique .= " AND DATE(date_mesure) = '$jourChoisi'";
-        }
-        if (!empty($triDate)) {
-            if ($triDate == 'asc') {
-                $requeteValHistorique .= " ORDER BY date_mesure ASC";
-            } elseif ($triDate == 'desc') {
-                $requeteValHistorique .= " ORDER BY date_mesure DESC";
+        $requeteValHistorique = "SELECT * FROM mesure WHERE nom_capteur = '$nomCapteur'";
+
+            if (!empty($jourChoisi)) {
+                $requeteValHistorique .= " AND DATE(date_mesure) = '$jourChoisi'";
             }
-        }
-        
+
+            if (!empty($triValeur)) {
+                if ($triValeur == 'asc') {
+                    $requeteValHistorique .= " ORDER BY valeur_mesure ASC";
+                } elseif ($triValeur == 'desc') {
+                    $requeteValHistorique .= " ORDER BY valeur_mesure DESC";
+                }
+            } else {
+                $requeteValHistorique .= " ORDER BY date_mesure DESC"; // Tri par date par défaut si aucun tri par valeur n'est sélectionné
+            }
+
+            $resultatValHistorique = mysqli_query($connexion, $requeteValHistorique);
+
         $resultatValHistorique = mysqli_query($connexion, $requeteValHistorique);
         
 
