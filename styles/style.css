@@ -1,5 +1,26 @@
 
 /* Styles pour le corps de la page */
+
+.accordion {
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  text-align: left;
+  border: none;
+  outline: none;
+  transition: 0.4s;
+  background-color: #f1f1f1;
+  font-weight: bold;
+}
+
+.panel {
+  padding: 0 18px;
+  background-color: white;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+}
+
 body {
     margin: 0;
     padding: 0;

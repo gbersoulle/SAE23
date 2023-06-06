@@ -1,5 +1,63 @@
 <?php
 
+function Existing_Rooms($building) {
+
+    $servername = "lhcp3164.webapps.net";
+    $username = "ku55c1se_mysqluser";
+    $password = "mysqlpassroot";
+    $dbname = "ku55c1se_sae23";
+
+    // Connexion à la base de données avec host, user, mdp, nom_BDD
+    $connexion = mysqli_connect($servername, $username, $password, $dbname);
+
+    // Vérifier la connexion
+    if (!$connexion) {
+        die("La connexion a échoué: " . mysqli_connect_error());
+    }
+
+
+    $query = "SELECT Salle FROM capteur WHERE id_batiment IN (SELECT id_batiment FROM batiment WHERE nom_bat = '$building')";
+    $result = mysqli_query($connexion, $query);
+
+    if (!$result) {
+        die("Error: Can't retrieve data from capteur. " . mysqli_error($connexion));
+    }
+
+    $rooms = [];
+    while ($row = mysqli_fetch_assoc($result)) {
+        $rooms[] = $row['Salle'];
+    }
+
+    return $rooms;
+}
+
+function Search_Type($room) {
+
+
+    $servername = "lhcp3164.webapps.net";
+    $username = "ku55c1se_mysqluser";
+    $password = "mysqlpassroot";
+    $dbname = "ku55c1se_sae23";
+
+    // Connexion à la base de données avec host, user, mdp, nom_BDD
+    $connexion = mysqli_connect($servername, $username, $password, $dbname);
+
+    // Vérifier la connexion
+    if (!$connexion) {
+        die("La connexion a échoué: " . mysqli_connect_error());
+    }
+
+    $query = "SELECT type_capteur FROM capteur WHERE Salle = '$room'";
+    $result = mysqli_query($connexion, $query);
+
+    while ($row = mysqli_fetch_assoc($result)) {
+        $types[] = $row['type_capteur'];
+    }
+
+    return $types;
+
+}
+    
 // Function to display data for a specific sensor
 function Display_one($nom_capteur, $data_type) {
     echo "
