@@ -57,6 +57,19 @@
         }
         ?>
     </select>
+    <label for='salle'>Choisir une salle :</label>
+    <select name='salle' id='salle'>
+        <option value=''>Toutes les salles</option>
+        <?php
+        $requeteSalles = "SELECT DISTINCT Salle FROM capteur WHERE id_batiment = '$idBatiment'";
+        $resultatSalles = mysqli_query($connexion, $requeteSalles);
+        while ($ligneSalle = mysqli_fetch_assoc($resultatSalles)) {
+            $salle = $ligneSalle['Salle'];
+            echo "<option value='$salle'>$salle</option>";
+        }
+        ?>
+    </select>
+
     <label for='tri_date'>Trier par date :</label>
     <select name='tri_date' id='tri_date'>
         <option value='asc'>Plus ancienne d'abord</option>
@@ -85,11 +98,11 @@
     $triDate = isset($_GET['tri_date']) ? $_GET['tri_date'] : '';
     $jourChoisi = isset($_GET['choix_jour']) ? $_GET['choix_jour'] : '';
     $triValeur = isset($_GET['tri_valeur']) ? $_GET['tri_valeur'] : '';
-
+    $salleSelectionnee = isset($_GET['salle']) ? $_GET['salle'] : '';
 
 
     // Requête SQL pour obtenir les capteurs en fonction des filtres
-    $requeteCapteursFiltre = "SELECT nom_capteur, type_capteur FROM capteur WHERE id_batiment = '$idBatiment'";
+    $requeteCapteursFiltre = "SELECT * FROM capteur WHERE id_batiment = '$idBatiment'";
     
     if (!empty($typeCapteurSelectionne) && empty($nomCapteurSelectionne)) {
         $requeteCapteursFiltre .= " AND type_capteur = '$typeCapteurSelectionne'";
@@ -98,13 +111,17 @@
     } elseif (!empty($typeCapteurSelectionne) && !empty($nomCapteurSelectionne)) {
         $requeteCapteursFiltre .= " AND type_capteur = '$typeCapteurSelectionne' AND nom_capteur = '$nomCapteurSelectionne'";
     }
-    
+
+    if (!empty($salleSelectionnee)) {
+        $requeteCapteursFiltre .= " AND Salle = '$salleSelectionnee'";
+    }
     $resultatCapteursFiltre = mysqli_query($connexion, $requeteCapteursFiltre);
     
     // pour chaque capteur, en fonction de son type, avoir l'unité et en faire un tableau
     while ($ligneCapteur = mysqli_fetch_assoc($resultatCapteursFiltre)) {//fait un tableau pour chaque capteur sélectionné dans la requete SQL (qui font parti du filtre)
         $nomCapteur = $ligneCapteur['nom_capteur'];
         $type_capteur = $ligneCapteur['type_capteur'];
+        $salleCapteur = $ligneCapteur['Salle'];
 
         $unite = "";
         switch ($type_capteur) {
@@ -145,11 +162,9 @@
         $ligneMoyCapteur = mysqli_fetch_assoc($resultatMoyCapteur);
         $moyenneCapteur = $ligneMoyCapteur['moyenne'];
 
-        echo "<h2>Moyenne du capteur de $type_capteur : $nomCapteur : $moyenneCapteur $unite</h2>";
+        echo "<h2>Moyenne du capteur de $type_capteur : $nomCapteur (Salle : $salleCapteur) : $moyenneCapteur $unite</h2>";
 
         // Récupérer et afficher les valeurs historiques en fonction du tri (asc ou desc)
-        $requeteValHistorique = "SELECT * FROM mesure WHERE nom_capteur = '$nomCapteur'";
-
         $requeteValHistorique = "SELECT * FROM mesure WHERE nom_capteur = '$nomCapteur'";
 
             if (!empty($jourChoisi)) {
