@@ -1,5 +1,6 @@
 @import url(table.css);
 /* Styles pour le corps de la page */
+
 body {
     margin: 0;
     padding: 0;
@@ -139,6 +140,10 @@ main section.Dashboard {
   padding: 0 20px;
 }
 
+canvas {
+  margin-bottom: 50px;
+}
+
 /* the rolling down menu css */
 .dropdown {
 	position: relative;
@@ -161,6 +166,40 @@ main section.Dashboard {
 	display: block;
 }
 
+.accordion {
+  background-color: #eee;
+  color: #2c2c2c;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  text-align: left;
+  border: none;
+  outline: none;
+  }
+  
+  .active, .accordion:hover {
+  background-color: #daf3ff;
+  }
+  
+  .panel {
+  margin: 5px;
+  padding: 0 18px;
+  background-color: white;
+  border-radius: 5px;
+  max-height: 0;
+  overflow: hidden;
+  }
+  
+  .accordion::after {
+    content: '\25BC';
+    float: right;
+    margin-left: 5px;
+  }
+  
+  .active::after {
+    content: '\25B2';
+  }
+  
 
 /* admin css */
 fieldset{
