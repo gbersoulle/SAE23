@@ -15,11 +15,7 @@
         <legend>Ajouter un capteur</legend>
         <form method="POST" action="script_admin.php">
             <label for="nom_capteur">Saisir le nom du capteur</label>
-<<<<<<< Updated upstream
-            <input type="texte" name="nom_capteur" placeholder="Ex : AM107-6" required></br></br>
-=======
             <input type="text" id="nom_capteur" name="nom_capteur" placeholder="Ex : AM107-6" required>
->>>>>>> Stashed changes
             
             <label for="type_capteur">Choisir le type du capteur</label>
             <select id="type_capteur" name="type_capteur" required>
@@ -162,38 +158,8 @@
         </form>
     </fieldset>
 
-<<<<<<< Updated upstream
-    <fieldset class="updt_g">
-        <legend>Modifier un gestionnaire</legend>
-        <form method="POST" action="script_admin.php">
-        <label for="id_bat">Nom du gestionnaire à modifier</label>
-            <select name="id_bat" required>
-            <?php
-                require('connexion_bdd.php');
-                $sqlgestionnaire = mysqli_query($connexion, "SELECT login_gest, id_batiment FROM batiment");
-                if (!$sqlgestionnaire) {
-                    die("Soucis de requête" . mysqli_error($connexion));
-                }
-                while ($ligne = mysqli_fetch_assoc($sqlgestionnaire)) {
-                    $login_gest = $ligne['login_gest'];
-                    $idBatiment = $ligne['id_batiment'];
-                    
-                    // Ajout de l'option au select
-                    echo '<option value="' . $idBatiment . '">' . $login_gest . '</option>';
-                }
-                mysqli_close($connexion);
 
-            ?>
-            </select>
-            <label for="change_login_gest">Remplir pour changer le nom du gestionaire</label>
-            <input type="texte" name="change_login_gest" placeholder="Par ici le texte"> </br>
-            <label for="change_mdp_gest">Remplir pour changer le mdp du gestionaire</label>
-            <input type="password" name="change_mdp_gest" placeholder="Par ici le texte"> 
-            <input type="submit" name="submit_change_gestionnaire" value="Modifier">
-        </form>
-=======
-<div class="updt_g">
-<fieldset>
+<fieldset class="updt_g">
     <legend>Modifier un gestionnaire</legend>
     <form method="POST" action="script_admin.php">
     <label for="id_bat">Nom du gestionnaire à modifier</label>
@@ -223,7 +189,6 @@
         <input type="password" id="change_mdp_gest" name="change_mdp_gest" placeholder="Si vide, ne change pas"> 
         <input type="submit" name="submit_change_gestionnaire" value="Modifier">
     </form>
->>>>>>> Stashed changes
     </fieldset>
 
     
