@@ -9,14 +9,14 @@
     <title>Page de Gestion</title>
 </head>
 <body>
-    <div class="homepage">
+    <section class="homepage">
         <h1>Bienvenue sur notre site web pour la SAE23!</h1>
          
-        <div class="content">
+        <section class="content">
             <?php require('header.php'); ?>
             <h1>Page d'acceuil' (Présentation du projet etc cf doc partagé)</h1>
-        </div>
-    </div>
+        </section>
+    </section>
 
     <button id="next" class="b_index">Cliquez ici pour continuer</button>
 </body>
