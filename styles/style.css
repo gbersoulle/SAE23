@@ -1,4 +1,4 @@
-
+@import url(table.css);
 /* Styles pour le corps de la page */
 body {
     margin: 0;
@@ -158,11 +158,73 @@ main section.Dashboard {
 	display: block;
 }
 
+
+/* admin css */
 fieldset{
   position: relative;
-  height: 90%;
-  width: 90%;
   border-radius: 15px;
+  padding: 5px;
+  margin: 5px;
+}
+
+body .add_c {
+  position: absolute;
+  width: 45%;
+  height: 25%;
+  background-color: rgba(255, 255, 255, 0.3);
+  top: 30%;
+  margin-left: 2%;
+  padding-left: 1.5%;
+  border-radius: 15px;
+  box-shadow: 0 5px 10px black;
+}
+
+body .del_c {
+  position: absolute;
+  top: 60%;
+  width: 46%;
+  height: auto;
+  background-color: rgba(255, 255, 255, 0.3);
+  margin-left: 2%;
+  padding-left: 1.5%;
+  border-radius: 15px;
+  box-shadow: 0 5px 10px black;
+  align-items: center;
+}
+
+body .add_b {
+  position: absolute;
+  width: 40%;
+  height: 25%;
+  background-color: rgba(255, 255, 255, 0.3);
+  top: 30%;
+  left: 54%;
+  padding-left: 2%;
+  border-radius: 15px;
+  box-shadow: 0 5px 10px black;
+}
+
+body .del_b {
+  position: absolute;
+  width: 40%;
+  height: auto;
+  background-color: rgba(255, 255, 255, 0.3);
+  top: 60%;
+  margin-left: 54%;
+  padding-left: 2%;
+  border-radius: 15px;
+  box-shadow: 0 5px 10px black;
+}
+
+body .updt_g {
+  position: absolute;
+  height: auto;
+  background-color: rgba(255, 255, 255, 0.3);
+  width: 90%;
+  left: 4%;
+  margin: 5px;
+  text-align: center;
+  box-shadow: 0 5px 10px black;
 }
 
 @media screen and (max-width: 768px) {

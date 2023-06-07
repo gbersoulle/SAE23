@@ -11,12 +11,11 @@
     <?php require('header.php');?>
 
     <!-- Ajouter ou supprimer un capteur -->
-    <div class="add_c">
-    <fieldset>
+    <fieldset class="add_c">
         <legend>Ajouter un capteur</legend>
         <form method="POST" action="script_admin.php">
             <label for="nom_capteur">Saisir le nom du capteur</label>
-            <input type="texte" name="nom_capteur" placeholder="Ex : AM107-6" required>
+            <input type="texte" name="nom_capteur" placeholder="Ex : AM107-6" required></br></br>
             
             <label for="type_capteur">Choisir le type du capteur</label>
             <select name="type_capteur" required>
@@ -29,7 +28,7 @@
                 <option value="infrared">Infrarouge</option>
                 <option value="infrared_and_visible">Infrarouge et Visible</option>
                 <option value="pressure">Pression</option>
-            </select>
+            </select></br></br>
 
 
             <label for="nom_bat">Choisir le battiment attribué au capteur</label>
@@ -50,16 +49,14 @@
                 mysqli_close($connexion);
 
             ?>
-            </select>
+            </select></br></br>
             <label for="salle_capteur">Saisir la salle du capteur</label>
             <input type="texte" name="salle_capteur" placeholder="Ex : B206" required>
             <input type="submit" name="submit_ajouter_capteur" value="Valider">
         </form>
     </fieldset>
-    </div>
 
-    <div class="add_c">
-    <fieldset>
+    <fieldset class="del_c">
         <legend>Supprimer un capteur</legend>
             <p>ATTENTION SUPPRIMER UN CAPTEUR SUPPRIMERA TOUTES LES valeurs associées</p>
     
@@ -98,15 +95,13 @@
         echo "</tr>";
     }
 ?>
-</table>
+</table></br>
   <input type="submit" name="submit_supprimer_capteur" value="Supprimer les capteurs sélectionnés">
 </form>
 </fieldset>
-</div>
 
     <!-- Ajouter ou supprimer un batt -->
-    <div class="add_b">
-        <fieldset>
+        <fieldset class="add_b">
             <legend>Ajouter un battiment</legend>
         <form method="POST" action="script_admin.php">
             <label for="nom_bat">Saisir le nom du batiment</label>
@@ -121,11 +116,9 @@
             <input class="bu" type="submit" name="submit_ajouter_battiment" value="Ajouter un Battiment">
         </form>
         </fieldset>
-    </div>
 
-    <div class="del_b">
     <!-- Afficher tout les batt -->
-    <fieldset>
+    <fieldset class="del_b">
         <legend>Supprimer un bâtiment</legend>
         <p>ATTENTION SUPPRIMER UN BÂTIMENT SUPPRIMERA TOUS LES CAPTEURS ET LES MESURES ASSOCIÉES </p>
 
@@ -162,39 +155,36 @@
             <input class="bu" type="submit" name="submit_supprimer_batt" value="Supprimer les bâtiments sélectionnés">
         </form>
     </fieldset>
-    </div>
 
-<div class="updt_g">
-<fieldset>
-    <legend>Modifier un gestionnaire</legend>
-    <form method="POST" action="script_admin.php">
-    <label for="id_bat">Nom du gestionnaire à modifier</label>
-        <select name="id_bat" required>
-        <?php
-            require('connexion_bdd.php');
-            $sqlgestionnaire = mysqli_query($connexion, "SELECT login_gest, id_batiment FROM batiment");
-            if (!$sqlgestionnaire) {
-                die("Soucis de requête" . mysqli_error($connexion));
-            }
-            while ($ligne = mysqli_fetch_assoc($sqlgestionnaire)) {
-                $login_gest = $ligne['login_gest'];
-                $idBatiment = $ligne['id_batiment'];
-                
-                // Ajout de l'option au select
-                echo '<option value="' . $idBatiment . '">' . $login_gest . '</option>';
-            }
-            mysqli_close($connexion);
+    <fieldset class="updt_g">
+        <legend>Modifier un gestionnaire</legend>
+        <form method="POST" action="script_admin.php">
+        <label for="id_bat">Nom du gestionnaire à modifier</label>
+            <select name="id_bat" required>
+            <?php
+                require('connexion_bdd.php');
+                $sqlgestionnaire = mysqli_query($connexion, "SELECT login_gest, id_batiment FROM batiment");
+                if (!$sqlgestionnaire) {
+                    die("Soucis de requête" . mysqli_error($connexion));
+                }
+                while ($ligne = mysqli_fetch_assoc($sqlgestionnaire)) {
+                    $login_gest = $ligne['login_gest'];
+                    $idBatiment = $ligne['id_batiment'];
+                    
+                    // Ajout de l'option au select
+                    echo '<option value="' . $idBatiment . '">' . $login_gest . '</option>';
+                }
+                mysqli_close($connexion);
 
-        ?>
-        </select>
-        <label for="change_login_gest">Remplir pour changer le nom du gestionaire</label>
-        <input type="texte" name="change_login_gest" placeholder="Par ici le texte"> 
-        <label for="change_mdp_gest">Remplir pour changer le mdp du gestionaire</label>
-        <input type="password" name="change_mdp_gest" placeholder="Par ici le texte"> 
-        <input type="submit" name="submit_change_gestionnaire" value="Modifier">
-    </form>
+            ?>
+            </select>
+            <label for="change_login_gest">Remplir pour changer le nom du gestionaire</label>
+            <input type="texte" name="change_login_gest" placeholder="Par ici le texte"> </br>
+            <label for="change_mdp_gest">Remplir pour changer le mdp du gestionaire</label>
+            <input type="password" name="change_mdp_gest" placeholder="Par ici le texte"> 
+            <input type="submit" name="submit_change_gestionnaire" value="Modifier">
+        </form>
     </fieldset>
-    </div>
 
     
 </body>
