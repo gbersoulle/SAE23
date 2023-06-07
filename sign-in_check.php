@@ -9,7 +9,9 @@ require_once 'connexion_bdd.php';
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   // Get the username and password from the form
   $user = $_POST['user'];
-  $password = $_POST['password'];
+  $password = hash('sha256',$_POST['password']);
+  $pat=hash('sha256','Patoche');
+  echo "$pat";
 
   // Query the database for the user with the given username and password
   $sql = "(SELECT 'administration' AS source, user, password FROM administration WHERE user = '$user' AND password = '$password')
@@ -34,6 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     exit;
   } else {
     // Display an error message
+    echo "<a href='sign-in.php'>Retour</a>";
     echo 'Invalid username or password';
   }
 }
