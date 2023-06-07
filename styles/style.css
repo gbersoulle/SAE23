@@ -227,6 +227,40 @@ body .updt_g {
   box-shadow: 0 5px 10px black;
 }
 
+/*gestion CSS*/
+
+#gestion {
+  display: none;
+}
+
+.gestion{
+  position: fixed;
+  right: 0;
+  width: 15%;
+  height: auto;
+  margin-top: 30px;
+}
+
+.gestion label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+    color: #333;  
+}
+
+#filterButton{
+  position: fixed;
+  right: 0;
+  height: 30px;
+  border-radius: 5px;
+  background-color: black;
+  color: wheat;
+}
+
+#filterButton:hover {
+  background-color: #333;
+}
+
 @media screen and (max-width: 768px) {
   main{
     flex-direction: column;
