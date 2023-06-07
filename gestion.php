@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Page de Gestion</title>
     <link rel="stylesheet" href="styles/style.css">
+    <script src="./scripts/index.js"></script>
 </head>
 <body>
     <?php
@@ -23,7 +24,9 @@
     $requeteCapteurs = "SELECT nom_capteur, type_capteur FROM capteur WHERE id_batiment = '$idBatiment'";
     $resultatCapteurs = mysqli_query($connexion, $requeteCapteurs); //récupère tous les capteurs du bâtiment en question
     ?>
-    <fieldset>
+
+    <button id="filterButton">Filtrer la recherche</button>
+    <fieldset class="gestion" id="gestion">
         <legend>Filtrer la recherche</legend>
     <form method='POST'>
     <label for='nom_capteur'>Choisir un capteur :</label>
@@ -52,42 +55,41 @@
             "pressure" => "Pression"
         );
 
-        foreach ($typesCapteurs as $type => $nom) {
-            echo "<option value='$type'>$nom</option>";
-        }
-        ?>
-    </select>
-    <label for='salle'>Choisir une salle :</label>
-    <select name='salle' id='salle'>
-        <option value=''>Toutes les salles</option>
-        <?php
-        $requeteSalles = "SELECT DISTINCT Salle FROM capteur WHERE id_batiment = '$idBatiment'";
-        $resultatSalles = mysqli_query($connexion, $requeteSalles);
-        while ($ligneSalle = mysqli_fetch_assoc($resultatSalles)) {
-            $salle = $ligneSalle['Salle'];
-            echo "<option value='$salle'>$salle</option>";
-        }
-        ?>
-    </select>
+                foreach ($typesCapteurs as $type => $nom) {
+                    echo "<option value='$type'>$nom</option>";
+                }
+                ?>
+            </select>
+            <label for='salle'>Choisir une salle :</label>
+            <select name='salle' id='salle'>
+                <option value=''>Toutes les salles</option>
+                <?php
+                $requeteSalles = "SELECT DISTINCT Salle FROM capteur WHERE id_batiment = '$idBatiment'";
+                $resultatSalles = mysqli_query($connexion, $requeteSalles);
+                while ($ligneSalle = mysqli_fetch_assoc($resultatSalles)) {
+                    $salle = $ligneSalle['Salle'];
+                    echo "<option value='$salle'>$salle</option>";
+                }
+                ?>
+            </select>
 
-    <label for='tri_date'>Trier par date :</label>
-    <select name='tri_date' id='tri_date'>
-        <option value='asc'>Plus ancienne d'abord</option>
-        <option value='desc' selected>Plus récente d'abord</option>
-    </select>
-    <label for='tri_valeur'>Trier par valeur :</label>
-    <select name='tri_valeur' id='tri_valeur'>
-        <option value=''>Aucun tri</option>
-        <option value='asc'>Plus petite d'abord</option>
-        <option value='desc'>Plus grande d'abord</option>
-    </select>
+            <label for='tri_date'>Trier par date :</label>
+            <select name='tri_date' id='tri_date'>
+                <option value='asc'>Plus ancienne d'abord</option>
+                <option value='desc' selected>Plus récente d'abord</option>
+            </select>
+            <label for='tri_valeur'>Trier par valeur :</label>
+            <select name='tri_valeur' id='tri_valeur'>
+                <option value=''>Aucun tri</option>
+                <option value='asc'>Plus petite d'abord</option>
+                <option value='desc'>Plus grande d'abord</option>
+            </select>
 
-    <label for='choix_jour'>Choisir un jour :</label>
-    <input type='date' name='choix_jour' id='choix_jour'>
+            <label for='choix_jour'>Choisir un jour :</label>
+            <input type='date' name='choix_jour' id='choix_jour'>
 
-    <input type='submit' value='Filtrer'>
-    <p>Si rien de renseigné, par défaut tout sera affiché tri par valeur puis date</p>
-    </form>
+            <input type='submit' value='Filtrer'>
+            </form>
     </fieldset>
 
     <section>
