@@ -27,8 +27,8 @@
         <legend>Filtrer la recherche</legend>
     <form method='POST'>
     <label for='nom_capteur'>Choisir un capteur :</label>
-    <select name='nom_capteur' id='capteur'>
-    <option value=''>Tous les capteurs</option>
+    <select name='nom_capteur' id='nom_capteur'>
+        <option value=''>Tous les capteurs</option>
         <?php
         while ($ligneCapteur = mysqli_fetch_assoc($resultatCapteurs)) {
             $nomCapteur = $ligneCapteur['nom_capteur'];
@@ -91,7 +91,7 @@
     </fieldset>
 
     <section>
-        <h1>Affichage de tout les capteurs selon le filtre choisi</h1>
+        <h2>Affichage de tout les capteurs selon le filtre choisi</h2>
     <?php
     $nomCapteurSelectionne = isset($_POST['nom_capteur']) ? $_POST['nom_capteur'] : '';
     $typeCapteurSelectionne = isset($_POST['type_capteur']) ? $_POST['type_capteur'] : '';
@@ -115,7 +115,6 @@
     }
     
     $resultatCapteursFiltre = mysqli_query($connexion, $requeteCapteursFiltre);
-    echo "$requeteCapteursFiltre";
     // pour chaque capteur, en fonction de son type, avoir l'unité et en faire un tableau
     while ($ligneCapteur = mysqli_fetch_assoc($resultatCapteursFiltre)) {//fait un tableau pour chaque capteur sélectionné dans la requete SQL (qui font parti du filtre)
         $nomCapteur = $ligneCapteur['nom_capteur'];
@@ -162,7 +161,7 @@
         $moyenneCapteur = $ligneMoyCapteur['moyenne'];
 
         echo "<div class='block'>
-        <h2>Capteur de $type_capteur : $nomCapteur (Salle : $salleCapteur)</h2>";
+        <h3>Capteur de $type_capteur : $nomCapteur (Salle : $salleCapteur)</h3>";
 
         // Récupérer et afficher les valeurs historiques en fonction du tri (asc ou desc)
         $requeteValHistorique = "SELECT * FROM mesure WHERE nom_capteur = '$nomCapteur'";
@@ -226,8 +225,8 @@
             }
             echo "</table>";
             $moyenneAffichee = round($sommeMesures / $nombreMesures, 2);
-            echo "<h2>Moyenne du capteur de $type_capteur : $moyenneCapteur $unite</h2>";
-            echo "<h2>Moyenne des mesures affichées : $moyenneAffichee $unite</h2>";
+            echo "<h3>Moyenne du capteur de $type_capteur : $moyenneCapteur $unite</h3>";
+            echo "<h3>Moyenne des mesures affichées : $moyenneAffichee $unite</h3>";
         
         } else  {
             echo "<p>Ce capteur n'a pas de valeurs renseignées avec les filtres choisis.</p>";
