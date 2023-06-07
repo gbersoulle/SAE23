@@ -13,12 +13,14 @@ function display_all_buildings($buildings) {
           $data_type = Search_Type($room);
           foreach ($data_type as $type) {
              $sensor_name = Search_Name($room, $type);
-             $history[$room] = Display_Data($sensor_name, $type);
+             $history[$sensor_name] = Display_Data($sensor_name, $type);
+             echo "<canvas id=\"Chart_$sensor_name\"></canvas>";
           }
           echo "</div>";
         }
         echo "</div>"; // close the panel div for this room
       }
+      return $history;
 }
 
 

@@ -22,7 +22,8 @@
         <?php
             require_once 'functions.php';
             $buildings = ['A', 'B', 'C', 'D', 'E'];
-            display_all_buildings($buildings);
+            $history = display_all_buildings($buildings);
+            print_r($history);
         ?>
     </div>
 </section>
@@ -41,49 +42,21 @@
 	</main>
 </body>
 <script src='./scripts/unroll.js'></script>
-<!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src='https://cdn.jsdelivr.net/npm/chart.js'></script>
+<script src='./scripts/unroll.js'></script>
+<script src='./scripts/Make_Chart.js'></script>
 
 <script>
-// Retrieve the PHP array data
-var history_B203 = <?php echo json_encode($history_B203); ?>;
-var history_E102 = <?php echo json_encode($history_E102); ?>;
-var history_B001 = <?php echo json_encode($history_B001); ?>;
-var history_E006 = <?php echo json_encode($history_E006); ?>;
+  // Function to create a new chart (graph)
 
-// Function to create a new chart (graph)
-function createChart(elementId, label, data, color) {
-  // Get the canvas element by ID
-  var canvas = document.getElementById(elementId);
-  
-  // reverse the array to have data classified in the right order
-  var data = data[0].reverse();
-  
-  // specify each caracteristic of our chart for chart.js to make
-  var chart = new Chart(canvas, {
-    type: 'line',
-    data: {
-      // Labels are the name of each point of the graph
-      labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-      datasets: [
-        {
-          label: label,
-          pointRadius: 10,
-          pointHoverRadius: 15,
-          // Specify which data to use for the graph for example "history_B203"
-          data: data,
-          borderColor: color,
-          borderWidth: 2
-        }
-      ]
-    }
-  });
+var historyData = <?php echo json_encode($history); ?>;
+
+for (var sensor in historyData) {
+    console.log(sensor);
+  if (historyData[sensor] != null && historyData[sensor].length > 0) {
+    createChart(sensor, historyData, 'red');
+  }
 }
+</script>
 
-// Call the function to create charts for each room
-createChart('Chart_B203', 'Humidité B203', history_B203, 'red');
-createChart('Chart_E102', 'Humidité E102', history_E102, 'blue');
-createChart('Chart_B001', 'CO2 B001', history_B001, 'green');
-createChart('Chart_E006', 'CO2 E006', history_E006, 'purple');
-
-</script> -->
 </html>
