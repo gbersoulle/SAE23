@@ -23,7 +23,6 @@
             require_once 'functions.php';
             $buildings = ['A', 'B', 'C', 'D', 'E'];
             $history = display_all_buildings($buildings);
-            print_r($history);
         ?>
     </div>
 </section>
@@ -52,7 +51,6 @@
 var historyData = <?php echo json_encode($history); ?>;
 
 for (var sensor in historyData) {
-    console.log(sensor);
   if (historyData[sensor] != null && historyData[sensor].length > 0) {
     createChart(sensor, historyData, 'red');
   }

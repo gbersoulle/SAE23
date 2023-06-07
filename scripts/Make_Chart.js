@@ -6,6 +6,10 @@ function createChart(sensor_name, chartData, color) {
   // reverse the array to have data classified in the right order
   var data = chartData[sensor_name].reverse();
   
+    // Generate a random color (generate a random number between 0 and 16777215 and convert it to hexa)
+  var randomColor = '#' + Math.floor(Math.random() * 16777215).toString(16);
+  console.log(randomColor);
+
   // specify each characteristic of our chart for chart.js to make
   var chart = new Chart(canvas, {
     type: 'line',
@@ -19,7 +23,7 @@ function createChart(sensor_name, chartData, color) {
           pointHoverRadius: 15,
           // Specify which data to use for the graph
           data: data,
-          borderColor: color,
+          borderColor: randomColor,
           borderWidth: 2
         }
       ]

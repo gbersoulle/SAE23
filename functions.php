@@ -2,20 +2,25 @@
 require_once 'connexion_bdd.php';
 
 function display_all_buildings($buildings) {
+
     foreach ($buildings as $building) {
         echo "<button class=\"accordion\" onclick=\"togglePanel(this.nextElementSibling)\">Batiment $building</button>";
         echo "<div class=\"panel\" id=\"$building\">";
         echo "<p>Selectionnez une salle</p>";
+
         $rooms = Existing_Rooms($building);
+
         foreach ($rooms as $room) {
-          echo "<button class=\"accordion\" onclick=\"togglePanel(this.nextElementSibling); togglePanel(document.getElementById('$building'))\">Salle $room</button>";
-          echo "<div class=\"panel\">";
-          $data_type = Search_Type($room);
+            echo "<button class=\"accordion\" onclick=\"togglePanel(this.nextElementSibling); togglePanel(document.getElementById('$building'))\">Salle $room</button>";
+            echo "<div class=\"panel\">";
+            $data_type = Search_Type($room);
+
           foreach ($data_type as $type) {
-             $sensor_name = Search_Name($room, $type);
-             $history[$sensor_name] = Display_Data($sensor_name, $type);
-             echo "<canvas id=\"Chart_$sensor_name\"></canvas>";
-          }
+                echo "<h1>$type dans cette Salle : </h1>";
+                $sensor_name = Search_Name($room, $type);
+                $history[$sensor_name] = Display_Data($sensor_name, $type);
+                echo "<canvas id=\"Chart_$sensor_name\"></canvas>";
+            }
           echo "</div>";
         }
         echo "</div>"; // close the panel div for this room
@@ -28,7 +33,7 @@ function Existing_Rooms($building) {
 
     global $connexion;
 
-    $query = "SELECT Salle FROM capteur WHERE id_batiment IN (SELECT id_batiment FROM batiment WHERE nom_bat = '$building')";
+    $query = "SELECT DISTINCT Salle FROM capteur WHERE id_batiment IN (SELECT id_batiment FROM batiment WHERE nom_bat = '$building')";
     $result = mysqli_query($connexion, $query);
 
     if (!$result) {
