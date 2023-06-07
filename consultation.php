@@ -18,11 +18,12 @@
 		<section class="Dashboard">
     <div>
         <h1>Dashboard</h1>
-        <p>Ou il y aura toutes les informations des capteurs</p>
+        <p>Cliquez sur un bâtiment pour voir ses valeurs</p>
         <?php
             require_once 'functions.php';
             $buildings = ['A', 'B', 'C', 'D', 'E'];
             $history = display_all_buildings($buildings);
+			require_once 'affiche_metriques.php';
         ?>
     </div>
 </section>

@@ -2,8 +2,6 @@
     require_once 'header.php';
     require_once 'functions.php';
 
-    // Require the script used to connect to the DB
-    require_once('connexion_bdd.php');
     echo "<h1>Métriques par Salles</h1>";
     echo "
     <table>
@@ -32,12 +30,6 @@
       $mptd[] = Metrique_type($moyenne_h, "Humidité");
       $mptd[] = Metrique_type($moyenne_c, "CO2");
     echo "</table>";
-
-
-    // Close the database connection
-    mysqli_close($connexion);
 ?>
-
-
 </body>
 </html>

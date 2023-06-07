@@ -93,6 +93,10 @@ main section.Dashboard {
   padding: 0 20px;
 }
 
+canvas {
+  margin-bottom: 50px;
+}
+
 /* the rolling down menu css */
 .dropdown {
 	position: relative;
