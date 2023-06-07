@@ -14,7 +14,7 @@
          
         <section class="content">
             <?php require('header.php'); ?>
-            <h1>Page d'acceuil' (Présentation du projet etc cf doc partagé)</h1>
+            <h1>Page d'acceuil' (description de l’objectif du site, affichage des bâtiments gérés, mentions légales)</h1>
         </section>
     </section>
 
