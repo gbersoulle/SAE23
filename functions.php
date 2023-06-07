@@ -1,4 +1,6 @@
 <?php
+require_once 'connexion_bdd.php';
+
 function display_all_buildings($buildings) {
     foreach ($buildings as $building) {
         echo "<button class=\"accordion\" onclick=\"togglePanel(this.nextElementSibling)\">Batiment $building</button>";
@@ -6,33 +8,23 @@ function display_all_buildings($buildings) {
         echo "<p>Selectionnez une salle</p>";
         $rooms = Existing_Rooms($building);
         foreach ($rooms as $room) {
-          echo "<button class=\"accordion\" onclick=\"togglePanel(this.nextElementSibling); togglePanel(document.getElementById('$building'))\">Salle $room</button>";                    echo "<div class=\"panel\">";
-            $data_type = Search_Type($room);
-            foreach ($data_type as $type) {
-               $sensor_name = Search_Name($room, $type);
-               $history[$room] = Display_Data($sensor_name, $type);
-            }
-            echo "</div>";
+          echo "<button class=\"accordion\" onclick=\"togglePanel(this.nextElementSibling); togglePanel(document.getElementById('$building'))\">Salle $room</button>";
+          echo "<div class=\"panel\">";
+          $data_type = Search_Type($room);
+          foreach ($data_type as $type) {
+             $sensor_name = Search_Name($room, $type);
+             $history[$room] = Display_Data($sensor_name, $type);
+          }
+          echo "</div>";
         }
         echo "</div>"; // close the panel div for this room
       }
 }
 
+
 function Existing_Rooms($building) {
 
-    $servername = "lhcp3164.webapps.net";
-    $username = "ku55c1se_mysqluser";
-    $password = "mysqlpassroot";
-    $dbname = "ku55c1se_sae23";
-
-    // Connexion à la base de données avec host, user, mdp, nom_BDD
-    $connexion = mysqli_connect($servername, $username, $password, $dbname);
-
-    // Vérifier la connexion
-    if (!$connexion) {
-        die("La connexion a échoué: " . mysqli_connect_error());
-    }
-
+    global $connexion;
 
     $query = "SELECT Salle FROM capteur WHERE id_batiment IN (SELECT id_batiment FROM batiment WHERE nom_bat = '$building')";
     $result = mysqli_query($connexion, $query);
@@ -51,19 +43,7 @@ function Existing_Rooms($building) {
 
 function Search_Type($room) {
 
-
-    $servername = "lhcp3164.webapps.net";
-    $username = "ku55c1se_mysqluser";
-    $password = "mysqlpassroot";
-    $dbname = "ku55c1se_sae23";
-
-    // Connexion à la base de données avec host, user, mdp, nom_BDD
-    $connexion = mysqli_connect($servername, $username, $password, $dbname);
-
-    // Vérifier la connexion
-    if (!$connexion) {
-        die("La connexion a échoué: " . mysqli_connect_error());
-    }
+    global $connexion;
 
     $query = "SELECT type_capteur FROM capteur WHERE Salle = '$room'";
     $result = mysqli_query($connexion, $query);
@@ -78,18 +58,7 @@ function Search_Type($room) {
 function Search_Name($room, $type) {
 
 
-    $servername = "lhcp3164.webapps.net";
-    $username = "ku55c1se_mysqluser";
-    $password = "mysqlpassroot";
-    $dbname = "ku55c1se_sae23";
-
-    // Connexion à la base de données avec host, user, mdp, nom_BDD
-    $connexion = mysqli_connect($servername, $username, $password, $dbname);
-
-    // Vérifier la connexion
-    if (!$connexion) {
-        die("La connexion a échoué: " . mysqli_connect_error());
-    }
+    global $connexion;
 
     $query = "SELECT nom_capteur FROM capteur WHERE Salle = '$room' AND type_capteur = '$type'";
     $result = mysqli_query($connexion, $query);
@@ -105,20 +74,7 @@ function Search_Name($room, $type) {
 // Function to display data for a specific sensor
 function Display_data($nom_capteur, $data_type) {
     
-    $servername = "lhcp3164.webapps.net";
-    $username = "ku55c1se_mysqluser";
-    $password = "mysqlpassroot";
-    $dbname = "ku55c1se_sae23";
-
-    // Connexion à la base de données avec host, user, mdp, nom_BDD
-    $connexion = mysqli_connect($servername, $username, $password, $dbname);
-
-    // Vérifier la connexion
-    if (!$connexion) {
-        die("La connexion a échoué: " . mysqli_connect_error());
-    }
-
-    // global $connexion; // Access the global $connexion variable inside the function
+    global $connexion; // Access the global $connexion variable inside the function
 
     // Retrieve the mesure table content
     $request_content = mysqli_query($connexion, "SELECT * FROM mesure WHERE nom_capteur = '$nom_capteur' ORDER BY id_mesure DESC LIMIT 10");

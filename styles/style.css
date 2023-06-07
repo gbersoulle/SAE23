@@ -139,7 +139,16 @@ main section.Dashboard {
   overflow: hidden;
   }
   
-
+  .accordion::after {
+    content: '\25BC';
+    float: right;
+    margin-left: 5px;
+  }
+  
+  .active::after {
+    content: '\25B2';
+  }
+  
 
 @media screen and (max-width: 768px) {
   main{
