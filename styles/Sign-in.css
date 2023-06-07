@@ -1,10 +1,11 @@
 @import url("style.css");
 
 body {
-  background-image: url("../images/bg.png");
+  background-image: url("../images/bg_a.png");
   background-repeat: no-repeat;
   background-size: 100%;
 }
+
 main {
   margin-top: 7%;
   display: block;
@@ -13,7 +14,7 @@ main {
 form.register {
     max-width: 350px;
     margin: 0 auto;
-    background-color: #abebf296;
+    background-color: #abebf2b9;
     padding: 30px;
     padding-right: 50px;
     border-radius: 10px;

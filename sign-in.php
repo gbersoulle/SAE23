@@ -9,7 +9,7 @@
 </head>
 <body>
     <?php require_once 'header.php' ?>
-    <main><
+    <main>
         <form class="register" action="sign-in_check.php" method="post">
             <div class="form-title">
                 <h2>Connectez Vous</h2>
