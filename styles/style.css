@@ -14,19 +14,25 @@ body {
   text-align: center;
   justify-content: center;
   font-size: larger;
+  height : 300px;
 }
 
 .homepage.active {
   transform: translateY(0);
+  height: auto;
 }
 
 .content {
   opacity: 0;
   transition: opacity 0.5s ease;
+  font-size: 0;
 }
 
 .content.active {
   opacity: 1;
+  width: auto;
+  height: auto;
+  font-size: medium;
 }
 
 .b_index{
@@ -226,6 +232,18 @@ body .updt_g {
   text-align: center;
   box-shadow: 0 5px 10px black;
 }
+
+/* CSS for the Index page */
+
+.parag {
+  text-align: justify;
+  margin : 2%;  
+}
+
+.h2-acc {
+  margin-left: 5%;
+}
+
 
 @media screen and (max-width: 768px) {
   main{
