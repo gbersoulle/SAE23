@@ -1,3 +1,26 @@
+<?php
+    // Check if a session is start
+    if (session_status() == PHP_SESSION_NONE) {
+        session_start();
+    }
+
+    // Vérifier si l'utilisateur est connecté
+    if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {
+        // Vérifier la source de l'utilisateur
+        if (isset($_SESSION['source']) && $_SESSION['source'] != 'batiment') {
+            $erreur = "ERREUR : Vous n'avez pas l'accréditation nécessaire pour accéder à cette page";
+            echo '<a href="index.php">Accueil</a><br>' ;
+            die($erreur);
+        }
+    } 
+    else {
+        $message = "ERREUR : Vous n'êtes pas connecté";
+        echo '<a href="index.php">Accueil</a><br>' ;
+        die($message);
+    }
+?>
+
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
