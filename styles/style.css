@@ -1,26 +1,6 @@
 
 /* Styles pour le corps de la page */
 
-.accordion {
-  cursor: pointer;
-  padding: 18px;
-  width: 100%;
-  text-align: left;
-  border: none;
-  outline: none;
-  transition: 0.4s;
-  background-color: #f1f1f1;
-  font-weight: bold;
-}
-
-.panel {
-  padding: 0 18px;
-  background-color: white;
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.2s ease-out;
-}
-
 body {
     margin: 0;
     padding: 0;
@@ -135,7 +115,30 @@ main section.Dashboard {
 	display: block;
 }
 
-
+.accordion {
+  background-color: #eee;
+  color: #2c2c2c;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  text-align: left;
+  border: none;
+  outline: none;
+  }
+  
+  .active, .accordion:hover {
+  background-color: #daf3ff;
+  }
+  
+  .panel {
+  margin: 5px;
+  padding: 0 18px;
+  background-color: white;
+  border-radius: 5px;
+  max-height: 0;
+  overflow: hidden;
+  }
+  
 
 
 @media screen and (max-width: 768px) {

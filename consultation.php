@@ -3,15 +3,9 @@
 <head>
 	<title>Mon site avec menu en bandeau</title>
     <link rel="stylesheet" href="styles/table.css">
-    <script>
-      function togglePanel(panel) {
-        panel.style.maxHeight = panel.style.maxHeight ? null : panel.scrollHeight + "px";
-      }
-    </script>
 </head>
 <body>
-    <?php require_once 'header.php'; require_once 'Display_one_sensor.php'; 
-		?>
+    <?php require_once 'header.php'?>
 	
 	<main>
 		<!-- <h1>Afficher la derniere valeur de chaque batiment ou capteur avec la moyenne d'aujourd'hui ou jsp quoi</h1><p>(le CSS en sueur)</p> -->
@@ -22,28 +16,16 @@
 			</div>
 		</section>
 		<section class="Dashboard">
-			<div>
-				<h1>Dashboard</h1>
-				<p>Ou il y aura toutes les informations des capteurs</p>
-                <?php
-                  $buildings = ['A', 'B', 'C', 'D', 'E'];
-                  foreach ($buildings as $building) {
-                    $rooms = Existing_Rooms($building);
-                    // echo "<button class=\"accordion\" onclick=\"togglePanel(this.nextElementSibling)\">Batiment $building</button>";
-                    // echo "<div class=\"panel\">";
-                    foreach ($rooms as $room) {
-                      echo "<h1>Salle $room</h1>";
-					  $data_type = Search_Type($room);
-					  print_r($data_type);
-					  foreach ($data_type as $type) {
-                      	$history[$room] = Display_Data($room, $type); //("AM107-29", "CO2");
-					  }
-                    }
-                    echo "</div>";
-                  }
-                ?>
-			</div>
-		</section>
+    <div>
+        <h1>Dashboard</h1>
+        <p>Ou il y aura toutes les informations des capteurs</p>
+        <?php
+            require_once 'functions.php';
+            $buildings = ['A', 'B', 'C', 'D', 'E'];
+            display_all_buildings($buildings);
+        ?>
+    </div>
+</section>
 		<section class="autres">
 			<div>
 				<h1>Informations sur l'utilisateur actuellement connecté</h1>
@@ -58,6 +40,7 @@
 		</section>
 	</main>
 </body>
+<script src='./scripts/unroll.js'></script>
 <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>

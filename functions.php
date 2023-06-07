@@ -1,4 +1,22 @@
 <?php
+function display_all_buildings($buildings) {
+    foreach ($buildings as $building) {
+        echo "<button class=\"accordion\" onclick=\"togglePanel(this.nextElementSibling)\">Batiment $building</button>";
+        echo "<div class=\"panel\" id=\"$building\">";
+        echo "<p>Selectionnez une salle</p>";
+        $rooms = Existing_Rooms($building);
+        foreach ($rooms as $room) {
+          echo "<button class=\"accordion\" onclick=\"togglePanel(this.nextElementSibling); togglePanel(document.getElementById('$building'))\">Salle $room</button>";                    echo "<div class=\"panel\">";
+            $data_type = Search_Type($room);
+            foreach ($data_type as $type) {
+               $sensor_name = Search_Name($room, $type);
+               $history[$room] = Display_Data($sensor_name, $type);
+            }
+            echo "</div>";
+        }
+        echo "</div>"; // close the panel div for this room
+      }
+}
 
 function Existing_Rooms($building) {
 
@@ -55,20 +73,53 @@ function Search_Type($room) {
     }
 
     return $types;
-
 }
+
+function Search_Name($room, $type) {
+
+
+    $servername = "lhcp3164.webapps.net";
+    $username = "ku55c1se_mysqluser";
+    $password = "mysqlpassroot";
+    $dbname = "ku55c1se_sae23";
+
+    // Connexion à la base de données avec host, user, mdp, nom_BDD
+    $connexion = mysqli_connect($servername, $username, $password, $dbname);
+
+    // Vérifier la connexion
+    if (!$connexion) {
+        die("La connexion a échoué: " . mysqli_connect_error());
+    }
+
+    $query = "SELECT nom_capteur FROM capteur WHERE Salle = '$room' AND type_capteur = '$type'";
+    $result = mysqli_query($connexion, $query);
+
+    while ($row = mysqli_fetch_assoc($result)) {
+        $name = $row['nom_capteur'];
+    }
+
+    return $name;
+}
+
     
 // Function to display data for a specific sensor
-function Display_one($nom_capteur, $data_type) {
-    echo "
-    <table>
-        <tr> 
-            <th>Date</th>
-            <th>$data_type</th>
-        </tr>
-    ";
+function Display_data($nom_capteur, $data_type) {
+    
+    $servername = "lhcp3164.webapps.net";
+    $username = "ku55c1se_mysqluser";
+    $password = "mysqlpassroot";
+    $dbname = "ku55c1se_sae23";
 
-    global $connexion; // Access the global $connexion variable inside the function
+    // Connexion à la base de données avec host, user, mdp, nom_BDD
+    $connexion = mysqli_connect($servername, $username, $password, $dbname);
+
+    // Vérifier la connexion
+    if (!$connexion) {
+        die("La connexion a échoué: " . mysqli_connect_error());
+    }
+
+    // global $connexion; // Access the global $connexion variable inside the function
+
     // Retrieve the mesure table content
     $request_content = mysqli_query($connexion, "SELECT * FROM mesure WHERE nom_capteur = '$nom_capteur' ORDER BY id_mesure DESC LIMIT 10");
     if (!$request_content) {
@@ -79,21 +130,28 @@ function Display_one($nom_capteur, $data_type) {
     $LineCount = mysqli_num_rows($request_content);
 
     if ($LineCount) {
+        echo "
+        <table>
+            <tr> 
+                <th>Date</th>
+                <th>$data_type</th>
+            </tr>
+        ";
+
         while ($line = mysqli_fetch_assoc($request_content)) {
             // Display the values of each row and  store the 10 measurement values in value history for the chart
             echo "<tr><td>$line[date_mesure]</td><td>$line[valeur_mesure]</td></tr>";
             $values_history[] = $line['valeur_mesure'];
-
-
         }
+        
         echo "</table>";
+        echo "<br>";
+        // Display the values stored in the values_history array
+        return $values_history;
     } else {
-        echo "Pas de ligne";
+        echo "Pas encore de mesures de $data_type pour cette salle";
+        echo "<br>";
     }
-
-    echo "<br>";
-    // Display the values stored in the values_history array
-    return $values_history;
 }
 
 function Display_moyenne($salle_ID, $nom_capteur, $data_type){
