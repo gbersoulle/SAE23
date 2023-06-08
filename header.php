@@ -6,7 +6,9 @@
 		<li><a href="consultation.php">Consultation</a></li>
 		<li><a href="gprojet.php">Gestion de projet</a></li>
 		<?php
-		session_start();
+		if (session_status() == PHP_SESSION_NONE) {
+			session_start();
+		}
 		// Check if the user is logged in
 		if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {
 			// Check the user source
