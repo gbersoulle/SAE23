@@ -116,7 +116,7 @@
     </fieldset>
 
     <section>
-        <h2>Affichage de tout les capteurs selon le filtre choisi</h2>
+        <h2 id="bg">Affichage des capteurs selon le filtre choisi</h2>
     <?php
     $nomCapteurSelectionne = isset($_POST['nom_capteur']) ? $_POST['nom_capteur'] : '';
     $typeCapteurSelectionne = isset($_POST['type_capteur']) ? $_POST['type_capteur'] : '';
