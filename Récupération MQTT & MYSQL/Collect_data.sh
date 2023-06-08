@@ -12,38 +12,29 @@ password="mysqlpassroot"
 dbname="ku55c1se_sae23"
 mysql_port="3306"
 
-#decommenter pour un test en local 
-# servername="192.168.80.130"
-# username="passroot"
-# password="passroot"
-# dbname="sae23"
-# mysql_port="3306"
-
-
 while true; do
 
     # MQTT subscription and data processing
     data=$(mosquitto_sub -h "$mqtt_host" -p "$mqtt_port" -t "$mqtt_topic" -C 1)
-    deviceName=$(echo "$data" | jq -r '.[1].deviceName')
-    echo "$deviceName"
 
-    # Insert data into MySQL database based on ID_capteur
-    case $deviceName in
-        # B001 et E006
-        AM107-7 | AM107-29 )
-            # Parse JSON data depending on what we need
-            co2=$(echo "$data" | jq -r '.[0].co2')
-            # Insert data into MySQL database
-            echo "$deviceName, $co2"
-            mysql -h "$servername" -P "$mysql_port" -u "$username" -p"$password" -D "$dbname" -e "INSERT INTO mesure (valeur_mesure, nom_capteur) VALUES ('$co2', '$deviceName');"
-            ;;
-        # B203 et E102
-        AM107-6 | AM107-32 )
-            # Parse JSON data depending on what we need
-            humidity=$(echo "$data" | jq -r '.[0].humidity')
-            # Insert data into MySQL database
-            echo "$deviceName, $humidity"
-            mysql -h "$servername" -P "$mysql_port" -u "$username" -p"$password" -D "$dbname" -e "INSERT INTO mesure (valeur_mesure, nom_capteur) VALUES ('$humidity', '$deviceName');"
-            ;;
-    esac
+    # Iterate over each object in the JSON array
+    for object in $(echo "$data" | jq -c '.[0]'); do
+        #store the room name
+        room=$(echo "$data" | jq -r '.[1].room')
+
+        # Extract key=>value combination from the object
+        while read -r dataType value; do
+            # Check if the value is a number : "=~" means check strings; "^" marks the start of the regular expression to match;
+            #"[0-9]" match numbers; "+([.][0-9]+)?" matches an optional decimal part; "$" marks the end
+            if  [[ $value =~ ^[0-9]+([.][0-9]+)?$ ]]; then
+                #sets the device name as a concatenation of the room name and the type of data
+                deviceName=$room$dataType
+                echo "$dataType is $value"
+                #send the value and the device name in the sql DB
+                mysql -h "$servername" -P "$mysql_port" -u "$username" -p"$password" -D "$dbname" -e "INSERT INTO mesure (valeur_mesure, nom_capteur) VALUES ('$value', '$deviceName');"
+
+            fi
+        done < <(echo "$object" | jq -r 'to_entries[] | [.dataType, .value] | @tsv')
+    done
+
 done
