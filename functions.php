@@ -7,7 +7,7 @@ function display_all_buildings($buildings) {
     // Loop through the buildings
     foreach ($buildings as $building) {
         // Add an accordion button for each building
-        echo "<button class=\"accordion\" onclick=\"togglePanel(this.nextElementSibling)\">Batiment $building</button>";
+        echo "<button class=\"accordion\" onclick=\"Show_And_Hide(this.nextElementSibling)\">Batiment $building</button>";
         // Add a panel div for each building
         echo "<div class=\"panel\" id=\"$building\">";
         echo "<p>Selectionnez une salle</p>";
@@ -19,7 +19,7 @@ function display_all_buildings($buildings) {
         foreach ($rooms as $room) {
             // Add an accordion button for each room
             echo "<div class=\"roomDiv\">";
-            echo "<button class=\"room\" onclick=\"togglePanel(this.nextElementSibling); togglePanel(document.getElementById('$building'))\">Salle $room</button>";
+            echo "<button class=\"room\" onclick=\"togglePanel(this.nextElementSibling); expand(document.getElementById('$building'))\">Salle $room</button>";
             
             // Add a panel div for each room
             echo "<div class=\"panel data\">";
