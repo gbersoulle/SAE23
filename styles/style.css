@@ -108,46 +108,13 @@ nav {
   }
 
 
-
-main{
-  display: flex;
-  min-height: calc(100vh - 50px);
-}
-main section{
-  flex-grow: 1;
-  flex-basis: 0;
-}
-main section.Last_Data{
-  background-color: lightblue;
-  border-right: #333 solid 10px;
-  padding: 10px;
-}
-main section.autres{
-  background-color: green;
-  border-left: #333 solid 10px;
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
-
-}
 main section.Dashboard {
-  flex-grow: 2;
-  flex-basis: 0;
   background-color: rgb(250, 198, 198);
   padding: 10px;
 }
 
-
-.autres div{
-  flex-grow: 1;
-  flex-basis: 0;
-  border : solid ;
-  margin :2px;
-  padding: 0 20px;
-}
-
 canvas {
-  margin-bottom: 50px;
+  margin: 50px 0 50px;
 }
 
 /* the rolling down menu css */
@@ -172,40 +139,62 @@ canvas {
 	display: block;
 }
 
-.accordion {
+
+/* accordion buttons style (Batiment, salle) */
+.accordion, .room {
   background-color: #eee;
   color: #2c2c2c;
-  cursor: pointer;
+  width: 80%;
+  border-radius: 5px;
   padding: 18px;
-  width: 100%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  cursor: pointer;
   text-align: left;
   border: none;
-  outline: none;
-  }
-  
-  .active, .accordion:hover {
-  background-color: #daf3ff;
-  }
-  
-  .panel {
-  margin: 5px;
-  padding: 0 18px;
-  background-color: white;
-  border-radius: 5px;
-  max-height: 0;
-  overflow: hidden;
-  }
-  
-  .accordion::after {
-    content: '\25BC';
-    float: right;
-    margin-left: 5px;
-  }
-  
-  .active::after {
-    content: '\25B2';
-  }
-  
+}
+
+/* buttons arrow style */
+.accordion::after,
+.room::after {
+  content: '\25BC';
+  float: right;
+  margin-left: 5px;
+}
+
+.active::after {
+  content: '\25B2';
+}
+
+.active, .accordion:hover, .room:hover {
+background-color: #daf3ff;
+}
+
+.roomDiv{
+  width: 46%;
+  margin: 2%;
+  float: left;
+  justify-content: space-between;
+
+}
+
+.room{
+  width: 100%;
+}
+
+.panel {
+margin: 5px;
+padding: 0 18px;
+width: 75%;
+margin-left: auto;
+margin-right: auto;
+background-color: white;
+border-radius: 5px;
+max-height: 0;
+overflow: hidden;
+}
+
 
 /* admin css */
 fieldset{
@@ -310,21 +299,4 @@ body .updt_g {
 
 .h2-acc {
   margin-left: 5%;
-}
-
-
-@media screen and (max-width: 768px) {
-  main{
-    flex-direction: column;
-  }
-
-  main section.Last_Data{
-    border:  0px;
-  }
-  main section.autres{
-    border:  0px;
-  }
-  main section.Dashboard {
-    order: -1;
-  }
 }

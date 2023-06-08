@@ -18,29 +18,29 @@ function display_all_buildings($buildings) {
         // Loop through the rooms in the current building
         foreach ($rooms as $room) {
             // Add an accordion button for each room
-            echo "<button class=\"accordion\" onclick=\"togglePanel(this.nextElementSibling); togglePanel(document.getElementById('$building'))\">Salle $room</button>";
+            echo "<div class=\"roomDiv\">";
+            echo "<button class=\"room\" onclick=\"togglePanel(this.nextElementSibling); togglePanel(document.getElementById('$building'))\">Salle $room</button>";
             
             // Add a panel div for each room
-            echo "<div class=\"panel\">";
+            echo "<div class=\"panel data\">";
             // Retrieve the sensor types in the current room
             $data_type = Search_Type($room);
            
           // Loop through the sensor types in the current room
           foreach ($data_type as $type) {
                 // Display the sensor type heading
-                echo "<h1>$type dans cette Salle : </h1>";
+                echo "<h1>$type : </h1>";
                 // Retrieve the sensor name based on the room and type
                 $sensor_name = Search_Name($room, $type);
                 // Display the sensor data and store it in the history array
                 $history[$sensor_name] = Display_Data($sensor_name, $type);
-                // Add a canvas element for charting sensor data
-                echo "<canvas id=\"Chart_$sensor_name\"></canvas>";
             }
-          echo "</div>";
+            echo "</div>";
+            echo "</div>"; // close the panel div for this room
         }
-        echo "</div>"; // close the panel div for this room
-      }
-      return $history; // Return the sensor data history
+        echo "</div>";
+    }
+    return $history; // Return the sensor data history
 
 }
 
@@ -122,6 +122,8 @@ function Display_data($nom_capteur, $data_type) {
 
     // If there are rows in the result, proceed to display the data
     if ($LineCount) {
+        // Add a canvas element for charting sensor data
+        echo "<canvas id=\"Chart_$nom_capteur\"></canvas>";
         // Begin an HTML table to display the data
         echo "
         <table>

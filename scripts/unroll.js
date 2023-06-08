@@ -19,5 +19,5 @@ function togglePanel(panel) {
 
   // Scroll the panel into view with smooth behavior
   // This will ensure that the panel is visible to the user after the toggle, with a smooth scrolling effect
-  panel.scrollIntoView({ behavior: 'smooth' });
+  // panel.scrollIntoView({ behavior: 'smooth' });
 }
