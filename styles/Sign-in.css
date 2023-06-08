@@ -1,9 +1,14 @@
 @import url("style.css");
 
+html, body{
+  height: 100%;
+}
+
 body {
   background-image: url("../images/bg_a.png");
   background-repeat: no-repeat;
   background-size: 100%;
+  backdrop-filter: blur(5px);
 }
 
 main {
