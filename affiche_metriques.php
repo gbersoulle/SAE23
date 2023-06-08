@@ -4,7 +4,7 @@
 
     echo "<h1>Métriques par Salles</h1>";
     echo "
-    <table>
+    <table class = \"metriques\">
         <tr>
             <th>Salle</th>
             <th>Type de Donnée</th>
@@ -20,7 +20,7 @@
 
     echo "<h1>Métriques par Type de données</h1>";
     echo "
-    <table>
+    <table class = \"metriques\">
         <tr>
             <th>Type de Donnée</th>
             <th>Moyenne</th>
