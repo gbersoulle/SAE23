@@ -186,7 +186,7 @@
         $moyenneCapteur = $ligneMoyCapteur['moyenne'];
 
         echo "<div class='block'>
-        <h3>Capteur de $type_capteur : $nomCapteur (Salle : $salleCapteur)</h3>";
+        <h3 class='top_block'>Capteur de $type_capteur : $nomCapteur (Salle : $salleCapteur)</h3>";
 
         // Récupérer et afficher les valeurs historiques en fonction du tri (asc ou desc)
         $requeteValHistorique = "SELECT * FROM mesure WHERE nom_capteur = '$nomCapteur'";
@@ -250,8 +250,8 @@
             }
             echo "</table>";
             $moyenneAffichee = round($sommeMesures / $nombreMesures, 2);
-            echo "<h3>Moyenne du capteur de $type_capteur : $moyenneCapteur $unite</h3>";
-            echo "<h3>Moyenne des mesures affichées : $moyenneAffichee $unite</h3>";
+            echo "<h3 class='bot_block'>Moyenne du capteur de $type_capteur : $moyenneCapteur $unite</h3>";
+            echo "<h3 class='bot_block'>Moyenne des mesures affichées : $moyenneAffichee $unite</h3>";
         
         } else  {
             echo "<p>Ce capteur n'a pas de valeurs renseignées avec les filtres choisis.</p>";

@@ -327,6 +327,10 @@ body .updt_g {
   color: wheat;
 }
 
+#filterButton:hover {
+  background-color: #333;
+}
+
 .block {
   width: 75%;
   margin-left: 5%;
@@ -337,6 +341,10 @@ body .updt_g {
   margin-bottom: 15px;
 }
 
-#filterButton:hover {
-  background-color: #333;
+.block .top_block {
+  font-size: large;
+}
+
+.block .bot_block{
+  font-size: medium;
 }
