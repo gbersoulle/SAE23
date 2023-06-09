@@ -152,7 +152,7 @@
                 $unite = "°C";
                 break;
             case "humidity":
-                $unite = "%";
+                $unite = "%rh";
                 break;
             case "activity":
                 $unite = "activité";
@@ -173,7 +173,7 @@
                 $unite = "infrarouge et visible";
                 break;
             case "pressure":
-                $unite = "Pa";
+                $unite = "hPa";
                 break;
             default:
                 $unite = "";
