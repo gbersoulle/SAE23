@@ -195,6 +195,8 @@ button {
   height: 50px;
 }
 
+/* CSS header */
+
 nav {
     background-image: url("../images/bg_h.png");
     background-repeat: no-repeat;
@@ -204,6 +206,7 @@ nav {
     align-items: center;
     justify-content: space-between;
     padding: 0 20px;
+    filter: grayscale(80%);
   }
   
   nav ul {
