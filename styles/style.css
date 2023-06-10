@@ -5,6 +5,7 @@ body {
     margin: 0;
     padding: 0;
     font-family: 'Roboto', sans-serif;
+    font-size: 150%;
     background-color: #d3d3d3;
 }
 
@@ -37,6 +38,19 @@ h1{
   width: auto;
   height: auto;
   font-size: medium;
+}
+
+
+#download-button {
+  font-family: 'Montserrat', sans-serif;
+  font-size: large;
+  bottom: 100px;
+  width: 10%;
+  left: 45%;
+  border-radius: 10px;
+  border: 0;
+  background-color: rgb(32, 221, 64);
+  color: black;
 }
 
 .b_index{
@@ -292,6 +306,7 @@ body .updt_g {
 
 /* CSS for the Index and Gprojet pages */
 
+
 .parag {
   text-align: justify;
   margin : 2%; 
@@ -299,7 +314,7 @@ body .updt_g {
 }
 
 .h2-acc {
-  margin-left: 2%;
+  margin-left: 5%;
 }
 
 .h3-acc {
@@ -312,3 +327,63 @@ body .updt_g {
   font-size: 150%;
   font-style: italic  ;
 }
+
+/* Images properties */
+
+img 
+{
+  width : 96%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+
+/* Big block properties */
+.block
+{
+  width:100%;
+  height:auto;
+  display:flex;
+}
+
+/* Division in two equal sized area the big block */
+
+.left
+{
+  width: 50%;
+  text-align: justify;
+  float: left;
+}
+
+.right
+{
+  width: 50%;
+  text-align: justify;
+  float: right;
+}
+
+/* Particular image configuration */
+
+#gantt-initial {
+  width: 70%;
+}
+
+#gantt-final {
+  width: 85.2%;
+}
+
+#node-red {
+  width : 122%;
+}
+
+#node-pres {
+  padding-left: 20%;
+  width : 61.5%;
+}
+
+#grafana {
+  width : 95%;
+}
+

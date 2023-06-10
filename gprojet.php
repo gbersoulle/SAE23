@@ -15,20 +15,30 @@
     <section> 
         <h2 class="h2-acc">Diagrammes de GANTT </h2>
             <p class="parag"> L'établissement d'un diagramme de Gantt initial en début de projet a été essentiel pour une gestion efficace du projet. Cela nous a permis de planifier les différentes tâches et étapes du projet de manière visuelle. De plus, cet outil nous a aidé à anticiper les retards par rapport au planning initial et à prévoir une marge de manœuvre pour compenser ces derniers. </p>
-            <figure>
-                <img src="gantt.png" alt="Diagramme de GANTT initial">
-                <img src="gantt.png" alt="Diagramme de GANTT final">
-            </figure>
-            <p class="parag"> En ce qui concerne le diagramme de Gantt final, il joue un rôle crucial dans l'évaluation du projet une fois terminé. Il nous permet de comparer la planification initiale avec les réalisations finales. Cela nous donne une vision claire des tâches qui ont été effectuées et de la réussite globale du projet. En analysant les écarts entre le diagramme initial et le diagramme final, nous pouvons tirer des enseignements pour l’organisation des futurs projets. </p>
-    </section>        
+            <section class="block">   
+                <figure class="right"> 
+                    <img id="gantt-initial" src="./images/gantt-initial.png"  alt="Diagramme de GANTT initial">
+                </figure> 
+                <figure class="left"> 
+                <img id="gantt-final" src="./images/gantt-final.png" alt="Diagramme de GANTT final">
+                </figure> 
+            </section>
+            <p class="parag"> En ce qui concerne le diagramme de Gantt final, il joue un rôle crucial dans l'évaluation du projet une fois terminé. Il nous permet de comparer la planification initiale avec les réalisations finales. Cela nous donne une vision claire des tâches qui ont été effectuées et de la réussite globale du projet. En analysant les écarts entre le diagramme initial et le diagramme final, nous pouvons tirer des enseignements pour l’organisation des futurs projets. </p>    
+    </section>
     
     <section> 
         <h2 class="h2-acc"> Visualisation des données via la solution de conteneurisation Docker   </h2>
-            <figure>
-                <img src="capture1.png" alt="Capture d'écran 1">
-                <img src="capture2.png" alt="Capture d'écran 2">
+            
+            <figure class="block">
+                <div class="right">
+                    <img id="node-red" src="./images/Node-Red.jpg"   alt="Flow Node-Red">
+                </div>
+                <div class="left">
+                    <img id="node-pres"src="./images/Node-Red-Pres.jpg" alt="Capture d'écran 1">
+                </div>
             </figure>
-
+            
+            <img id="grafana" src="./images/Grafana.jpg" alt="Capture d'écran 2">
     <section> 
         <h2 class="h2-acc">Outils collaboratifs utilisés</h2>
             <p class="parag"> Dans le cadre de notre projet, nous avons utilisé plusieurs outils pour faciliter notre travail collaboratif. </p>
@@ -37,13 +47,11 @@
         <ul>
             <li>Git - Github</li>
                 <figure>
-                    <img src="capture1.png" alt="Capture d'écran 1">
-                    <img src="capture2.png" alt="Capture d'écran 2">
+                    <img src="./images/github.png" alt="Repository Git-Hub de la SAE23">
                 </figure>
             <li>Google Drive</li>
                 <figure>
-                    <img src="capture1.png" alt="Capture d'écran 1">
-                    <img src="capture2.png" alt="Capture d'écran 2">
+                    <img src="./images/google-drive.png" alt="Espace de partage de fichiers">
                 </figure>
             <li>Trello</li>
                 <figure>
@@ -98,6 +106,9 @@
                     La deuxième, plus complexe puisque intégrant une base de donnée, consistait à récupérer les données du broker via Node-Red avant de les injecter dans une base de données InfluxDB. Ensuite, il m’a été imposé d’utiliser l’outil graphique Graphana pour créer de beaux graphiques à partir des données contenues dans la base de donnée. <br>
                     Le noyau dur de cette première mission aura été l’utilisation de Node-Red, autant pour récupérer les données avec ou sans base de donnée, que pour les trier en utilisant des fonctions JavaScript. <br>
                     Finalement, si vous voulez en savoir plus sur la mise en place de cette solution docker, il vous est possible de télécharger le tutoriel d’installation via le bouton ci-joint : <br> </p>
+                    <a href="./fichiers/SAE23-Solution-Docker.pdf" download>
+                        <center> <button id="download-button">Télécharger le tutoriel</button> </center>
+                    </a>
                 <p class="parag">Ensuite, ma deuxième mission au sein de ce projet aura été faite en fin de projet, au cours de la dernière semaine en autonomie. En effet, étant presque terminé à ce stade, le site ne manquait pour répondre aux attentes du cahier des charges plus que des pages d’accueil et de gestion de projet. Il a donc été de mon ressort de proposer une page  ayant pour but de mettre en valeur le travail effectué par chaque membre du groupe, expliquer les différentes stratégies de communications et outils collaboratifs mis en place pour mener à bien ce projet. <br> </p>
                 <p class="parag">En conclusion, ce projet m’aura permis de monter en compétences sur la gestion et l’administration des dockers, et de me familiariser avec des outils de visualisation de données comme Grafana. Je suis heureux d’avoir pu travailler sur cette partie du projet, car la récupération de données de capteurs via des chaines d’automatisation comme Node-Red fera partie intégrante de mes missions lors de mon contrat d’apprentissage chez Alsatis Réseaux pour les deux prochaines années. <br> </p>
 
@@ -129,9 +140,9 @@
 
     
 
-    <h2> Degré de satisfaction du cahier des charges : </h2>
+    <h2 class="h2-acc"> Degré de satisfaction du cahier des charges : </h2>
 
-    <h2>Conclusion</h2>
+    <h2 class="h2-acc"> Conclusion</h2>
     <section>
        
     </section>
