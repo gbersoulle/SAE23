@@ -13,6 +13,19 @@ h1{
   text-align: center;
 }
 
+img 
+{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+ul{
+  list-style-type: none;
+}
+
+
+
 /* CSS for the Index and Gprojet pages */
 
 .parag {
@@ -21,8 +34,19 @@ h1{
   text-indent: 5%; 
 }
 
+.p_center {
+  text-align: center;
+  text-decoration: solid underline;
+}
+
 .h2-acc {
-  margin-left: 2%;
+  margin-top: 5%;
+  font-size: 130%;
+  font-weight: bold;
+  color: #a10202;
+  text-align: center;
+  margin-bottom: 20px;
+  text-transform: uppercase;
 }
 
 .h3-acc {
@@ -36,6 +60,75 @@ h1{
   font-style: italic  ;
 }
 
+button {
+  font-family: 'Montserrat', sans-serif;
+  background-color: transparent;
+  border: none;
+  font-size: large;
+
+}
+
+.a-download-button {
+  display: flex;
+  justify-content: center; /* Centers horizontally */
+  align-items: center; /* Centers vertically */
+}
+
+.download-button {
+  margin: 0 auto;
+  width: 12%;
+  left: 45%;
+  border-radius: 10px;
+  border: 0;
+  background-color: rgb(32, 221, 64);
+  color: black;
+}
+
+.blockgest {
+  width:100%;
+  height:auto;
+  display:flex; 
+}
+
+.left
+{
+   width: 50%;
+   margin: 1%;
+   text-align: justify;
+  float: left;
+}
+
+.right
+{
+  width: 50%;
+   margin: 1%;
+  text-align: justify;
+  float: right;
+}
+
+#gantt-initial {
+  width: 70%;
+}
+
+#gantt-final {
+  width: 85%;
+}
+
+#node-red {
+  width: 130%;
+}
+
+#node-pres {
+  width: 65.5%;
+  padding-left: 20%;
+}
+
+#grafana {
+  width: 94.5%;
+}
+
+
+/* CSS Homepage */
 
 .homepage {
   transform: translateY(100%);
@@ -62,19 +155,6 @@ h1{
   width: auto;
   height: auto;
   font-size: medium;
-}
-
-
-#download-button {
-  font-family: 'Montserrat', sans-serif;
-  font-size: large;
-  bottom: 100px;
-  width: 10%;
-  left: 45%;
-  border-radius: 10px;
-  border: 0;
-  background-color: rgb(32, 221, 64);
-  color: black;
 }
 
 .b_index{
