@@ -34,6 +34,10 @@ ul{
   text-indent: 5%; 
 }
 
+.member-details {
+  margin: 2%;
+}
+
 .p_center {
   text-align: center;
   text-decoration: solid underline;
@@ -145,7 +149,7 @@ button {
 .homepage.active {
   transform: translateY(0);
   height: auto;
-  background-color: #d3d3d3
+  background-color: #d3d3d3;
 }
 
 .content {
