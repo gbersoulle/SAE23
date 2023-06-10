@@ -3,7 +3,19 @@
 require_once 'connexion_bdd.php';
 
 // Function to display all buildings and their associated rooms and sensor data
-function display_all_buildings($buildings) {
+function display_all_buildings($buildings, $numberOfValues) {
+    // if building isn't specified take all of them
+    if ($buildings === "all"){
+        // Access the global $connexion variable inside the function
+        global $connexion;
+        //get an array of all the building names
+        $result = mysqli_query($connexion, "SELECT nom_bat FROM batiment");
+        $buildings = [];
+        while ($row = mysqli_fetch_assoc($result)) {
+            $buildings[] = $row['nom_bat'];
+        }
+    }
+
     // Loop through the buildings
     foreach ($buildings as $building) {
         // Add an accordion button for each building
@@ -33,7 +45,7 @@ function display_all_buildings($buildings) {
                 // Retrieve the sensor name based on the room and type
                 $sensor_name = Search_Name($room, $type);
                 // Display the sensor data and store it in the history array
-                $history[$sensor_name] = Display_Data($sensor_name, $type);
+                $history[$sensor_name] = Display_Data($sensor_name, $type, $numberOfValues);
             }
             echo "</div>";
             echo "</div>"; // close the panel div for this room
@@ -105,12 +117,12 @@ function Search_Name($room, $type) {
 
     
 // Define the function Display_data with parameters $nom_capteur and $data_type
-function Display_data($nom_capteur, $data_type) {
+function Display_data($nom_capteur, $data_type, $numberOfValues) {
     // Access the global $connexion variable inside the function
     global $connexion;
 
     // Retrieve the mesure table content based on the sensor name, limited to the last 10 measurements
-    $request_content = mysqli_query($connexion, "SELECT * FROM mesure WHERE nom_capteur = '$nom_capteur' ORDER BY id_mesure DESC LIMIT 10");
+    $request_content = mysqli_query($connexion, "SELECT * FROM mesure WHERE nom_capteur = '$nom_capteur' ORDER BY id_mesure DESC LIMIT $numberOfValues");
     
     // Check if there was an error in the query execution
     if (!$request_content) {
@@ -120,8 +132,9 @@ function Display_data($nom_capteur, $data_type) {
     // Count the number of rows in the result
     $LineCount = mysqli_num_rows($request_content);
 
+
     // If there are rows in the result, proceed to display the data
-    if ($LineCount) {
+    if ($LineCount && $numberOfValues > 1) {
         // Add a canvas element for charting sensor data
         echo "<canvas id=\"Chart_$nom_capteur\"></canvas>";
         // Begin an HTML table to display the data
@@ -133,25 +146,26 @@ function Display_data($nom_capteur, $data_type) {
             </tr>
         ";
 
-        // Loop through each row in the result
-        while ($line = mysqli_fetch_assoc($request_content)) {
+         // Loop through each row in the result
+         while ($line = mysqli_fetch_assoc($request_content)) {
             // Display the date and value of each measurement in a new table row
             echo "<tr><td>$line[date_mesure]</td><td>$line[valeur_mesure]</td></tr>";
             // Store the values of each measurement in the values_history array for later use in a chart
             $values_history[] = $line['valeur_mesure'];
         }
-        
         // Close the HTML table
         echo "</table>";
         echo "<br>";
         // Return the values_history array for further processing
         return $values_history;
-    } else {
+    } else if ($LineCount) {
+        $values_history[] = mysqli_fetch_assoc($request_content)['valeur_mesure'];
+        echo "<div id=\"$nom_capteur\" class=\"gauge\" data-value=\"$values_history[0]\" dataType=\"$data_type\"></div>";
+    } else
         // If there are no rows in the result, display an appropriate message
         echo "Pas encore de mesures de $data_type pour cette salle";
         echo "<br>";
     }
-}
 
 function Display_moyenne($salle_ID, $nom_capteur, $data_type){
     // Access the global $connexion variable inside the function

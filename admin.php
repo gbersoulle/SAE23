@@ -36,9 +36,6 @@
     <fieldset class="add_c">
         <legend>Ajouter un capteur</legend>
         <form method="POST" action="script_admin.php">
-            <label for="nom_capteur">Saisir le nom du capteur</label>
-            <input type="text" id="nom_capteur" name="nom_capteur" placeholder="Ex : AM107-6" required>
-            
             <label for="type_capteur">Choisir le type du capteur</label>
             <select id="type_capteur" name="type_capteur" required>
             <option value="" disabled selected hidden>Sélectionnez une option</option>

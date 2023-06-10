@@ -5,16 +5,16 @@ echo "Accès au fichier de modification <br/>";
 
 if(isset($_POST['submit_ajouter_capteur'])){
     echo "En cours d'ajout de capteur <br/>";
-    if (empty($_POST['nom_capteur']) || empty($_POST['type_capteur']) || empty($_POST['bat_attribue']) || empty($_POST['salle_capteur'])) { //Teste si les champs sont vides pour éviter les capteurs vides
+    if (empty($_POST['type_capteur']) || empty($_POST['bat_attribue']) || empty($_POST['salle_capteur'])) { //Teste si les champs sont vides pour éviter les capteurs vides
         echo "Il manque un élément dans les champs renseignés";
         exit;
     }
     require('connexion_bdd.php'); 
     // Récup des valeurs et échappes
-    $nomCapteur = mysqli_real_escape_string($connexion,htmlspecialchars($_POST['nom_capteur'], ENT_QUOTES, 'UTF-8'));
     $typeCapteur = mysqli_real_escape_string($connexion,htmlspecialchars($_POST['type_capteur'], ENT_QUOTES, 'UTF-8'));
     $Salle = mysqli_real_escape_string($connexion,htmlspecialchars($_POST['salle_capteur'], ENT_QUOTES, 'UTF-8'));
     $idBatiment = intval($_POST['bat_attribue']);
+    $nomCapteur = $Salle . $typeCapteur;
     $sql = "INSERT INTO capteur (nom_capteur, type_capteur, Salle, id_batiment) VALUES (?, ?, ?, ?)"; 
     $stmt = mysqli_prepare($connexion, $sql); // permet de préparer la requete dans $stmt 
 
