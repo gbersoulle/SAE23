@@ -122,6 +122,7 @@
 <section>
     <h2 id="bg">Displaying sensors based on the selected filters</h2>
     <?php
+    // Retrieving the selected filter values from the form submission
     $nomCapteurSelectionne = isset($_POST['nom_capteur']) ? $_POST['nom_capteur'] : '';
     $typeCapteurSelectionne = isset($_POST['type_capteur']) ? $_POST['type_capteur'] : '';
     $triDate = isset($_POST['tri_date']) ? $_POST['tri_date'] : '';
@@ -132,6 +133,7 @@
     // SQL query to get sensors based on the filters
     $requeteCapteursFiltre = "SELECT * FROM capteur WHERE id_batiment = '$idBatiment'";
 
+    // Adding conditions to the query based on the selected filter values
     if (!empty($nomCapteurSelectionne)) {
         $requeteCapteursFiltre .= " AND nom_capteur = '$nomCapteurSelectionne'";
     }
@@ -142,13 +144,16 @@
         $requeteCapteursFiltre .= " AND Salle = '$salleSelectionnee'";
     }
 
+    // Executing the query to retrieve filtered sensors
     $resultatCapteursFiltre = mysqli_query($connexion, $requeteCapteursFiltre);
 
+    // Looping through each filtered sensor
     while ($ligneCapteur = mysqli_fetch_assoc($resultatCapteursFiltre)) {
         $nomCapteur = $ligneCapteur['nom_capteur'];
         $type_capteur = $ligneCapteur['type_capteur'];
         $salleCapteur = $ligneCapteur['Salle'];
 
+        // Determining the unit of measurement based on the sensor type
         $unite = "";
         switch ($type_capteur) {
             case "temperature":
@@ -182,18 +187,21 @@
                 $unite = "";
         }
 
+        // Query to calculate the average value of the sensor
         $requeteMoyCapteur = "SELECT ROUND(AVG(valeur_mesure), 2) AS moyenne FROM mesure WHERE nom_capteur = '$nomCapteur'";
         $resultatMoyCapteur = mysqli_query($connexion, $requeteMoyCapteur);
         $ligneMoyCapteur = mysqli_fetch_assoc($resultatMoyCapteur);
         $moyenneCapteur = $ligneMoyCapteur['moyenne'];
 
+        // Displaying the sensor information and measurements
         echo "<div class='block'>
         <h3 class='top_block'>$type_capteur Sensor: $nomCapteur (Room: $salleCapteur)</h3>";
 
+        // Query to retrieve the measurements of the sensor with the selected filters
         $requeteValHistorique = "SELECT *,
-                (SELECT MAX(valeur_mesure) FROM mesure WHERE nom_capteur = '$nomCapteur'";
+                (SELECT MAX(valeur_mesure) FROM mesure WHERE nom_capteur = '$nomCapteur'"; // beginning of the SQL query
                 
-        // rajoute le maximum avec les filtres choisis
+        // Adding maximum value condition with the selected filters
         if (!empty($jourChoisi)) {
             $requeteValHistorique .= " AND DATE(date_mesure) = '$jourChoisi'";
         }
@@ -201,7 +209,7 @@
         $requeteValHistorique .= ") AS maximum,
             (SELECT MIN(valeur_mesure) FROM mesure WHERE nom_capteur = '$nomCapteur'";
                 
-        // rajoute le minimum avec les filtres choisis
+        // Adding minimum value condition with the selected filters
         if (!empty($jourChoisi)) {
             $requeteValHistorique .= " AND DATE(date_mesure) = '$jourChoisi'";
         }
@@ -209,7 +217,7 @@
         $requeteValHistorique .= ") AS minimum,
             (SELECT AVG(valeur_mesure) FROM mesure WHERE nom_capteur = '$nomCapteur'";
                 
-        // rajoute la moyenne avec les filtres choisis
+        // Adding average value condition with the selected filters
         if (!empty($jourChoisi)) {
             $requeteValHistorique .= " AND DATE(date_mesure) = '$jourChoisi'";
         }
@@ -218,11 +226,12 @@
             FROM mesure
             WHERE nom_capteur = '$nomCapteur'";
 
-        // filter the general condition
+        // Adding the general condition based on the selected filters
         if (!empty($jourChoisi)) {
             $requeteValHistorique .= " AND DATE(date_mesure) = '$jourChoisi'";
         }
 
+        // Adding the value sorting condition
         if (!empty($triValeur)) {
             if ($triValeur == 'asc') {
                 $requeteValHistorique .= " ORDER BY valeur_mesure ASC";
@@ -231,6 +240,7 @@
             }
         }
 
+        // Adding the date sorting condition
         if (!empty($triDate)) {
             if (!empty($triValeur)) {
                 $requeteValHistorique .= ", date_mesure";
@@ -249,13 +259,15 @@
             }
         }
 
+        // Executing the query to retrieve the measurements
         $resultatValHistorique = mysqli_query($connexion, $requeteValHistorique);
 
-
+        // Checking if the query was successful
         if (!$resultatValHistorique) {
             die("Erreur de requête : " . mysqli_error($connexion));
         }
 
+        // Displaying the measurements if there are any
         if (mysqli_num_rows($resultatValHistorique) > 0) {
             echo "<table>
                     <tr>
@@ -289,7 +301,8 @@
         }
         echo "</div>";
     }
-    ?>
+?>
+
 </section>
 </body>
 </html>
