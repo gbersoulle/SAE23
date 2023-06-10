@@ -3,11 +3,12 @@
 require_once 'connexion_bdd.php';
 
 // Function to display all buildings and their associated rooms and sensor data
-function display_all_buildings($buildings, $numberOfValues) {
+function display_all_buildings($buildings, $numberOfValues, $nomCapteur,
+$typeCapteur, $triDate, $jourChoisi, $triValeur, $salle) {
+    // Access the global $connexion variable inside the function
+    global $connexion;
     // if building isn't specified take all of them
     if ($buildings === "all"){
-        // Access the global $connexion variable inside the function
-        global $connexion;
         //get an array of all the building names
         $result = mysqli_query($connexion, "SELECT nom_bat FROM batiment");
         $buildings = [];
@@ -15,17 +16,48 @@ function display_all_buildings($buildings, $numberOfValues) {
             $buildings[] = $row['nom_bat'];
         }
     }
-
+    
+    //set the rowNumber var that will be used in the loop
+    $rowNumber = 0;
     // Loop through the buildings
     foreach ($buildings as $building) {
-        // Add an accordion button for each building
-        echo "<button class=\"accordion\" onclick=\"Show_And_Hide(this.nextElementSibling)\">Batiment $building</button>";
-        // Add a panel div for each building
-        echo "<div class=\"panel\" id=\"$building\">";
-        echo "<p>Selectionnez une salle</p>";
+        //get building id
+        $requeteBatiment = "SELECT id_batiment FROM batiment WHERE nom_bat = '$building'";
+        $resultatBatiment = mysqli_query($connexion, $requeteBatiment);
+        $idBatiment = mysqli_fetch_assoc($resultatBatiment)['id_batiment'];
 
-        // Retrieve the rooms in the current building
-        $rooms = Existing_Rooms($building);
+        // Create a basic sql request to find in the capteur table the sensors to display
+        // we will this complete based on the parameters value
+        $requeteCapteursFiltre = "SELECT * FROM capteur WHERE id_batiment = '$idBatiment'";
+
+        //we complete the request with any information that hasn't been let blank
+        if (!empty($nomCapteur)) {
+            $requeteCapteursFiltre .= " AND nom_capteur = '$nomCapteur'";
+        }
+        if (!empty($typeCapteur)) {
+            $requeteCapteursFiltre .= " AND type_capteur = '$typeCapteur'";
+        }
+        if (!empty($salle)) {
+            $requeteCapteursFiltre .= " AND Salle = '$salle'";
+        }
+        echo "$requeteCapteursFiltre";
+        //Ultimately, execute the request
+        $resultatCapteursFiltre = mysqli_query($connexion, $requeteCapteursFiltre);
+            // for each sensor, change its unit to the proper one and make a table
+        // Loop through the sensors in the current building
+        while ($ligneCapteur = mysqli_fetch_assoc($resultatCapteursFiltre)) {
+            // Use a different variable name to store the sensor names
+            $data_type[] = $ligneCapteur['type_capteur'];
+            $rooms[] = $ligneCapteur['Salle'];
+        }
+        print_r($buildings);
+        // if there is more than one : Add an accordion button for each building
+        if (sizeof($buildings) > 1) {
+            echo "<button class=\"accordion\" onclick=\"Show_And_Hide(this.nextElementSibling)\">Batiment $building</button>";
+            // Add a panel div for each building
+            echo "<div class=\"panel\" id=\"$building\">";
+            echo "<p>Selectionnez une salle</p>";
+        }
 
         // Loop through the rooms in the current building
         foreach ($rooms as $room) {
@@ -35,9 +67,6 @@ function display_all_buildings($buildings, $numberOfValues) {
             
             // Add a panel div for each room
             echo "<div class=\"panel data\">";
-            // Retrieve the sensor types in the current room
-            $data_type = Search_Type($room);
-           
           // Loop through the sensor types in the current room
           foreach ($data_type as $type) {
                 // Display the sensor type heading
@@ -54,47 +83,6 @@ function display_all_buildings($buildings, $numberOfValues) {
     }
     return $history; // Return the sensor data history
 
-}
-
-// Function to retrieve the existing rooms in a given building
-function Existing_Rooms($building) {
-    // Access the global $connexion variable inside the function
-    global $connexion;
-    // Query to retrieve distinct room names in the given building
-    $query = "SELECT DISTINCT Salle FROM capteur WHERE id_batiment IN (SELECT id_batiment FROM batiment WHERE nom_bat = '$building')";
-    $result = mysqli_query($connexion, $query);
-    
-    // Error handling for the query execution
-    if (!$result) {
-        die("Error: Can't retrieve data from capteur. " . mysqli_error($connexion));
-    }
-
-    // Initialize an empty array to store the room names
-    $rooms = [];
-    // Loop through the query result and add the room names to the array
-    while ($row = mysqli_fetch_assoc($result)) {
-        $rooms[] = $row['Salle'];
-    }
-
-    return $rooms; // Return the array of room names
-
-}
-
-// Function to retrieve the sensor types in a given room
-function Search_Type($room) {
-    // Access the global $connexion variable inside the function
-    global $connexion;
-
-    // Query to retrieve the sensor types in the given room
-    $query = "SELECT type_capteur FROM capteur WHERE Salle = '$room'";
-    $result = mysqli_query($connexion, $query);
-
-    // Loop through the query result and add the sensor types to the array
-    while ($row = mysqli_fetch_assoc($result)) {
-        $types[] = $row['type_capteur'];
-    }
-
-    return $types; // Return the array of sensor types
 }
 
 // Function to retrieve the sensor name based on the room and sensor type
