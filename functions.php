@@ -26,7 +26,7 @@ $typeCapteur, $triDate, $jourChoisi, $triValeur, $salle) {
 
         // Create a basic sql request to find in the capteur table the sensors to display
         // we will this complete based on the parameters value
-        $requeteCapteursFiltre = "SELECT DISTINCT Salle FROM capteur WHERE id_batiment = '$idBatiment'";
+        $requeteCapteursFiltre = "SELECT DISTINCT Salle, nom_capteur FROM capteur WHERE id_batiment = '$idBatiment'";
 
         //we complete the request with any information that hasn't been let blank
         if (!empty($nomCapteur)) {
@@ -40,12 +40,12 @@ $typeCapteur, $triDate, $jourChoisi, $triValeur, $salle) {
         }
         //Ultimately, execute the request
         $resultatCapteursFiltre = mysqli_query($connexion, $requeteCapteursFiltre);
-            // for each sensor, change its unit to the proper one and make a table
-        // Loop through the sensors in the current building
 
+        $list_sensors = [];
         $rooms = [];
         //get all rooms
         while ($ligneCapteur = mysqli_fetch_assoc($resultatCapteursFiltre)) {
+            $list_sensors[] = $ligneCapteur['nom_capteur'];
             $rooms[] = $ligneCapteur['Salle'];
         }
         // if there is more than one : Add an accordion button for each building
@@ -82,6 +82,8 @@ $typeCapteur, $triDate, $jourChoisi, $triValeur, $salle) {
                 echo "<h1>$sensor_translation[$type] : </h1>";
                 // Retrieve the sensor name based on the room and type
                 $sensor_name = Search_Name($room, $type);
+                //check which of these sensors is in common with the first request
+                $sensor_name = reset(array_intersect([$sensor_name], $list_sensors));
                 // Display the sensor data and store it in the history array
                 $history[$sensor_name] = Display_Data($sensor_name, $type, $numberOfValues);
             }
