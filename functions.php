@@ -16,9 +16,7 @@ $typeCapteur, $triDate, $jourChoisi, $triValeur, $salle) {
             $buildings[] = $row['nom_bat'];
         }
     }
-    
-    //set the rowNumber var that will be used in the loop
-    $rowNumber = 0;
+
     // Loop through the buildings
     foreach ($buildings as $building) {
         //get building id
@@ -28,7 +26,7 @@ $typeCapteur, $triDate, $jourChoisi, $triValeur, $salle) {
 
         // Create a basic sql request to find in the capteur table the sensors to display
         // we will this complete based on the parameters value
-        $requeteCapteursFiltre = "SELECT * FROM capteur WHERE id_batiment = '$idBatiment'";
+        $requeteCapteursFiltre = "SELECT DISTINCT Salle FROM capteur WHERE id_batiment = '$idBatiment'";
 
         //we complete the request with any information that hasn't been let blank
         if (!empty($nomCapteur)) {
@@ -40,17 +38,16 @@ $typeCapteur, $triDate, $jourChoisi, $triValeur, $salle) {
         if (!empty($salle)) {
             $requeteCapteursFiltre .= " AND Salle = '$salle'";
         }
-        echo "$requeteCapteursFiltre";
         //Ultimately, execute the request
         $resultatCapteursFiltre = mysqli_query($connexion, $requeteCapteursFiltre);
             // for each sensor, change its unit to the proper one and make a table
         // Loop through the sensors in the current building
+
+        $rooms = [];
+        //get all rooms
         while ($ligneCapteur = mysqli_fetch_assoc($resultatCapteursFiltre)) {
-            // Use a different variable name to store the sensor names
-            $data_type[] = $ligneCapteur['type_capteur'];
             $rooms[] = $ligneCapteur['Salle'];
         }
-        print_r($buildings);
         // if there is more than one : Add an accordion button for each building
         if (sizeof($buildings) > 1) {
             echo "<button class=\"accordion\" onclick=\"Show_And_Hide(this.nextElementSibling)\">Batiment $building</button>";
@@ -64,13 +61,25 @@ $typeCapteur, $triDate, $jourChoisi, $triValeur, $salle) {
             // Add an accordion button for each room
             echo "<div class=\"roomDiv\">";
             echo "<button class=\"room\" onclick=\"togglePanel(this.nextElementSibling); expand(document.getElementById('$building'))\">Salle $room</button>";
-            
             // Add a panel div for each room
             echo "<div class=\"panel data\">";
+            $data_type = Search_Type($room);
           // Loop through the sensor types in the current room
           foreach ($data_type as $type) {
+                //create a table for data type translation
+                $sensor_translation = array(
+                    "temperature" => "Température",
+                    "humidity" => "Humidité",
+                    "activity" => "Activité",
+                    "co2" => "CO2",
+                    "tvoc" => "TVOC",
+                    "illumination" => "Illumination",
+                    "infrared" => "Infrarouge",
+                    "infrared_and_visible" => "Infrarouge et visible",
+                    "pressure" => "Pression"
+                );
                 // Display the sensor type heading
-                echo "<h1>$type : </h1>";
+                echo "<h1>$sensor_translation[$type] : </h1>";
                 // Retrieve the sensor name based on the room and type
                 $sensor_name = Search_Name($room, $type);
                 // Display the sensor data and store it in the history array
@@ -85,11 +94,28 @@ $typeCapteur, $triDate, $jourChoisi, $triValeur, $salle) {
 
 }
 
-// Function to retrieve the sensor name based on the room and sensor type
-function Search_Name($room, $type) {
-
+function Search_Type($room) {
     // Access the global $connexion variable inside the function
     global $connexion;
+
+    // Query to retrieve the sensor types in the given room
+    $query = "SELECT type_capteur FROM capteur WHERE Salle = '$room'";
+    $result = mysqli_query($connexion, $query);
+
+    // Loop through the query result and add the sensor types to the array
+    while ($row = mysqli_fetch_assoc($result)) {
+        $types[] = $row['type_capteur'];
+    }
+
+    return $types; // Return the array of sensor types
+}
+// Function to retrieve the sensor name based on the room and sensor type
+function Search_Name($room, $type) {
+    // Access the global $connexion variable inside the function
+    global $connexion;
+    
+    // Initialize the $name variable
+    $name = '';
 
     // Query to retrieve the sensor name based on the room and type
     $query = "SELECT nom_capteur FROM capteur WHERE Salle = '$room' AND type_capteur = '$type'";
@@ -125,19 +151,28 @@ function Display_data($nom_capteur, $data_type, $numberOfValues) {
     if ($LineCount && $numberOfValues > 1) {
         // Add a canvas element for charting sensor data
         echo "<canvas id=\"Chart_$nom_capteur\"></canvas>";
+
         // Begin an HTML table to display the data
         echo "
         <table>
             <tr> 
-                <th>Date</th>
-                <th>$data_type</th>
+            <th>ID Mesure</th>
+            <th>Date Mesure</th>
+            <th>Valeur Mesure</th>
+            <th>Nom Capteur</th>
             </tr>
         ";
 
          // Loop through each row in the result
          while ($line = mysqli_fetch_assoc($request_content)) {
-            // Display the date and value of each measurement in a new table row
-            echo "<tr><td>$line[date_mesure]</td><td>$line[valeur_mesure]</td></tr>";
+            // Display value of each element
+            echo "<tr>";
+            echo "<td>";
+            //concatenates each element of $line separated with </td><td> 
+            echo implode("</td><td>", $line);
+            echo "</td>";
+            echo "</tr>";
+            echo "<tr>";
             // Store the values of each measurement in the values_history array for later use in a chart
             $values_history[] = $line['valeur_mesure'];
         }
