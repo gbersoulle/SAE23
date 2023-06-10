@@ -50,11 +50,11 @@
             <p class="parag"> GitHub, une plateforme de développement, nous a permis de suivre les modifications, de gérer les versions et de collaborer efficacement au sein de notre équipe de développement sur le site web dynamique. Trello, quant à lui, nous a aidés à organiser nos tâches et à suivre l'avancement de nos projets grâce à ses tableaux visuels intuitifs. Enfin, Google Drive a été notre principal service de stockage en ligne, nous permettant de sauvegarder, synchroniser et partager nos fichiers, ainsi que de collaborer en temps réel sur des documents. </p> 
             <p class="parag"> Grâce à ces outils, notre travail a été optimisé et notre collaboration a été plus fluide et productive. </p>
             <p class="p_center"> Git - Github <p>
-                <img src="./images/github.png" alt="Repository Git-Hub de la SAE23">
+                <img src="./images/github.png" alt="Repository Git-Hub de la SAE23" class="img_gprojet">
             <p class="p_center"> Google Drive <p>
-                <img src="./images/google-drive.png" alt="Espace de partage de fichiers">
+                <img src="./images/google-drive.png" alt="Espace de partage de fichiers" class="img_gprojet">
             <p class="p_center"> Trello <p>
-                <img src="./images/trello.png" alt="Capture d'écran 1">
+                <img src="./images/trello.png" alt="Capture d'écran 1" class="img_gprojet">
     </section>
     
     

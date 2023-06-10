@@ -209,17 +209,20 @@
 
         </section>
 
-
         <script>
         function toggleDetails(memberId) {
             var details = document.getElementById(memberId + '-details');
             details.style.display = details.style.display === 'block' ? 'none' : 'block';
         }
     </script>
+    
+        <button id="scroll_b">
+            <a href=#top><img src="./images/scroll_up.png" class="img_scrollb"></a>
+        </button>
 
     </section>
 
     <button id="next" class="b_index">Cliquez ici pour continuer</button>
-    
+
 </body>
 </html>
