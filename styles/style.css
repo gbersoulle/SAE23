@@ -397,6 +397,9 @@ max-height: 0;
 overflow: hidden;
 }
 
+.panel.data {
+  background-color: #fff;
+}
 
 /* admin css */
 fieldset{

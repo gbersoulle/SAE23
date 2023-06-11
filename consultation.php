@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
     <title>Consultation</title>
     <link rel="stylesheet" href="styles/table.css">
@@ -51,8 +51,8 @@
             </div>
         </section>
     </main>
-</body>
 <script src='./scripts/unroll.js'></script>
+
 
 <!-- import required scripts for gauges -->
 <script src="https://cdn.jsdelivr.net/gh/toorshia/justgage/raphael-2.1.4.min.js"></script>
@@ -94,6 +94,5 @@
     }
 
 </script>
-
-
+</body>
 </html>

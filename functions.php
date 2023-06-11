@@ -88,9 +88,9 @@ $typeCapteur, $triDate, $jourChoisi, $triValeur, $salle) {
               if (in_array($sensor_name, $list_sensors)) {
                     global $sensor_translation;
                     // Display the sensor type heading
-                    echo "<h1>$sensor_translation[$type] : </h1>";
+                    echo "<h2 class='t_center'>$sensor_translation[$type] : </h2>";
                     // Display the sensor data and store its values in the data history array
-                    $history[$sensor_name] = Display_Data($sensor_name, $type, $numberOfValues, $triDate, $jourChoisi, $triValeur);
+                    $history[$sensor_name] = display_data($sensor_name, $type, $numberOfValues, $triDate, $jourChoisi, $triValeur);
                 }
             }
             echo "</div>";
@@ -142,8 +142,8 @@ function Search_Name($room, $type) {
 }
 
     
-// Define the function Display_data with parameters $nom_capteur and $data_type
-function Display_data($nom_capteur, $data_type, $numberOfValues, $triDate, $jourChoisi, $triValeur) {
+// Define the function display_data with parameters $nom_capteur and $data_type
+function display_data($nom_capteur, $data_type, $numberOfValues, $triDate, $jourChoisi, $triValeur) {
     // Access the global $connexion variable inside the function
     global $connexion;
 
@@ -241,7 +241,6 @@ function Display_data($nom_capteur, $data_type, $numberOfValues, $triDate, $jour
            echo implode("</td><td>", $line);
            echo "</td>";
            echo "</tr>";
-           echo "<tr>";
            // Store the values of each measurement in the values_history array for later use in a chart
            $values_history[] = $line['valeur_mesure'];
         }
