@@ -2,7 +2,6 @@
 <nav>
 	<ul>
 		<li><a href="index.php">Accueil</a></li>
-		<li><a href="affiche_base.php">Affichage de la BDD</a></li> <!-- ///////////////à enlever à la fin//////////////// -->
 		<li><a href="consultation.php">Consultation</a></li>
 		<li><a href="gprojet.php">Gestion de projet</a></li>
 		<?php

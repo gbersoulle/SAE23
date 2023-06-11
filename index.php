@@ -252,7 +252,7 @@
 
         </section>
 
-        <script>
+    <script>
         function toggleDetails(memberId) {
             var details = document.getElementById(memberId + '-details');
             details.style.display = details.style.display === 'block' ? 'none' : 'block';
