@@ -64,31 +64,36 @@
         co2: 800,
         temperature: 50,
         humidity: 100,
-        activity: 5,
+        activity: 1000,
         tvoc: 500,
         illumination: 1000,
         infrared: 100,
         infrared_and_visible: 100,
         pressure: 2000
     };
-    
+
     for (var i = 0; i < gaugeElements.length; i++) {
         var gaugeElement = gaugeElements[i];
-        var value = parseInt(gaugeElement.getAttribute("data-value"));
+        var value = gaugeElement.getAttribute("data-value");
         var dataType = gaugeElement.getAttribute("datatype");
+        var decimal = 0;
+        
+        // If the value has a decimal part, set decimal to 1 so it displays the decimal part
+        if (value % 1 !== 0) {
+            decimal = 1;
+        }
 
         var g = new JustGage({
-          id: gaugeElement.id,
-          value: value,
-          min: 0,
-          max: ValueMax[dataType],
-          title: "Dernière donnée"
-        });
-  }
-</script>
+        id: gaugeElement.id,
+        value: value,
+        min: 0,
+        max: ValueMax[dataType],
+        title: "Dernière donnée",
+        decimals: decimal
+    });
+    }
 
 </script>
-
 
 
 </html>
