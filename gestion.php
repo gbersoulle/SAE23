@@ -1,21 +1,23 @@
 <?php
-    // Check if a session is start
+    // Check if a session is started
     if (session_status() == PHP_SESSION_NONE) {
         session_start();
     }
 
-    // Check if a user is connected
+
+    // Check if the user is logged in
     if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {
-        // check the user's account type
+        // Check the user's source
+
         if (isset($_SESSION['source']) && $_SESSION['source'] != 'batiment') {
-            $erreur = "ERREUR : Vous n'avez pas l'accréditation nécessaire pour accéder à cette page";
-            echo '<a href="index.php">Accueil</a><br>' ;
+            $erreur = "ERROR: You do not have the necessary credentials to access this page";
+            echo '<a href="index.php">Home</a><br>' ;
             die($erreur);
         }
     } 
     else {
-        $message = "ERREUR : Vous n'êtes pas connecté";
-        echo '<a href="index.php">Accueil</a><br>' ;
+        $message = "ERROR: You are not logged in";
+        echo '<a href="index.php">Home</a><br>' ;
         die($message);
     }
 ?>
@@ -27,7 +29,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Page de Gestion</title>
+    <title>Management Page</title>
     <link rel="stylesheet" href="styles/style.css">
     <script src="./scripts/index.js"></script>
 </head>
@@ -43,6 +45,7 @@
     $requeteBatiment = "SELECT id_batiment, nom_bat FROM batiment WHERE login_gest = '$nomUtilisateur'";
     $resultatBatiment = mysqli_query($connexion, $requeteBatiment);
     $ligneBatiment = mysqli_fetch_assoc($resultatBatiment);
+
     //extract the user's building id and name
     $idBatiment = $ligneBatiment['id_batiment'];
     $nomBatiment = $ligneBatiment['nom_bat'];
@@ -54,8 +57,9 @@
 
     <!-- create the filter button -->
     <button id="filterButton">Filtrer la recherche</button>
+
     <fieldset class="gestion" id="gestion">
-        <legend>Filtrer la recherche</legend>
+    <legend>Filter Search</legend>
     <form method='POST'>
     <!-- sensor name selection -->
     <label for='nom_capteur'>Choisir un capteur :</label>
@@ -91,6 +95,7 @@
             }
             ?>
         </select>
+
         <!-- room name selection -->
         <label for='salle'>Choisir une salle :</label>
         <select name='salle' id='salle'>
@@ -100,12 +105,14 @@
             $requeteSalles = "SELECT DISTINCT Salle FROM capteur WHERE id_batiment = '$idBatiment'";
             $resultatSalles = mysqli_query($connexion, $requeteSalles);
             //add every room collected as an option
+
             while ($ligneSalle = mysqli_fetch_assoc($resultatSalles)) {
                 $salle = $ligneSalle['Salle'];
                 echo "<option value='$salle'>$salle</option>";
             }
             ?>
         </select>
+
         <!-- add time based order selection -->
         <label for='tri_date'>Trier par date :</label>
         <select name='tri_date' id='tri_date'>
@@ -132,6 +139,7 @@
         <h2 id="bg">Affichage des capteurs selon le filtre choisi</h2>
     <?php
     //handle the form reception (post), store every information sent if it's not the default one
+
     $nomCapteurSelectionne = isset($_POST['nom_capteur']) ? $_POST['nom_capteur'] : '';
     $typeCapteurSelectionne = isset($_POST['type_capteur']) ? $_POST['type_capteur'] : '';
     $triDate = isset($_POST['tri_date']) ? $_POST['tri_date'] : '';

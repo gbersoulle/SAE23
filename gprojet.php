@@ -10,51 +10,55 @@
 
     <?php require_once 'header.php'?>
 
-    <h1><span id="typed-text"></span></h1>
+    <h1><span id="typed-text"></span> ~ </h1>
 
     <section> 
-        <h2 class="h2-acc">Diagrammes de GANTT </h2>
+        <h2 class="t_center h2-acc">Diagrammes de GANTT </h2>
             <p class="parag"> L'établissement d'un diagramme de Gantt initial en début de projet a été essentiel pour une gestion efficace du projet. Cela nous a permis de planifier les différentes tâches et étapes du projet de manière visuelle. De plus, cet outil nous a aidé à anticiper les retards par rapport au planning initial et à prévoir une marge de manœuvre pour compenser ces derniers. </p>
-            <figure>
-                <img src="gantt.png" alt="Diagramme de GANTT initial">
-                <img src="gantt.png" alt="Diagramme de GANTT final">
-            </figure>
-            <p class="parag"> En ce qui concerne le diagramme de Gantt final, il joue un rôle crucial dans l'évaluation du projet une fois terminé. Il nous permet de comparer la planification initiale avec les réalisations finales. Cela nous donne une vision claire des tâches qui ont été effectuées et de la réussite globale du projet. En analysant les écarts entre le diagramme initial et le diagramme final, nous pouvons tirer des enseignements pour l’organisation des futurs projets. </p>
-    </section>        
+            <div class="blockgest">   
+                <figure class="right"> 
+                    <img id="gantt-initial" src="./images/gantt-initial.png"  alt="Diagramme de GANTT initial">
+                </figure> 
+                <figure class="left"> 
+                <img id="gantt-final" src="./images/gantt-final.png" alt="Diagramme de GANTT final">
+                </figure> 
+            </div>
+            <p class="parag"> En ce qui concerne le diagramme de Gantt final, il joue un rôle crucial dans l'évaluation du projet une fois terminé. Il nous permet de comparer la planification initiale avec les réalisations finales. Cela nous donne une vision claire des tâches qui ont été effectuées et de la réussite globale du projet. En analysant les écarts entre le diagramme initial et le diagramme final, nous pouvons tirer des enseignements pour l’organisation des futurs projets. </p>    
+    </section>
     
     <section> 
-        <h2 class="h2-acc"> Visualisation des données via la solution de conteneurisation Docker   </h2>
-            <figure>
-                <img src="capture1.png" alt="Capture d'écran 1">
-                <img src="capture2.png" alt="Capture d'écran 2">
+        <h2 class="t_center h2-acc"> Visualisation des données via la solution de conteneurisation Docker   </h2>
+        <p class="parag"> Docker est une solution de conteneurisation qui permet de créer, distribuer et exécuter des applications de manière portable et isolée. Les conteneurs Docker encapsulent les applications et leurs dépendances. Docker utilise une technologie de virtualisation légère qui partage le noyau du système d'exploitation hôte, offrant ainsi une meilleure efficacité des ressources. Les conteneurs Docker sont rapides à démarrer et à arrêter, ce qui facilite le déploiement des applications. </p>
+        <p class="parag"> Nous avons cherché au cours cette partie du projet à utiliser les dockers pour proposer aux différents utilisateurs une expérience de visualisation des données fluides et agréables. Pour ce faire, nous avons utilisé deux technologies majeures : Node-Red et Grafana Dashboard. </p>
+        <p class="parag"> Node-RED est un environnement de développement visuel utilisé pour créer des applications d'automatisation, très souvent utilisé en IoT car fournissant une architecture de travail basé sur des nœuds qui peuvent être connectés et configurés pour créer des scénarios complexes. <br>
+                        Grafana, quant à lui, est une plateforme open-source d'analyse et de visualisation des données en temps réel. Elle permet de créer des tableaux de bord interactifs et  personnalisables pour surveiller et analyser des données provenant de différentes sources.</p>
+        <p class="parag"> Vous pouvez observer ci-dessous les différents dashboards crée au cours de cet exercice. Pour plus d’informations sur cet exercice, veuillez vous rapporter au fichier de configuration de la solution docker disponible en téléchargement plus loin dans cette page. </p>
+            <figure class="blockgest">
+                <div class="right">
+                    <img id="node-red" src="./images/Node-Red.jpg" alt="Flow Node-Red" title="Flow Node-Red">
+                </div>
+                <div class="left">
+                    <img id="node-pres" src="./images/Node-Red-Pres.jpg" alt="Capture d'écran 1" title="Node-Red Dashboard">
+                </div>
             </figure>
-
+            <img id="grafana" src="./images/Grafana.jpg" alt="Capture d'écran 2" title="Solution de visualisation Grafana">
+    </section> 
+    
     <section> 
-        <h2 class="h2-acc">Outils collaboratifs utilisés</h2>
+        <h2 class="t_center h2-acc">Outils collaboratifs utilisés</h2>
             <p class="parag"> Dans le cadre de notre projet, nous avons utilisé plusieurs outils pour faciliter notre travail collaboratif. </p>
             <p class="parag"> GitHub, une plateforme de développement, nous a permis de suivre les modifications, de gérer les versions et de collaborer efficacement au sein de notre équipe de développement sur le site web dynamique. Trello, quant à lui, nous a aidés à organiser nos tâches et à suivre l'avancement de nos projets grâce à ses tableaux visuels intuitifs. Enfin, Google Drive a été notre principal service de stockage en ligne, nous permettant de sauvegarder, synchroniser et partager nos fichiers, ainsi que de collaborer en temps réel sur des documents. </p> 
             <p class="parag"> Grâce à ces outils, notre travail a été optimisé et notre collaboration a été plus fluide et productive. </p>
-        <ul>
-            <li>Git - Github</li>
-                <figure>
-                    <img src="capture1.png" alt="Capture d'écran 1">
-                    <img src="capture2.png" alt="Capture d'écran 2">
-                </figure>
-            <li>Google Drive</li>
-                <figure>
-                    <img src="capture1.png" alt="Capture d'écran 1">
-                    <img src="capture2.png" alt="Capture d'écran 2">
-                </figure>
-            <li>Trello</li>
-                <figure>
-                    <img src="capture1.png" alt="Capture d'écran 1">
-                    <img src="capture2.png" alt="Capture d'écran 2">
-                </figure>
-        </ul>
+            <p class="p_center"> Git - Github <p>
+                <img src="./images/github.png" alt="Repository Git-Hub de la SAE23" class="img_gprojet">
+            <p class="p_center"> Google Drive <p>
+                <img src="./images/google-drive.png" alt="Espace de partage de fichiers" class="img_gprojet">
+            <p class="p_center"> Trello <p>
+                <img src="./images/trello.png" alt="Capture d'écran 1" class="img_gprojet">
     </section>
     
     
-    <h2 class="h2-acc">Bilan personnel, implication, problèmes et solutions apportées (cliquez sur les noms)</h2>
+    <h2 class="t_center h2-acc">Bilan personnel, implication, problèmes et solutions apportées (cliquez sur les noms)</h2>
 
     <section>
     
@@ -72,11 +76,11 @@
                 <p class="parag"> Je m’étais déjà exercé à la manipulation d’une base de donnée par des formulaires HTML, je me suis donc appuyé sur ce que j’avais déjà fait tout en l’adaptant à notre base de donnée. Ce qui m’a donné le plus de fil à retordre fût le filtrage pour l’affichage des mesures de chaque capteur pour la page de gestion.
                 <p class="parag"> Il m’a fallu procéder par étapes :
                 <ol class="parag"   > 
-                    <li> Afficher l’entièreté de tous les capteurs du bâtiment géré par l’utilisateur connecté : Il faut pour ça récupérer l’utilisateur enregistré dans la session et trouver son bâtiment pour ensuite récupérer tout les capteurs associés. </li> <br>
-                    <li> Afficher l’unité des mesures du capteur :  Pour ça il faut récupérer le type de capteur et on utilise la fonction “switch” pour définir l’unité ce qui permet d’éviter l'enchainement de si/sinon. </li> <br>
-                    <li> Trier les capteurs par nom : On crée une requête SQL qui récupère tous les capteurs de base, à laquelle, (si on soumet le formulaire de filtre avec une valeur pour le nom du capteur sélectionné) on concatène “AND type_capteur = '$typeCapteurSelectionne'” Pour limiter la sélection du capteur. Pour les autres filtres, qui limite le choix de capteur, il suffit de se baser sur cette méthode. </li> <br>
+                    <li> Afficher l’entièreté de tous les capteurs du bâtiment géré par l’utilisateur connecté : Il faut pour ça récupérer l’utilisateur enregistré dans la session et trouver son bâtiment pour ensuite récupérer tout les capteurs associés. </li>
+                    <li> Afficher l’unité des mesures du capteur :  Pour ça il faut récupérer le type de capteur et on utilise la fonction “switch” pour définir l’unité ce qui permet d’éviter l'enchainement de si/sinon. </li> 
+                    <li> Trier les capteurs par nom : On crée une requête SQL qui récupère tous les capteurs de base, à laquelle, (si on soumet le formulaire de filtre avec une valeur pour le nom du capteur sélectionné) on concatène “AND type_capteur = '$typeCapteurSelectionne'” Pour limiter la sélection du capteur. Pour les autres filtres, qui limite le choix de capteur, il suffit de se baser sur cette méthode. </li> 
                     <li> Trier les mesures par date : 
-                        On crée une requête qui récupère toutes les mesures des capteurs précédemment filtrés, à laquelle on concatène " AND DATE(date_mesure) = '$jourChoisi'" pour choisir la date de valeur à afficher. <br> 
+                        On crée une requête qui récupère toutes les mesures des capteurs précédemment filtrés, à laquelle on concatène " AND DATE(date_mesure) = '$jourChoisi'" pour choisir la date de valeur à afficher.
                         On peut aussi choisir de trier les valeurs en concaténant un ORDER BY pour afficher les valeurs plus récentes ou les valeurs les plus grandes d’abord. </li>
                 </ol>
         </section> </li>
@@ -98,6 +102,9 @@
                     La deuxième, plus complexe puisque intégrant une base de donnée, consistait à récupérer les données du broker via Node-Red avant de les injecter dans une base de données InfluxDB. Ensuite, il m’a été imposé d’utiliser l’outil graphique Graphana pour créer de beaux graphiques à partir des données contenues dans la base de donnée. <br>
                     Le noyau dur de cette première mission aura été l’utilisation de Node-Red, autant pour récupérer les données avec ou sans base de donnée, que pour les trier en utilisant des fonctions JavaScript. <br>
                     Finalement, si vous voulez en savoir plus sur la mise en place de cette solution docker, il vous est possible de télécharger le tutoriel d’installation via le bouton ci-joint : <br> </p>
+                    <a class="download-button a-download-button" href="./fichiers/SAE23-Solution-Docker.pdf" download>
+                        <span>Télécharger le tutoriel</span>
+                    </a>
                 <p class="parag">Ensuite, ma deuxième mission au sein de ce projet aura été faite en fin de projet, au cours de la dernière semaine en autonomie. En effet, étant presque terminé à ce stade, le site ne manquait pour répondre aux attentes du cahier des charges plus que des pages d’accueil et de gestion de projet. Il a donc été de mon ressort de proposer une page  ayant pour but de mettre en valeur le travail effectué par chaque membre du groupe, expliquer les différentes stratégies de communications et outils collaboratifs mis en place pour mener à bien ce projet. <br> </p>
                 <p class="parag">En conclusion, ce projet m’aura permis de monter en compétences sur la gestion et l’administration des dockers, et de me familiariser avec des outils de visualisation de données comme Grafana. Je suis heureux d’avoir pu travailler sur cette partie du projet, car la récupération de données de capteurs via des chaines d’automatisation comme Node-Red fera partie intégrante de mes missions lors de mon contrat d’apprentissage chez Alsatis Réseaux pour les deux prochaines années. <br> </p>
 
@@ -128,11 +135,14 @@
     </section>
 
     
-
-    <h2> Degré de satisfaction du cahier des charges : </h2>
-
-    <h2>Conclusion</h2>
     <section>
+        <h2 class="t_center h2-acc"> Degré de satisfaction du cahier des charges : </h2>
+            <p class="parag"> La SAE23 a été un projet mené à bien et pour lequel tous les objectifs du cahier des charges ont été respectés. Le déploiement du projet s'est fait sur une machine virtuelle avec le système d'exploitation Lubuntu et la gestion de version a été réalisée à l'aide de Git et GitHub. </p>
+            <p class="parag"> La première solution de visualisation des données repose sur la solution de conteneurisation docker et en particulier sur les outils Node-Red, InfluxDB et Grafana. Node-Red permet de collecter et de traiter les données provenant du bus MQTT, tandis que Grafana offre un tableau de bord complet pour visualiser ces données de manière claire et intuitive. InfluxDB a été utilisé comme base de données pour stocker et interroger les données de manière efficace. </p>
+            <p class="parag"> La seconde solution de visualisation des données aura pris la forme d’un site web dynamique et aura été développé en utilisant le langage PHP.
+                            Via un navigateur web, les utilisateurs peuvent accéder à une interface utilisateur conviviale, offrant différentes fonctionnalités telles qu'une page d'accueil décrivant l'objectif du site et affichant les bâtiments gérés, une page d'administration réservée à l'administrateur pour la gestion des bâtiments et des capteurs, une page de gestion réservée aux gestionnaires pour consulter les mesures des capteurs de leur bâtiment, et une page de consultation accessible à tous pour afficher la dernière mesure des salles. Un script PHP a été développé pour récupérer les données à partir du broker MQTT de l’IUT de Blagnac. Ce script assure la collecte régulière des données et leur stockage dans la base de données MySQL.
+                            Le respect des contraintes conceptuelles a été pris en compte dans la conception du système. Chaque bâtiment est identifié de manière unique et est associé à un gestionnaire ayant un compte avec un login et un mot de passe. Chaque capteur dispose également d'un identifiant unique, d'un nom et d'un type, et est implémenté dans un bâtiment spécifique. 
+</p>
        
     </section>
 

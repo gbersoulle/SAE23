@@ -12,16 +12,48 @@ h1{
   text-align: center;
 }
 
+img 
+{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+ul{
+  list-style-type: none;
+}
+
+
+
 /* CSS for the Index and Gprojet pages */
 
 .parag {
   text-align: justify;
   margin : 2%; 
-  text-indent: 5%; 
+  text-indent: 5%;
+  font-size: 150%; 
+}
+
+.member-details {
+  margin: 2%;
+}
+
+.t_center {
+  text-align: center;
+}
+
+.p_center {
+  text-align: center;
+  text-decoration: solid underline;
 }
 
 .h2-acc {
-  margin-left: 2%;
+  margin-top: 5%;
+  font-size: 130%;
+  font-weight: bold;
+  color: #a10202;
+  margin-bottom: 20px;
+  text-transform: uppercase;
 }
 
 .h3-acc {
@@ -35,9 +67,122 @@ h1{
   font-style: italic  ;
 }
 
+
 .center{
   text-align: center;
 }
+
+button {
+  font-family: 'Montserrat', sans-serif;
+  background-color: transparent;
+  border: none;
+  font-size: large;
+
+}
+
+.a-download-button {
+  display: flex;
+  justify-content: center; /* Centers horizontally */
+  align-items: center; /* Centers vertically */
+}
+
+.download-button {
+  margin: 0 auto;
+  width: 12%;
+  left: 45%;
+  border-radius: 10px;
+  border: 0;
+  background-color: rgb(32, 221, 64);
+  color: black;
+}
+
+.blockgest {
+  width:100%;
+  height:auto;
+  display:flex; 
+}
+
+.left
+{
+   width: 50%;
+   margin: 1%;
+   text-align: justify;
+  float: left;
+}
+
+.right
+{
+  width: 50%;
+   margin: 1%;
+  text-align: justify;
+  float: right;
+}
+
+.tier-1
+{
+   width: 33.33%;
+   text-align: justify;
+}
+
+.tier-2
+{
+  width: 33.33%;
+  text-align: justify;
+}
+
+.tier-3
+{
+  width: 33.33%;
+  text-align: justify;
+}
+
+#gantt-initial {
+  width: 70%;
+}
+
+#gantt-final {
+  width: 85%;
+}
+
+#node-red {
+  width: 130%;
+}
+
+#node-pres {
+  width: 65.5%;
+  padding-left: 20%;
+}
+
+#grafana {
+  width: 94.5%;
+}
+
+#node-img {
+  width: 70%;
+}
+
+#php-img {
+  width: 50%;
+}
+
+#js-img {
+  width: 40%;
+}
+
+#iut-img { 
+  width: 50%;
+  padding-top: 2%;
+}
+
+#css-html {
+  width: 40%;
+}
+
+.img_gprojet{
+  max-width: 100%;
+}
+
+/* CSS Homepage */
 
 .homepage {
   transform: translateY(100%);
@@ -51,6 +196,7 @@ h1{
 .homepage.active {
   transform: translateY(0);
   height: auto;
+  background-color: #d3d3d3;
 }
 
 .content {
@@ -64,6 +210,7 @@ h1{
   width: auto;
   height: auto;
   font-size: medium;
+  background-color: #d3d3d3
 }
 
 .b_index{
@@ -88,13 +235,14 @@ h1{
   height: 50px;
   width: 50px;
   display: none;
-  left: 20%;
 }
 
-.sb{
+.img_scrollb{
   width: 50px;
   height: 50px;
 }
+
+/* CSS header */
 
 nav {
     background-image: url("../images/bg_h.png");
@@ -105,6 +253,7 @@ nav {
     align-items: center;
     justify-content: space-between;
     padding: 0 20px;
+    filter: grayscale(80%);
   }
   
   nav ul {
@@ -354,6 +503,7 @@ body .updt_g {
 .block .bot_block{
   font-size: medium;
 }
+
 .add_space {
   margin-bottom: 40px;
 }
@@ -364,3 +514,4 @@ body .updt_g {
 	text-align: center;
 	margin-left:35%;
 }
+
