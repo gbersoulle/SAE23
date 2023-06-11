@@ -31,7 +31,7 @@ ul{
   text-align: justify;
   margin : 2%; 
   text-indent: 5%;
-  font-size: 150%; 
+  font-size: 130%; 
 }
 
 .member-details {
@@ -49,7 +49,7 @@ ul{
 
 .h2-acc {
   margin-top: 5%;
-  font-size: 130%;
+  font-size: 150%;
   font-weight: bold;
   color: #a10202;
   margin-bottom: 20px;
@@ -173,10 +173,17 @@ button {
   width: 40%;
 }
 
+#rt-logo {
+  width: 40%;
+}
+
+#jj-img {
+  padding-top: 3%;
+}
+
 .img_gprojet{
   max-width: 100%;
 }
-
 /* CSS Homepage */
 
 .homepage {

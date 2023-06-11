@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Mon site avec menu en bandeau</title>
+    <title>Consultation</title>
     <link rel="stylesheet" href="styles/table.css">
 </head>
 <body>

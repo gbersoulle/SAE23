@@ -49,16 +49,24 @@
             <p class="parag"> Dans le cadre de notre projet, nous avons utilisé plusieurs outils pour faciliter notre travail collaboratif. </p>
             <p class="parag"> GitHub, une plateforme de développement, nous a permis de suivre les modifications, de gérer les versions et de collaborer efficacement au sein de notre équipe de développement sur le site web dynamique. Trello, quant à lui, nous a aidés à organiser nos tâches et à suivre l'avancement de nos projets grâce à ses tableaux visuels intuitifs. Enfin, Google Drive a été notre principal service de stockage en ligne, nous permettant de sauvegarder, synchroniser et partager nos fichiers, ainsi que de collaborer en temps réel sur des documents. </p> 
             <p class="parag"> Grâce à ces outils, notre travail a été optimisé et notre collaboration a été plus fluide et productive. </p>
-            <p class="p_center"> Git - Github <p>
-                <img src="./images/github.png" alt="Repository Git-Hub de la SAE23" class="img_gprojet">
-            <p class="p_center"> Google Drive <p>
-                <img src="./images/google-drive.png" alt="Espace de partage de fichiers" class="img_gprojet">
-            <p class="p_center"> Trello <p>
-                <img src="./images/trello.png" alt="Capture d'écran 1" class="img_gprojet">
+            <p class="p_center"> Git - Github </p>
+                <figure>
+                    <img id="github"src="./images/github.png" alt="Repository Git-Hub de la SAE23" class="img_gprojet">
+                </figure>
+                
+            <p class="p_center"> Google Drive </p>
+                <figure>
+                    <img src="./images/google-drive.png" alt="Espace de partage de fichiers" class="img_gprojet">
+                </figure> 
+            
+            <p class="p_center"> Trello </p>
+                <figure>
+                    <img src="./images/trello.png" alt="Capture d'écran 1" class="img_gprojet">
+                </figure>    
     </section>
     
     
-    <h2 class="t_center h2-acc">Bilan personnel, implication, problèmes et solutions apportées (cliquez sur les noms)</h2>
+    <h2 class="t_center h2-acc">Bilan personnel, implication, problèmes et solutions apportées</h2>
 
     <section>
     
@@ -88,7 +96,13 @@
         <li> <h4 class="h4-acc" onclick="toggleDetails('member2')">Ange Giuntini</h4>
         <section id="member2-details" class="member-details">
             <h3 class="h3-acc"> Synthèse personnelle : </h3>
-
+            <p class="parag"> J’ai trouvé cette SAE particulièrement intéressante et enrichissante d’un point de vue technique comme organisationnel. En effet, celle-ci m’a permis de mettre en œuvre mes compétences en PHP et JavaScript acquises lors des cours et TPs de la ressource R209 et d'approfondir ces dernières. J'ai également beaucoup appris sur le sujet de l'organisation d'un projet informatique en groupe, notamment via l’utilisation d’outils tels que Trello, gant et bien sur GitHub. </p>
+            <p class="parag"> Suite à nos différentes concertations et échanges, il a été convenu que je me charge tout d’abord de la création d’une page connexion. J’ai su répondre à ces attentes en mettant en place une page HTML contenant des formulaires renvoyant les données saisie vers un script PHP. Celui-ci récupère les données envoyées, les stokes et vérifie leur concordance vis-à-vis des tables dans notre base de donnée. J’ai aussi fait en sorte que le header de notre site soit dynamique et qu’il change en fonction de l’utilisateur connecté, lui permettant entre autre de se déconnecter par le biais d’un menu déroulant, rendu possible via un script JavaScript. J’ai finalement proposé un premier fichier de style pour cette page. La réalisation de ces codes s’est passée sans accrocs. </p>
+            <p class="parag"> J’ai également dans le cadre de réalisation des test de notre base de donnée modifiée la structure de celle-ci pour correspondre aux attentes du sujet, mais également mis en place un script bash récupérant des données sur le bus MQTT. Les noms des capteurs dont on devait récupérer les valeurs étant écrits en dur dans le code, cela ne permettait aucune évolutivité automatique de la récolte des données vis-avis de la modification de la BDD. Pour permettre cette fonctionnalité, nous avons fait le choix de la simplicité et décidé de réaliser un nouveau script en PHP, c’est Gaspard qui s’en est occupé.</p>
+            <p class="parag"> J’ai par la suite entamé la partie la plus complexe du travail que j’aurai à effectuer durant ce projet. Je me suis en effet porté volontaire pour m’occuper de l’affichage dynamique des données sur la page de consultation. L’affichage se fait via un tri par bâtiment puis par salle et finalement par type de donnée en agençant le tout via l’utilisation de menus déroulants. Ainsi, au chargement de la page, le script PHP créé la page web dynamiquement en fonction du contenu de la base de donnée. Chaque donnée est présentée sous forme de jauge changeant de couleur en fonction de la valeur affichée, ceci est rendu possible via l’implémentation de la librairie “justgage.js”. </p>
+            <p class="parag"> L’utilisation de fonctions m’a permis de rendre mon code plus optimal et de permettre sa réutilisation. Ainsi, après quelques adaptations de celui-ci, j’ai pu mettre en œuvre le même type génération automatique sur la page de gestion. Les données des bâtiments respectifs de chaque gestionnaire s’affichent donc en fonction des filtres mis en places, classés par salle dans des menus déroulants. Via l’utilisation de la librairie “Chart.js”, j’ai mis en place des graphiques relatifs aux valeurs affichées.</p>
+            <p class="parag">Ensuite, ma deuxième mission au sein de ce projet aura été faite en fin de projet, au cours de la dernière semaine en autonomie. En effet, étant presque terminé à ce stade, le site ne manquait pour répondre aux attentes du cahier des charges plus que des pages d’accueil et de gestion de projet. Il a donc été de mon ressort de proposer une page  ayant pour but de mettre en valeur le travail effectué par chaque membre du groupe, expliquer les différentes stratégies de communications et outils collaboratifs mis en place pour mener à bien ce projet. </p>
+            <p class="parag">En conclusion, ce projet m’aura permis de monter en compétences sur la gestion et l’administration des dockers, et de me familiariser avec des outils de visualisation de données comme Grafana. Je suis heureux d’avoir pu travailler sur cette partie du projet, car la récupération de données de capteurs via des chaines d’automatisation comme Node-Red fera partie intégrante de mes missions lors de mon contrat d’apprentissage chez Alsatis Réseaux pour les deux prochaines années. </p>
             <h3 class="h3-acc"> Problèmes rencontrés et solutions proposées : </h3>
 
         </section> </li>   

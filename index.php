@@ -6,21 +6,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="./styles/style.css">
     <script src="./scripts/index.js"></script>
-    <title>Page d'Accueil'</title>
+    <title>Page d'Accueil</title>
 </head>
 <body>
 
-    <section class="homepage" id="acc-ent">
+    
 
-        <h1> SAE23 - Bienvenue sur notre site web !</h1>
+    <section class="homepage" id="acc-ent">
         
+
+    <h1> SAE23 - Bienvenue sur notre site web !</h1>
+
         <section class="content">
         
         <?php require('header.php'); ?> 
-        
-            <h2> Projet de Visualisation des Données des Salles de l'IUT </h2>
-
             <h2 class="t_center h2-acc"> Mise en contexte </h2>
+            
             <section class="parag"> 
                 
                 <p> 
@@ -36,7 +37,7 @@
                     Nous souhaitons offrir une solution complète qui permettra aux gestionnaires d'accéder rapidement et facilement aux informations pertinentes concernant les différentes salles de l'IUT.
                 </p>    
                 <figure> 
-                    <img id="iut-img" src="./images/bg_h.png" alt="Docker" class="img_gprojet">
+                    <img id="iut-img" src="./images/bg_h.png" alt="IUT de Blagnac" class="img_gprojet">
                 </figure>
             </section>
 
@@ -53,22 +54,22 @@
                         <img src="./images/docker.png" alt="Docker" class="img_gprojet">
                     </figure>
                     <figure class="tier-2"> 
-                        <img id="node-img" src="./images/logo-node.png" alt="Docker" class="img_gprojet">
+                        <img id="node-img" src="./images/logo-node.png" alt="Node Red" class="img_gprojet">
                     </figure>
                     <figure class="tier-3"> 
-                        <img src="./images/grafana-logo.png" alt="Docker" class="img_gprojet">
+                        <img src="./images/grafana-logo.png" alt="Grafana" class="img_gprojet">
                     </figure>
                 </section>
 
                 <section class="blockgest">
                     <figure class="tier-1"> 
-                        <img id="php-img" src="./images/php.png" alt="Docker" class="img_gprojet">
+                        <img id="php-img" src="./images/php.png" alt="PHP" class="img_gprojet">
                     </figure>
                     <figure class="tier-2"> 
-                        <img id="js-img" src="./images/logo-js.png" alt="Docker" class="img_gprojet">
+                        <img id="js-img" src="./images/logo-js.png" alt="JavaScript" class="img_gprojet">
                     </figure>
                     <figure class="tier-3"> 
-                        <img id="css-html" src="./images/css-html.png" alt="Docker" class="img_gprojet">
+                        <img id="css-html" src="./images/css-html.png" alt="CSS - HTML" class="img_gprojet">
                     </figure>
                 </section>
 
@@ -80,6 +81,17 @@
                     Ce projet de visualisation des données des salles de l'IUT représente une opportunité unique pour notre groupe d'appliquer les connaissances et les compétences que nous avons acquises tout au long de notre formation. 
                     L’organisation que nous avons adoptée au cours de ce projet est disponible dans la page de gestion de projet. Nous vous souhaitons de passer un agréable moment lors de la consultation de ce site !             
                 </p>
+
+                <section class="blockgest">
+                    <figure class="right"> 
+                        <img id="rt-logo" src="./images/rt-logo.png" alt="PHP" class="img_gprojet">
+                    </figure>
+                    <figure class="left"> 
+                        <img id="jj-img" src="./images/logo-JJ.png" alt="JavaScript" class="img_gprojet">
+                    </figure>
+                </section>
+
+
             </section>
 
             <h2 class="t_center h2-acc" onclick="toggleDetails('member1')"> Mentions légales </h2>
