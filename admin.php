@@ -1,23 +1,23 @@
 <?php
     // Check if a session is started
-    if (session_status() == PHP_SESSION_NONE) {
-        session_start();
-    }
+    // if (session_status() == PHP_SESSION_NONE) {
+    //     session_start();
+    // }
 
-    // Check if the user is logged in
-    if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {
-        // Check the user's source
-        if (isset($_SESSION['source']) && $_SESSION['source'] != 'administration') {
-            $error = "ERROR: You do not have the necessary credentials to access this page";
-            echo '<a href="index.php">Home</a><br>' ;
-            die($error);
-        }
-    } 
-    else {
-        $message = "You are not logged in";
-        echo '<a href="index.php">Home</a><br>' ;
-        die($message);
-    }
+    // // Check if the user is logged in
+    // if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {
+    //     // Check the user's source
+    //     if (isset($_SESSION['source']) && $_SESSION['source'] != 'administration') {
+    //         $error = "ERROR: You do not have the necessary credentials to access this page";
+    //         echo '<a href="index.php">Home</a><br>' ;
+    //         die($error);
+    //     }
+    // } 
+    // else {
+    //     $message = "You are not logged in";
+    //     echo '<a href="index.php">Home</a><br>' ;
+    //     die($message);
+    // }
 ?>
 <!DOCTYPE html>
 <html lang="en">

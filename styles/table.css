@@ -6,20 +6,24 @@ table {
   width: 100%; /* Set the table width to 100% of its container */
   border-collapse: collapse; /* Collapse the table borders to avoid multiple borders*/
   font-family: Arial, sans-serif; 
-  font-size: 15px;
-  margin-bottom: 40px;
+}
+
+table:not(.metriques){
+  font-size: 13px;
 }
 
 table.metriques{
   width : 60%;
+  font-style: 15px;
   margin-left: auto;
   margin-right: auto;
+  margin-bottom: 4%;
 }
 
 /* Styling for table headers and table cells */
 th,
 td {
-  padding: 8px;
+  padding: 5px;
   text-align: left; 
   border-bottom: 1px solid #ddd;
   height: 50%;

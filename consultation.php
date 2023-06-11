@@ -16,8 +16,37 @@
 					// Include the 'functions.php' which contains necessary functions for the code below
 					require_once 'functions.php';
 					// Call a function to display data for "all" buildings, display "1" measurment
-					display_all_buildings("all",1);
-					require_once 'affiche_metriques.php'; //diplay avg, min, max
+                    display_all_buildings("all", 1, '', '', '', '', '', '');
+
+                    //display metrics (avg, min, max)
+                    echo "<h1>Métriques par Salles</h1>";
+                    echo "
+                    <table class = 'metriques'>
+                        <tr>
+                            <th>Salle</th>
+                            <th>Type de Donnée</th>
+                            <th>Moyenne</th>
+                            <th>Minimum</th>
+                            <th>Maximum</th>
+                        </tr>";
+                      $moyenne_h[] = Display_moyenne("B203","AM107-6","Humidité");
+                      $moyenne_h[] = Display_moyenne("E102","AM107-32","Humidité");
+                      $moyenne_c[] = Display_moyenne("B001","AM107-7","CO2");
+                      $moyenne_c[] = Display_moyenne("E006","AM107-29","CO2");
+                    echo "</table>";
+                
+                    echo "<h1>Métriques par Type de données</h1>";
+                    echo "
+                    <table class = 'metriques'>
+                        <tr>
+                            <th>Type de Donnée</th>
+                            <th>Moyenne</th>
+                            <th>Minimum</th>
+                            <th>Maximum</th>
+                        </tr>";
+                      $mptd[] = Metrique_type($moyenne_h, "Humidité");
+                      $mptd[] = Metrique_type($moyenne_c, "CO2");
+                    echo "</table>";
                     ?>
             </div>
         </section>
@@ -35,7 +64,7 @@
         co2: 800,
         temperature: 50,
         humidity: 100,
-        activity: 1,
+        activity: 5,
         tvoc: 500,
         illumination: 1000,
         infrared: 100,
@@ -47,8 +76,6 @@
         var gaugeElement = gaugeElements[i];
         var value = parseInt(gaugeElement.getAttribute("data-value"));
         var dataType = gaugeElement.getAttribute("datatype");
-        console.log("value and type" + ' ' + value + ' ' + dataType);
-
 
         var g = new JustGage({
           id: gaugeElement.id,
