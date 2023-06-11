@@ -160,21 +160,21 @@
     echo "</div>";
     ?>
     </section>
-</body>
-<script src='./scripts/unroll.js'></script>
-<script src='https://cdn.jsdelivr.net/npm/chart.js'></script>
-<script src='./scripts/Make_Chart.js'></script>
-<script>
-    // Get the historical data from PHP and store it in the historyData variable
-    var historyData = <?php echo json_encode($history); ?>;
-
-    // Iterate over each sensor in the historyData object
-    for (var sensor in historyData) {
-        // Check if the sensor has data
-        if (historyData[sensor] != null && historyData[sensor].length > 0) {
-            // Call the createChart function to create a chart for the sensor using the historical data
-            createChart(sensor, historyData, 'red');
+    <script src='./scripts/unroll.js'></script>
+    <script src='https://cdn.jsdelivr.net/npm/chart.js'></script>
+    <script src='./scripts/Make_Chart.js'></script>
+    <script>
+        // Get the historical data from PHP and store it in the historyData variable
+        var historyData = <?php echo json_encode($history); ?>;
+        
+        // Iterate over each sensor in the historyData object
+        for (var sensor in historyData) {
+            // Check if the sensor has data
+            if (historyData[sensor] != null && historyData[sensor].length > 0) {
+                // Call the createChart function to create a chart for the sensor using the historical data
+                createChart(sensor, historyData, 'red');
+            }
         }
-    }
-</script>
+    </script>
+</body>
 </html>
