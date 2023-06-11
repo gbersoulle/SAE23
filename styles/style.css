@@ -35,6 +35,9 @@ h1{
   font-style: italic  ;
 }
 
+.center{
+  text-align: center;
+}
 
 .homepage {
   transform: translateY(100%);
@@ -209,20 +212,18 @@ canvas {
   content: '\25B2';
 }
 
-.active, .accordion:hover, .room:hover {
-background-color: #daf3ff;
+.accordion:hover, .room:hover {
+background-color: #e5f7ff;
+}
+
+.active {
+  background-color: #f2fbff;
 }
 
 .roomDiv{
   width: 46%;
   margin: 2%;
   float: left;
-  justify-content: space-between;
-
-}
-
-.room{
-  width: 100%;
 }
 
 .panel {
@@ -337,9 +338,9 @@ body .updt_g {
 }
 
 .block {
-  width: 75%;
+  width: 85%;
   margin-left: 5%;
-  padding: 20px;
+  padding: 5px;
   padding-top: 10px;
   background-color: #ffffff4e;
   border-radius: 40px;
@@ -354,3 +355,6 @@ body .updt_g {
 .block .bot_block{
   font-size: medium;
 }
+ .add_space {
+  margin-bottom: 40px;
+ }

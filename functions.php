@@ -2,6 +2,19 @@
 // Require the database connection file
 require_once 'connexion_bdd.php';
 
+//create a table for data type translation
+$sensor_translation = array(
+    "temperature" => "Température",
+    "humidity" => "Humidité",
+    "activity" => "Activité",
+    "co2" => "CO2",
+    "tvoc" => "TVOC",
+    "illumination" => "Illumination",
+    "infrared" => "Infrarouge",
+    "infrared_and_visible" => "Infrarouge et visible",
+    "pressure" => "Pression"
+);
+
 // Function to display all buildings and their associated rooms and sensor data
 function display_all_buildings($buildings, $numberOfValues, $nomCapteur,
 $typeCapteur, $triDate, $jourChoisi, $triValeur, $salle) {
@@ -26,7 +39,7 @@ $typeCapteur, $triDate, $jourChoisi, $triValeur, $salle) {
 
         // Create a basic sql request to find in the capteur table the sensors to display
         // we will this complete based on the parameters value
-        $requeteCapteursFiltre = "SELECT DISTINCT Salle, nom_capteur FROM capteur WHERE id_batiment = '$idBatiment'";
+        $requeteCapteursFiltre = "SELECT Salle, nom_capteur FROM capteur WHERE id_batiment = '$idBatiment'";
 
         //we complete the request with any information that hasn't been let blank
         if (!empty($nomCapteur)) {
@@ -48,6 +61,9 @@ $typeCapteur, $triDate, $jourChoisi, $triValeur, $salle) {
             $list_sensors[] = $ligneCapteur['nom_capteur'];
             $rooms[] = $ligneCapteur['Salle'];
         }
+        //make sure each room appears only one time
+        $rooms = array_unique($rooms);
+
         // if there is more than one : Add an accordion button for each building
         if (sizeof($buildings) > 1) {
             echo "<button class=\"accordion\" onclick=\"Show_And_Hide(this.nextElementSibling)\">Batiment $building</button>";
@@ -66,26 +82,16 @@ $typeCapteur, $triDate, $jourChoisi, $triValeur, $salle) {
             $data_type = Search_Type($room);
           // Loop through the sensor types in the current room
           foreach ($data_type as $type) {
-                //create a table for data type translation
-                $sensor_translation = array(
-                    "temperature" => "Température",
-                    "humidity" => "Humidité",
-                    "activity" => "Activité",
-                    "co2" => "CO2",
-                    "tvoc" => "TVOC",
-                    "illumination" => "Illumination",
-                    "infrared" => "Infrarouge",
-                    "infrared_and_visible" => "Infrarouge et visible",
-                    "pressure" => "Pression"
-                );
-                // Display the sensor type heading
-                echo "<h1>$sensor_translation[$type] : </h1>";
-                // Retrieve the sensor name based on the room and type
-                $sensor_name = Search_Name($room, $type);
-                //check which of these sensors is in common with the first request
-                $sensor_name = reset(array_intersect([$sensor_name], $list_sensors));
-                // Display the sensor data and store it in the history array
-                $history[$sensor_name] = Display_Data($sensor_name, $type, $numberOfValues);
+              // Retrieve the sensor name based on the room and type
+              $sensor_name = Search_Name($room, $type);
+              //check if this sensor is in common with the first request list
+              if (in_array($sensor_name, $list_sensors)) {
+                    global $sensor_translation;
+                    // Display the sensor type heading
+                    echo "<h1>$sensor_translation[$type] : </h1>";
+                    // Display the sensor data and store its values in the data history array
+                    $history[$sensor_name] = Display_Data($sensor_name, $type, $numberOfValues);
+                }
             }
             echo "</div>";
             echo "</div>"; // close the panel div for this room
@@ -153,42 +159,87 @@ function Display_data($nom_capteur, $data_type, $numberOfValues) {
     if ($LineCount && $numberOfValues > 1) {
         // Add a canvas element for charting sensor data
         echo "<canvas id=\"Chart_$nom_capteur\"></canvas>";
-
+        // Determining the unit of measurement based on the sensor type
+        $unite = "";
+        switch ($data_type) {
+            case "temperature":
+                $unite = "°C";
+                break;
+            case "humidity":
+                $unite = "%rh";
+                break;
+            case "activity":
+                $unite = "activité";
+                break;
+            case "co2":
+                $unite = "ppm";
+                break;
+            case "tvoc":
+                $unite = "ppb";
+                break;
+            case "illumination":
+                $unite = "lux";
+                break;
+            case "infrared":
+                $unite = "infrarouge";
+                break;
+            case "infrared_and_visible":
+                $unite = "infrarouge et visible";
+                break;
+            case "pressure":
+                $unite = "hPa";
+                break;
+            default:
+                $unite = "";
+        }
         // Begin an HTML table to display the data
         echo "
         <table>
             <tr> 
             <th>ID Mesure</th>
             <th>Date Mesure</th>
-            <th>Valeur Mesure</th>
+            <th>Valeur Mesure ($unite)</th>
             <th>Nom Capteur</th>
             </tr>
         ";
 
-         // Loop through each row in the result
-         while ($line = mysqli_fetch_assoc($request_content)) {
-            // Display value of each element
-            echo "<tr>";
-            echo "<td>";
-            //concatenates each element of $line separated with </td><td> 
-            echo implode("</td><td>", $line);
-            echo "</td>";
-            echo "</tr>";
-            echo "<tr>";
-            // Store the values of each measurement in the values_history array for later use in a chart
-            $values_history[] = $line['valeur_mesure'];
+        // Loop through each row in the result
+        while ($line = mysqli_fetch_assoc($request_content)) {
+           // Display value of each element
+           echo "<tr>";
+           echo "<td>";
+           //concatenates each element of $line separated with </td><td> 
+           echo implode("</td><td>", $line);
+           echo "</td>";
+           echo "</tr>";
+           echo "<tr>";
+           // Store the values of each measurement in the values_history array for later use in a chart
+           $values_history[] = $line['valeur_mesure'];
         }
         // Close the HTML table
         echo "</table>";
         echo "<br>";
-        // Return the values_history array for further processing
+        global $sensor_translation;
+        //sum of all the history array values divided its size, rounded to the second decimal place
+        $moyenneAffichee = round(array_sum($values_history) / sizeof($values_history), 2);
+
+        //get the total average for this sensor
+        $requeteMoyCapteur = "SELECT ROUND(AVG(valeur_mesure), 2) AS moyenne FROM mesure WHERE nom_capteur = '$nom_capteur'";
+        $resultatMoyCapteur = mysqli_query($connexion, $requeteMoyCapteur);
+        $ligneMoyCapteur = mysqli_fetch_assoc($resultatMoyCapteur);
+        $moyenneCapteur = $ligneMoyCapteur['moyenne'];
+        
+        //display these averages
+        echo "<h3 class='bot_block'>Moyenne du capteur de $sensor_translation[$data_type] : $moyenneCapteur $unite</h3>";
+        echo "<h3 class='bot_block add_space'>Moyenne des mesures affichées : $moyenneAffichee $unite</h3>";
+        // Return the values_history array for graph making
         return $values_history;
     } else if ($LineCount) {
         $values_history[] = mysqli_fetch_assoc($request_content)['valeur_mesure'];
         echo "<div id=\"$nom_capteur\" class=\"gauge\" data-value=\"$values_history[0]\" dataType=\"$data_type\"></div>";
     } else
-        // If there are no rows in the result, display an appropriate message
-        echo "Pas encore de mesures de $data_type pour cette salle";
+        // If there are no rows in the result, display this message
+        echo "<p class='center'> Aucune mesure à afficher </p>";
         echo "<br>";
     }
 

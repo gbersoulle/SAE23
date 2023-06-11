@@ -284,9 +284,9 @@
     </section>
 </body>
 <script src='./scripts/unroll.js'></script>
-<script src='https://cdn.jsdelivr.net/npm/chart.js'></script> -->
+<script src='https://cdn.jsdelivr.net/npm/chart.js'></script>
 <script src='./scripts/Make_Chart.js'></script>
-    <script>
+<script>
     // Get the historical data from PHP and store it in the historyData variable
     var historyData = <?php echo json_encode($history); ?>;
 
