@@ -355,6 +355,13 @@ body .updt_g {
 .block .bot_block{
   font-size: medium;
 }
- .add_space {
+.add_space {
   margin-bottom: 40px;
- }
+}
+
+
+.picture {
+	width: 30%;
+	text-align: center;
+	margin-left:35%;
+}

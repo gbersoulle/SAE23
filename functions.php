@@ -90,15 +90,20 @@ $typeCapteur, $triDate, $jourChoisi, $triValeur, $salle) {
                     // Display the sensor type heading
                     echo "<h1>$sensor_translation[$type] : </h1>";
                     // Display the sensor data and store its values in the data history array
-                    $history[$sensor_name] = Display_Data($sensor_name, $type, $numberOfValues);
+                    $history[$sensor_name] = Display_Data($sensor_name, $type, $numberOfValues, $triDate, $jourChoisi, $triValeur);
                 }
             }
             echo "</div>";
             echo "</div>"; // close the panel div for this room
         }
-        echo "</div>";
     }
-    return $history; // Return the sensor data history
+    //if history isn't set it means no data corresponds to the filters
+    if(isset($history)) {
+        return $history; // Return the sensor data history if not empty
+    }else {
+        echo "<h3 class='center'>Aucune valeur à afficher</h3>"; //return null if empty
+        echo "<img class='picture' src='images/nothing-here.png' alt='Aucune valeur'>";
+    }
 
 }
 
@@ -139,20 +144,45 @@ function Search_Name($room, $type) {
 
     
 // Define the function Display_data with parameters $nom_capteur and $data_type
-function Display_data($nom_capteur, $data_type, $numberOfValues) {
+function Display_data($nom_capteur, $data_type, $numberOfValues, $triDate, $jourChoisi, $triValeur) {
     // Access the global $connexion variable inside the function
     global $connexion;
 
-    // Retrieve the mesure table content based on the sensor name, limited to the last 10 measurements
-    $request_content = mysqli_query($connexion, "SELECT * FROM mesure WHERE nom_capteur = '$nom_capteur' ORDER BY id_mesure DESC LIMIT $numberOfValues");
-    
-    // Check if there was an error in the query execution
-    if (!$request_content) {
-        die("Error: Can't retrieve data from mesure. " . mysqli_error($connexion));
+    // Récupérer et afficher les valeurs historiques en fonction du tri (asc ou desc)
+    $request_content = "SELECT * FROM mesure WHERE nom_capteur = '$nom_capteur'";
+
+    if (!empty($jourChoisi)) {
+        $request_content .= " AND DATE(date_mesure) = '$jourChoisi'";
     }
+    if (!empty($triValeur)) {
+        if ($triValeur == 'asc') {
+            $request_content .= " ORDER BY valeur_mesure ASC";
+        } elseif ($triValeur == 'desc') {
+            $request_content .= " ORDER BY valeur_mesure DESC";
+        }
+    }
+    if (!empty($triDate)) {
+        if (!empty($triValeur)) {
+            $request_content .= ", date_mesure";
+        } else {
+            $request_content .= " ORDER BY date_mesure";
+        }
+        
+        if ($triDate == 'asc') {
+            $request_content .= " ASC";
+        } elseif ($triDate == 'desc') {
+            $request_content .= " DESC";
+        }
+    } else {
+        if (empty($triValeur)) {
+            $request_content .= " ORDER BY date_mesure DESC"; // Tri par date par défaut si aucun tri n'est spécifié
+        }
+    }
+           
+    $SQL_data = mysqli_query($connexion, $request_content);
 
     // Count the number of rows in the result
-    $LineCount = mysqli_num_rows($request_content);
+    $LineCount = mysqli_num_rows($SQL_data);
 
 
     // If there are rows in the result, proceed to display the data
@@ -204,7 +234,7 @@ function Display_data($nom_capteur, $data_type, $numberOfValues) {
         ";
 
         // Loop through each row in the result
-        while ($line = mysqli_fetch_assoc($request_content)) {
+        while ($line = mysqli_fetch_assoc($SQL_data)) {
            // Display value of each element
            echo "<tr>";
            echo "<td>";
@@ -243,7 +273,8 @@ function Display_data($nom_capteur, $data_type, $numberOfValues) {
         echo "<br>";
     }
 
-function Display_moyenne($salle_ID, $nom_capteur, $data_type){
+
+    function Display_moyenne($salle_ID, $nom_capteur, $data_type){
     // Access the global $connexion variable inside the function
     global $connexion;
 
@@ -318,6 +349,4 @@ function Metrique_type($table, $d_type) {
     echo "<td>$f_max</td>";
     echo "</tr>";
 }
-
-
 ?>

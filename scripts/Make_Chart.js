@@ -2,13 +2,14 @@
 function createChart(sensor_name, chartData, color) {
   // Get the canvas element by ID
   var canvas = document.getElementById("Chart_" + sensor_name);
-  
+
   // reverse the array to have data classified in the right order
   var data = chartData[sensor_name].reverse();
+  // keep the last 10 values only
+  data = data.slice(-10);
   
     // Generate a random color (generate a random number between 0 and 16777215 and convert it to hexa)
   var randomColor = '#' + Math.floor(Math.random() * 16777215).toString(16);
-  console.log(randomColor);
 
   // specify each characteristic of our chart for chart.js to make
   var chart = new Chart(canvas, {
