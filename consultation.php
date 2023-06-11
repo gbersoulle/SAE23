@@ -16,7 +16,7 @@
 					// Include the 'functions.php' which contains necessary functions for the code below
 					require_once 'functions.php';
 					// Call a function to display data for "all" buildings, display "1" measurment
-					display_all_buildings("all",1);
+                    display_all_buildings("all", 1, '', '', '', '', '', '');
 					require_once 'affiche_metriques.php'; //diplay avg, min, max
                     ?>
             </div>
@@ -35,7 +35,7 @@
         co2: 800,
         temperature: 50,
         humidity: 100,
-        activity: 1,
+        activity: 5,
         tvoc: 500,
         illumination: 1000,
         infrared: 100,
@@ -47,8 +47,6 @@
         var gaugeElement = gaugeElements[i];
         var value = parseInt(gaugeElement.getAttribute("data-value"));
         var dataType = gaugeElement.getAttribute("datatype");
-        console.log("value and type" + ' ' + value + ' ' + dataType);
-
 
         var g = new JustGage({
           id: gaugeElement.id,

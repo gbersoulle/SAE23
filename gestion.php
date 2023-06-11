@@ -4,9 +4,11 @@
         session_start();
     }
 
+
     // Check if the user is logged in
     if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {
         // Check the user's source
+
         if (isset($_SESSION['source']) && $_SESSION['source'] != 'batiment') {
             $erreur = "ERROR: You do not have the necessary credentials to access this page";
             echo '<a href="index.php">Home</a><br>' ;
@@ -34,63 +36,76 @@
 <body>
     <?php
     require('header.php');
+    //get the user name
     $nomUtilisateur = $_SESSION["user"];
 
     require_once 'connexion_bdd.php';
 
+    //generate an sql request to get the user's building id and name
     $requeteBatiment = "SELECT id_batiment, nom_bat FROM batiment WHERE login_gest = '$nomUtilisateur'";
     $resultatBatiment = mysqli_query($connexion, $requeteBatiment);
     $ligneBatiment = mysqli_fetch_assoc($resultatBatiment);
-    $idBatiment = $ligneBatiment['id_batiment']; // Get the building managed by this user
+
+    //extract the user's building id and name
+    $idBatiment = $ligneBatiment['id_batiment'];
     $nomBatiment = $ligneBatiment['nom_bat'];
-    echo "<h1>Management Page for $nomUtilisateur (Building: $nomBatiment)</h1>";
+    echo "<h1>Page de gestion de $nomUtilisateur (Batiment : $nomBatiment)</h1>";
+    //get the name of the building sensors
     $requeteCapteurs = "SELECT nom_capteur, type_capteur FROM capteur WHERE id_batiment = '$idBatiment'";
-    $resultatCapteurs = mysqli_query($connexion, $requeteCapteurs); // Get all the sensors for the specified building
+    $resultatCapteurs = mysqli_query($connexion, $requeteCapteurs);
     ?>
 
-    <button id="filterButton">Filter Search</button>
+    <!-- create the filter button -->
+    <button id="filterButton">Filtrer la recherche</button>
+
     <fieldset class="gestion" id="gestion">
     <legend>Filter Search</legend>
     <form method='POST'>
-        <label for='nom_capteur'>Select a sensor:</label>
-        <select name='nom_capteur' id='nom_capteur'>
-            <option value=''>All sensors</option>
-            <?php
-            while ($ligneCapteur = mysqli_fetch_assoc($resultatCapteurs)) {
-                $nomCapteur = $ligneCapteur['nom_capteur'];
-                echo "<option value='$nomCapteur'>$nomCapteur</option>"; // Add all available sensors to the list
-            }
-            ?>
-        </select>
-
-        <label for='type_capteur'>Select a sensor type:</label>
-        <select name='type_capteur' id='type_capteur'>
-            <option value='' >All types</option>
-            <?php
-            $typesCapteurs = array(
-                "temperature" => "Temperature",
-                "humidity" => "Humidity",
-                "activity" => "Activity",
-                "co2" => "CO2",
-                "tvoc" => "TVOC",
-                "illumination" => "Illumination",
-                "infrared" => "Infrared",
-                "infrared_and_visible" => "Infrared and visible",
-                "pressure" => "Pressure"
-            );
-
+    <!-- sensor name selection -->
+    <label for='nom_capteur'>Choisir un capteur :</label>
+    <select name='nom_capteur' id='nom_capteur'>
+        <option value=''>Tous les capteurs</option>
+        <?php
+        //add every sensor as an option in the list
+        while ($ligneCapteur = mysqli_fetch_assoc($resultatCapteurs)) {
+            $nomCapteur = $ligneCapteur['nom_capteur'];
+            echo "<option value='$nomCapteur'>$nomCapteur</option>"; 
+        }
+        ?>
+    </select>
+    <!-- sensor type selection -->
+    <label for='type_capteur'>Choisir un type de capteur :</label>
+    <select name='type_capteur' id='type_capteur'>
+        <option value='' >Tous les types</option>
+        <?php
+        $typesCapteurs = array(
+            "temperature" => "Température",
+            "humidity" => "Humidité",
+            "activity" => "Activité",
+            "co2" => "CO2",
+            "tvoc" => "TVOC",
+            "illumination" => "Illumination",
+            "infrared" => "Infrarouge",
+            "infrared_and_visible" => "Infrarouge et visible",
+            "pressure" => "Pression"
+        );
+            //add every type from the array as an option of the list
             foreach ($typesCapteurs as $type => $nom) {
                 echo "<option value='$type'>$nom</option>";
             }
             ?>
         </select>
 
-        <label for='salle'>Select a room:</label>
+        <!-- room name selection -->
+        <label for='salle'>Choisir une salle :</label>
         <select name='salle' id='salle'>
-            <option value=''>All rooms</option>
+            <option value=''>Toutes les salles</option>
             <?php
+            //request all the rooms of the building from the DB
             $requeteSalles = "SELECT DISTINCT Salle FROM capteur WHERE id_batiment = '$idBatiment'";
             $resultatSalles = mysqli_query($connexion, $requeteSalles);
+            //add every room collected as an option
+
             while ($ligneSalle = mysqli_fetch_assoc($resultatSalles)) {
                 $salle = $ligneSalle['Salle'];
                 echo "<option value='$salle'>$salle</option>";
@@ -98,31 +113,33 @@
             ?>
         </select>
 
-        <label for='tri_date'>Sort by date:</label>
+        <!-- add time based order selection -->
+        <label for='tri_date'>Trier par date :</label>
         <select name='tri_date' id='tri_date'>
-            <option value='asc'>Oldest first</option>
-            <option value='desc' selected>Newest first</option>
+            <option value='asc'>Plus ancienne d'abord</option>
+            <option value='desc' selected>Plus récente d'abord</option>
         </select>
-
-        <label for='tri_valeur'>Sort by value:</label>
+        <!-- add order by value -->
+        <label for='tri_valeur'>Trier par valeur :</label>
         <select name='tri_valeur' id='tri_valeur'>
-            <option value=''>No sorting</option>
-            <option value='asc'>Smallest first</option>
-            <option value='desc'>Largest first</option>
+            <option value=''>Aucun tri</option>
+            <option value='asc'>Plus petite d'abord</option>
+            <option value='desc'>Plus grande d'abord</option>
         </select>
-
-        <label for='choix_jour'>Select a day:</label>
+        <!-- add date selection -->
+        <label for='choix_jour'>Choisir un jour :</label>
         <input type='date' name='choix_jour' id='choix_jour'>
 
-        <input type='submit' value='Filter'>
-    </form>
-</fieldset>
+        <input type='submit' value='Filtrer'>
+        </form>
+    </fieldset>
 
-
-<section>
-    <h2 id="bg">Displaying sensors based on the selected filters</h2>
+    <!-- As the form content is being sent to this same script, we now need to handle it : -->
+    <section>
+        <h2 id="bg">Affichage des capteurs selon le filtre choisi</h2>
     <?php
-    // Retrieving the selected filter values from the form submission
+    //handle the form reception (post), store every information sent if it's not the default one
+
     $nomCapteurSelectionne = isset($_POST['nom_capteur']) ? $_POST['nom_capteur'] : '';
     $typeCapteurSelectionne = isset($_POST['type_capteur']) ? $_POST['type_capteur'] : '';
     $triDate = isset($_POST['tri_date']) ? $_POST['tri_date'] : '';
@@ -130,179 +147,34 @@
     $triValeur = isset($_POST['tri_valeur']) ? $_POST['tri_valeur'] : '';
     $salleSelectionnee = isset($_POST['salle']) ? $_POST['salle'] : '';
 
-    // SQL query to get sensors based on the filters
-    $requeteCapteursFiltre = "SELECT * FROM capteur WHERE id_batiment = '$idBatiment'";
-
-    // Adding conditions to the query based on the selected filter values
-    if (!empty($nomCapteurSelectionne)) {
-        $requeteCapteursFiltre .= " AND nom_capteur = '$nomCapteurSelectionne'";
-    }
-    if (!empty($typeCapteurSelectionne)) {
-        $requeteCapteursFiltre .= " AND type_capteur = '$typeCapteurSelectionne'";
-    }
-    if (!empty($salleSelectionnee)) {
-        $requeteCapteursFiltre .= " AND Salle = '$salleSelectionnee'";
-    }
-
-    // Executing the query to retrieve filtered sensors
-    $resultatCapteursFiltre = mysqli_query($connexion, $requeteCapteursFiltre);
-
-    // Looping through each filtered sensor
-    while ($ligneCapteur = mysqli_fetch_assoc($resultatCapteursFiltre)) {
-        $nomCapteur = $ligneCapteur['nom_capteur'];
-        $type_capteur = $ligneCapteur['type_capteur'];
-        $salleCapteur = $ligneCapteur['Salle'];
-
-        // Determining the unit of measurement based on the sensor type
-        $unite = "";
-        switch ($type_capteur) {
-            case "temperature":
-                $unite = "°C";
-                break;
-            case "humidity":
-                $unite = "%rh";
-                break;
-            case "activity":
-                $unite = "activity";
-                break;
-            case "co2":
-                $unite = "ppm";
-                break;
-            case "tvoc":
-                $unite = "ppb";
-                break;
-            case "illumination":
-                $unite = "lux";
-                break;
-            case "infrared":
-                $unite = "infrared";
-                break;
-            case "infrared_and_visible":
-                $unite = "infrared and visible";
-                break;
-            case "pressure":
-                $unite = "hPa";
-                break;
-            default:
-                $unite = "";
+    echo "<div class='block'>";
+        require_once 'functions.php';
+        $history = display_all_buildings([$nomBatiment], 1000, $nomCapteurSelectionne,
+        $typeCapteurSelectionne, $triDate, $jourChoisi, $triValeur, $salleSelectionnee);
+        if(!isset($history)){
+            echo "<div class='block'>";
+            echo "<h3 class='center'>Aucune valeur à afficher</h3>"; //return null if empty
+            echo "<img class='picture' src='images/nothing-here.png' alt='Aucune valeur'>";
+            echo "</div>";
         }
-
-        // Query to calculate the average value of the sensor
-        $requeteMoyCapteur = "SELECT ROUND(AVG(valeur_mesure), 2) AS moyenne FROM mesure WHERE nom_capteur = '$nomCapteur'";
-        $resultatMoyCapteur = mysqli_query($connexion, $requeteMoyCapteur);
-        $ligneMoyCapteur = mysqli_fetch_assoc($resultatMoyCapteur);
-        $moyenneCapteur = $ligneMoyCapteur['moyenne'];
-
-        // Displaying the sensor information and measurements
-        echo "<div class='block'>
-        <h3 class='top_block'>$type_capteur Sensor: $nomCapteur (Room: $salleCapteur)</h3>";
-
-        // Query to retrieve the measurements of the sensor with the selected filters
-        $requeteValHistorique = "SELECT *,
-                (SELECT MAX(valeur_mesure) FROM mesure WHERE nom_capteur = '$nomCapteur'"; // beginning of the SQL query
-                
-        // Adding maximum value condition with the selected filters
-        if (!empty($jourChoisi)) {
-            $requeteValHistorique .= " AND DATE(date_mesure) = '$jourChoisi'";
-        }
-
-        $requeteValHistorique .= ") AS maximum,
-            (SELECT MIN(valeur_mesure) FROM mesure WHERE nom_capteur = '$nomCapteur'";
-                
-        // Adding minimum value condition with the selected filters
-        if (!empty($jourChoisi)) {
-            $requeteValHistorique .= " AND DATE(date_mesure) = '$jourChoisi'";
-        }
-
-        $requeteValHistorique .= ") AS minimum,
-            (SELECT AVG(valeur_mesure) FROM mesure WHERE nom_capteur = '$nomCapteur'";
-                
-        // Adding average value condition with the selected filters
-        if (!empty($jourChoisi)) {
-            $requeteValHistorique .= " AND DATE(date_mesure) = '$jourChoisi'";
-        }
-
-        $requeteValHistorique .= ") AS moyenne
-            FROM mesure
-            WHERE nom_capteur = '$nomCapteur'";
-
-        // Adding the general condition based on the selected filters
-        if (!empty($jourChoisi)) {
-            $requeteValHistorique .= " AND DATE(date_mesure) = '$jourChoisi'";
-        }
-
-        // Adding the value sorting condition
-        if (!empty($triValeur)) {
-            if ($triValeur == 'asc') {
-                $requeteValHistorique .= " ORDER BY valeur_mesure ASC";
-            } elseif ($triValeur == 'desc') {
-                $requeteValHistorique .= " ORDER BY valeur_mesure DESC";
-            }
-        }
-
-        // Adding the date sorting condition
-        if (!empty($triDate)) {
-            if (!empty($triValeur)) {
-                $requeteValHistorique .= ", date_mesure";
-            } else {
-                $requeteValHistorique .= " ORDER BY date_mesure";
-            }
-
-            if ($triDate == 'asc') {
-                $requeteValHistorique .= " ASC";
-            } elseif ($triDate == 'desc') {
-                $requeteValHistorique .= " DESC";
-            }
-        } else {
-            if (empty($triValeur)) {
-                $requeteValHistorique .= " ORDER BY date_mesure DESC";
-            }
-        }
-
-        // Executing the query to retrieve the measurements
-        $resultatValHistorique = mysqli_query($connexion, $requeteValHistorique);
-
-        // Checking if the query was successful
-        if (!$resultatValHistorique) {
-            die("Erreur de requête : " . mysqli_error($connexion));
-        }
-
-        // Displaying the measurements if there are any
-        if (mysqli_num_rows($resultatValHistorique) > 0) {
-            echo "<table>
-                    <tr>
-                        <th>Measurement ID</th>
-                        <th>Measurement Date</th>
-                        <th>Measurement Value</th>
-                        <th>Sensor Name</th>
-                    </tr>";
-            while ($ligneValHistorique = mysqli_fetch_assoc($resultatValHistorique)) {
-                $idMesure = $ligneValHistorique['id_mesure'];
-                $dateMesure = $ligneValHistorique['date_mesure'];
-                $valeurMesure = $ligneValHistorique['valeur_mesure'];
-                $nomCapteur = $ligneValHistorique['nom_capteur'];
-                $maximum = $ligneValHistorique['maximum'];
-                $minimum = $ligneValHistorique['minimum'];
-                $moyenne = $ligneValHistorique['moyenne'];
-
-                echo "<tr>
-                        <td>$idMesure</td>
-                        <td>$dateMesure</td>
-                        <td>$valeurMesure $unite</td>
-                        <td>$nomCapteur</td>
-                    </tr>";
-            }
-            echo "</table>";
-            echo "<h3 class='bot_block'>Average for $type_capteur Sensor: $moyenneCapteur $unite</h3>";
-            echo "<h3 class='bot_block'>Info of the displayed measurements: Max : $maximum - Min : $minimum - Moy : $moyenne  $unite</h3>";
-
-        } else  {
-            echo "<p>This sensor does not have any values recorded with the chosen filters.</p>";
-        }
-        echo "</div>";
-    }
-?>
-
-</section>
+    echo "</div>";
+    ?>
+    </section>
 </body>
+<script src='./scripts/unroll.js'></script>
+<script src='https://cdn.jsdelivr.net/npm/chart.js'></script>
+<script src='./scripts/Make_Chart.js'></script>
+<script>
+    // Get the historical data from PHP and store it in the historyData variable
+    var historyData = <?php echo json_encode($history); ?>;
+
+    // Iterate over each sensor in the historyData object
+    for (var sensor in historyData) {
+        // Check if the sensor has data
+        if (historyData[sensor] != null && historyData[sensor].length > 0) {
+            // Call the createChart function to create a chart for the sensor using the historical data
+            createChart(sensor, historyData, 'red');
+        }
+    }
+</script>
 </html>

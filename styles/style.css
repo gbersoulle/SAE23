@@ -67,6 +67,11 @@ ul{
   font-style: italic  ;
 }
 
+
+.center{
+  text-align: center;
+}
+
 button {
   font-family: 'Montserrat', sans-serif;
   background-color: transparent;
@@ -301,6 +306,11 @@ canvas {
   margin: 50px 0 50px;
 }
 
+.gauge {
+  margin-left: auto;
+  margin-right: auto;
+}
+
 /* the rolling down menu css */
 .dropdown {
 	position: relative;
@@ -351,20 +361,18 @@ canvas {
   content: '\25B2';
 }
 
-.active, .accordion:hover, .room:hover {
-background-color: #daf3ff;
+.accordion:hover, .room:hover {
+background-color: #e5f7ff;
+}
+
+.active {
+  background-color: #f2fbff;
 }
 
 .roomDiv{
   width: 46%;
   margin: 2%;
   float: left;
-  justify-content: space-between;
-
-}
-
-.room{
-  width: 100%;
 }
 
 .panel {
@@ -479,13 +487,13 @@ body .updt_g {
 }
 
 .block {
-  width: 75%;
+  width: 85%;
   margin-left: 5%;
-  padding: 20px;
   padding-top: 10px;
   background-color: #ffffff4e;
   border-radius: 40px;
   margin-bottom: 15px;
+  display: inline-block;
 }
 
 .block .top_block {
@@ -495,3 +503,15 @@ body .updt_g {
 .block .bot_block{
   font-size: medium;
 }
+
+.add_space {
+  margin-bottom: 40px;
+}
+
+
+.picture {
+	width: 30%;
+	text-align: center;
+	margin-left:35%;
+}
+
