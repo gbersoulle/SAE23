@@ -66,25 +66,25 @@ $typeCapteur, $triDate, $jourChoisi, $triValeur, $salle) {
 
         // if there is more than one : Add an accordion button for each building
         if (sizeof($buildings) > 1) {
-            echo "<button class=\"accordion\" onclick=\"Show_And_Hide(this.nextElementSibling)\">Batiment $building</button>";
+            echo "<button class='accordion' onclick=\"Show_And_Hide(this.nextElementSibling)\">Batiment $building</button>";
             // Add a panel div for each building
-            echo "<div class=\"panel\" id=\"$building\">";
+            echo "<div class='panel' id='$building'>";
             echo "<p>Selectionnez une salle</p>";
         }
 
         // Loop through the rooms in the current building
         foreach ($rooms as $room) {
             // Add an accordion button for each room
-            echo "<div class=\"roomDiv\">";
-            echo "<button class=\"room\" onclick=\"togglePanel(this.nextElementSibling); expand(document.getElementById('$building'))\">Salle $room</button>";
+            echo "<div class='roomDiv'>";
+            echo "<button class='room' onclick=\"togglePanel(this.nextElementSibling); expand(document.getElementById('$building'))\">Salle $room</button>";
             // Add a panel div for each room
-            echo "<div class=\"panel data\">";
+            echo "<div class='panel data'>";
             $data_type = Search_Type($room);
           // Loop through the sensor types in the current room
           foreach ($data_type as $type) {
               // Retrieve the sensor name based on the room and type
               $sensor_name = Search_Name($room, $type);
-              //check if this sensor is in common with the first request list
+              //check if this sensor name is in common with the first request list of sensors
               if (in_array($sensor_name, $list_sensors)) {
                     global $sensor_translation;
                     // Display the sensor type heading
@@ -187,7 +187,7 @@ function Display_data($nom_capteur, $data_type, $numberOfValues, $triDate, $jour
     // If there are rows in the result, proceed to display the data
     if ($LineCount && $numberOfValues > 1) {
         // Add a canvas element for charting sensor data
-        echo "<canvas id=\"Chart_$nom_capteur\"></canvas>";
+        echo "<canvas id='Chart_$nom_capteur'></canvas>";
         // Determining the unit of measurement based on the sensor type
         $unite = "";
         switch ($data_type) {
@@ -263,9 +263,10 @@ function Display_data($nom_capteur, $data_type, $numberOfValues, $triDate, $jour
         echo "<h3 class='bot_block add_space'>Moyenne des mesures affichées : $moyenneAffichee $unite</h3>";
         // Return the values_history array for graph making
         return $values_history;
+    //if there is only one value, display it as a gauge
     } else if ($LineCount) {
         $values_history[] = mysqli_fetch_assoc($SQL_data)['valeur_mesure'];
-        echo "<div id=\"$nom_capteur\" class=\"gauge\" data-value=\"$values_history[0]\" dataType=\"$data_type\"></div>";
+        echo "<div id='$nom_capteur' class='gauge' data-value='$values_history[0]' dataType='$data_type'></div>";
     } else
         // If there are no rows in the result, display this message
         echo "<p class='center'> Aucune mesure à afficher </p>";

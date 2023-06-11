@@ -338,6 +338,7 @@ canvas {
 .accordion, .room {
   background-color: #eee;
   color: #2c2c2c;
+  font-size: 15px;
   width: 80%;
   border-radius: 5px;
   padding: 18px;
