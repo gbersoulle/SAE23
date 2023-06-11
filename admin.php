@@ -139,7 +139,6 @@
 <form method="POST" action="script_admin.php">
   <table>
     <tr>
-      <th>Sensor ID</th>
       <th>Sensor Name</th>
       <th>Sensor Type</th>
       <th>Assigned Building</th>
@@ -161,7 +160,7 @@
         $nomCapteur = $ligne['nom_capteur'];
         $typeCapteur = $ligne['type_capteur'];
         $nomBatiment = $ligne['nom_bat'];
-    $Salle = $ligne['Salle'];
+        $Salle = $ligne['Salle'];
         $measurementCount = $ligne['measurement_count'];
 
         echo "<tr>";
