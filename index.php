@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,48 +9,80 @@
     <title>Page d'Accueil'</title>
 </head>
 <body>
-    <section class="homepage" id="acc-ent">
-        <h1> SAE23 - Bienvenue sur notre site web !</h1>
-         
-        <section class="content">
-            
-            <?php require('header.php'); ?>
-            <h1> SAE23 - Projet de Visualisation des Données des Salles de l'IUT </h1>
 
+    <section class="homepage" id="acc-ent">
+
+        <h1> SAE23 - Bienvenue sur notre site web !</h1>
+        
+        <section class="content">
+        
+        <?php require('header.php'); ?> 
+        
+            <h2> Projet de Visualisation des Données des Salles de l'IUT </h2>
+
+            <h2 class="t_center h2-acc"> Mise en contexte </h2>
             <section class="parag"> 
-                <h2 class="h2-acc"> Mise en contexte </h2>
+                
                 <p> 
                     Dans le cadre de notre formation en Bachelor Universitaire de Technologie au Département Réseaux et Télécommunications de l'IUT de Blagnac, nous avons entrepris un projet ambitieux visant à mettre en place une solution informatique pour la visualisation des données des salles de tous les bâtiments de notre institut universitaire. <br>
                     Ce projet, nommé SAÉ23 (Situation d’apprentissage et d’évaluation), constitue une étape essentielle de notre parcours universitaire, nous permettant d'appliquer les connaissances et les compétences que nous avons acquises au cours de notre formation.
                 </p>
             </section> 
 
+            <h2 class="t_center h2-acc"> Objectif du projet </h2>
             <section class="parag"> 
-                <h2 class="h2-acc"> Objectif du projet </h2>
                 <p> 
                     L'objectif principal de notre projet est de faciliter le travail quotidien des gestionnaires des bâtiments de l'IUT en mettant à leur disposition une interface conviviale et simple pour la visualisation des données des salles. <br>
                     Nous souhaitons offrir une solution complète qui permettra aux gestionnaires d'accéder rapidement et facilement aux informations pertinentes concernant les différentes salles de l'IUT.
-                </p>
+                </p>    
+                <figure> 
+                    <img id="iut-img" src="./images/bg_h.png" alt="Docker" class="img_gprojet">
+                </figure>
             </section>
 
-            <section class="parag"> 
-                <h2 class="h2-acc"> Fonctionnalités proposées </h2>
+            <h2 class="t_center h2-acc"> Fonctionnalités proposées </h2>
+            <section class="parag">
                 <p>
                     Notre projet comprend plusieurs fonctionnalités essentielles pour répondre aux besoins des gestionnaires. <br>
                     Premièrement, nous avons développé via la solution de conteneurisation Docker deux dashboards : le premier alimenté par base de donnée (InfluxDB) utilisant la plateforme Grafana, et la seconde issue de l’outil d’automatisation Node-Red. Ces dashboards fourniront une vue d'ensemble des données captées par les capteurs présents dans chaque salle, permettant ainsi aux gestionnaires de surveiller et d'analyser les métriques importantes telles que la température, l'humidité, la luminosité, etc. <br>
                     Deuxièmement, nous mettrons en place une base de données MySQL qui stockera toutes les données collectées par les capteurs. Cette base de données permettra une gestion plus fine des comptes et des informations relatives aux salles, offrant ainsi une expérience utilisateur personnalisée et sécurisée via le site web que vous êtes en train de consulter.
                 </p>
-            </section>
 
-            <section class="parag"> 
-                <h2 class="h2-acc"> Conclusion </h2>
+                <section class="blockgest">
+                    <figure class="tier-1"> 
+                        <img src="./images/docker.png" alt="Docker" class="img_gprojet">
+                    </figure>
+                    <figure class="tier-2"> 
+                        <img id="node-img" src="./images/logo-node.png" alt="Docker" class="img_gprojet">
+                    </figure>
+                    <figure class="tier-3"> 
+                        <img src="./images/grafana-logo.png" alt="Docker" class="img_gprojet">
+                    </figure>
+                </section>
+
+                <section class="blockgest">
+                    <figure class="tier-1"> 
+                        <img id="php-img" src="./images/php.png" alt="Docker" class="img_gprojet">
+                    </figure>
+                    <figure class="tier-2"> 
+                        <img id="js-img" src="./images/logo-js.png" alt="Docker" class="img_gprojet">
+                    </figure>
+                    <figure class="tier-3"> 
+                        <img id="css-html" src="./images/css-html.png" alt="Docker" class="img_gprojet">
+                    </figure>
+                </section>
+
+            </section>
+            
+            <h2 class="t_center h2-acc"> Ouverture </h2>
+            <section class="parag">     
                 <p> 
                     Ce projet de visualisation des données des salles de l'IUT représente une opportunité unique pour notre groupe d'appliquer les connaissances et les compétences que nous avons acquises tout au long de notre formation. 
                     L’organisation que nous avons adoptée au cours de ce projet est disponible dans la page de gestion de projet. Nous vous souhaitons de passer un agréable moment lors de la consultation de ce site !             
                 </p>
             </section>
 
-            <h2 onclick="toggleDetails('member1')"> Mentions légales </h2>
+            <h2 class="t_center h2-acc" onclick="toggleDetails('member1')"> Mentions légales </h2>
         
             <section id="member1-details" class="member-details">
                 <h2>Définitions</h2>
@@ -71,8 +103,7 @@
                 <strong>Hébergeur</strong> : Amen – amen.fr / / /<br>
                 <strong>Délégué à la protection des données</strong> : CHAVEROUX – chaveroux.pierre@gmail.com<br>
                 </p>
-                <div ng-bind-html="linkHTML"><p>Ces mentions légales RGPD sont issues du <a href="https://fr.orson.io/1371/generateur-mentions-legales" title="générateur de mentions légales RGPD d">générateur de mentions légales RGPD d'Orson.io</a></p></div>
-                
+                            
                 <h2>2. Conditions générales d’utilisation du site et des services proposés.</h2>
                 <p>Le Site constitue une œuvre de l’esprit protégée par les dispositions du Code de la Propriété Intellectuelle et des Réglementations Internationales applicables. 
                 Le Client ne peut en aucune manière réutiliser, céder ou exploiter pour son propre compte tout ou partie des éléments ou travaux du Site.</p>
@@ -204,7 +235,7 @@
                 <p>
                 Tout litige en relation avec l’utilisation du site <a href="https://bersoulle.fr/SAE23">https://bersoulle.fr/SAE23</a> est soumis au droit français. 
                 En dehors des cas où la loi ne le permet pas, il est fait attribution exclusive de juridiction aux tribunaux compétents de Blagnac</p>
-                </p>
+                
             </section>
 
         </section>
@@ -216,10 +247,9 @@
         }
     </script>
     
-        <button id="scroll_b">
-            <a href=#top><img src="./images/scroll_up.png" class="img_scrollb"></a>
-        </button>
-
+    <a href=#top> <button id="scroll_b">
+            <img src="./images/scroll_up.png" class="img_scrollb">
+        </button></a>
     </section>
 
     <button id="next" class="b_index">Cliquez ici pour continuer</button>

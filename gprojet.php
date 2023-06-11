@@ -13,7 +13,7 @@
     <h1><span id="typed-text"></span> ~ </h1>
 
     <section> 
-        <h2 class="h2-acc">Diagrammes de GANTT </h2>
+        <h2 class="t_center h2-acc">Diagrammes de GANTT </h2>
             <p class="parag"> L'établissement d'un diagramme de Gantt initial en début de projet a été essentiel pour une gestion efficace du projet. Cela nous a permis de planifier les différentes tâches et étapes du projet de manière visuelle. De plus, cet outil nous a aidé à anticiper les retards par rapport au planning initial et à prévoir une marge de manœuvre pour compenser ces derniers. </p>
             <div class="blockgest">   
                 <figure class="right"> 
@@ -27,7 +27,7 @@
     </section>
     
     <section> 
-        <h2 class="h2-acc"> Visualisation des données via la solution de conteneurisation Docker   </h2>
+        <h2 class="t_center h2-acc"> Visualisation des données via la solution de conteneurisation Docker   </h2>
         <p class="parag"> Docker est une solution de conteneurisation qui permet de créer, distribuer et exécuter des applications de manière portable et isolée. Les conteneurs Docker encapsulent les applications et leurs dépendances. Docker utilise une technologie de virtualisation légère qui partage le noyau du système d'exploitation hôte, offrant ainsi une meilleure efficacité des ressources. Les conteneurs Docker sont rapides à démarrer et à arrêter, ce qui facilite le déploiement des applications. </p>
         <p class="parag"> Nous avons cherché au cours cette partie du projet à utiliser les dockers pour proposer aux différents utilisateurs une expérience de visualisation des données fluides et agréables. Pour ce faire, nous avons utilisé deux technologies majeures : Node-Red et Grafana Dashboard. </p>
         <p class="parag"> Node-RED est un environnement de développement visuel utilisé pour créer des applications d'automatisation, très souvent utilisé en IoT car fournissant une architecture de travail basé sur des nœuds qui peuvent être connectés et configurés pour créer des scénarios complexes. <br>
@@ -45,7 +45,7 @@
     </section> 
     
     <section> 
-        <h2 class="h2-acc">Outils collaboratifs utilisés</h2>
+        <h2 class="t_center h2-acc">Outils collaboratifs utilisés</h2>
             <p class="parag"> Dans le cadre de notre projet, nous avons utilisé plusieurs outils pour faciliter notre travail collaboratif. </p>
             <p class="parag"> GitHub, une plateforme de développement, nous a permis de suivre les modifications, de gérer les versions et de collaborer efficacement au sein de notre équipe de développement sur le site web dynamique. Trello, quant à lui, nous a aidés à organiser nos tâches et à suivre l'avancement de nos projets grâce à ses tableaux visuels intuitifs. Enfin, Google Drive a été notre principal service de stockage en ligne, nous permettant de sauvegarder, synchroniser et partager nos fichiers, ainsi que de collaborer en temps réel sur des documents. </p> 
             <p class="parag"> Grâce à ces outils, notre travail a été optimisé et notre collaboration a été plus fluide et productive. </p>
@@ -58,7 +58,7 @@
     </section>
     
     
-    <h2 class="h2-acc">Bilan personnel, implication, problèmes et solutions apportées (cliquez sur les noms)</h2>
+    <h2 class="t_center h2-acc">Bilan personnel, implication, problèmes et solutions apportées (cliquez sur les noms)</h2>
 
     <section>
     
@@ -136,7 +136,7 @@
 
     
     <section>
-        <h2 class="h2-acc"> Degré de satisfaction du cahier des charges : </h2>
+        <h2 class="t_center h2-acc"> Degré de satisfaction du cahier des charges : </h2>
             <p class="parag"> La SAE23 a été un projet mené à bien et pour lequel tous les objectifs du cahier des charges ont été respectés. Le déploiement du projet s'est fait sur une machine virtuelle avec le système d'exploitation Lubuntu et la gestion de version a été réalisée à l'aide de Git et GitHub. </p>
             <p class="parag"> La première solution de visualisation des données repose sur la solution de conteneurisation docker et en particulier sur les outils Node-Red, InfluxDB et Grafana. Node-Red permet de collecter et de traiter les données provenant du bus MQTT, tandis que Grafana offre un tableau de bord complet pour visualiser ces données de manière claire et intuitive. InfluxDB a été utilisé comme base de données pour stocker et interroger les données de manière efficace. </p>
             <p class="parag"> La seconde solution de visualisation des données aura pris la forme d’un site web dynamique et aura été développé en utilisant le langage PHP.

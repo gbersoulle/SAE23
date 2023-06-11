@@ -5,7 +5,6 @@ body {
     margin: 0;
     padding: 0;
     font-family: "Roboto", sans-serif;
-    font-size: 150%;
     background-color: #d3d3d3;
 }
 
@@ -31,11 +30,16 @@ ul{
 .parag {
   text-align: justify;
   margin : 2%; 
-  text-indent: 5%; 
+  text-indent: 5%;
+  font-size: 150%; 
 }
 
 .member-details {
   margin: 2%;
+}
+
+.t_center {
+  text-align: center;
 }
 
 .p_center {
@@ -48,7 +52,6 @@ ul{
   font-size: 130%;
   font-weight: bold;
   color: #a10202;
-  text-align: center;
   margin-bottom: 20px;
   text-transform: uppercase;
 }
@@ -110,6 +113,24 @@ button {
   float: right;
 }
 
+.tier-1
+{
+   width: 33.33%;
+   text-align: justify;
+}
+
+.tier-2
+{
+  width: 33.33%;
+  text-align: justify;
+}
+
+.tier-3
+{
+  width: 33.33%;
+  text-align: justify;
+}
+
 #gantt-initial {
   width: 70%;
 }
@@ -129,6 +150,27 @@ button {
 
 #grafana {
   width: 94.5%;
+}
+
+#node-img {
+  width: 70%;
+}
+
+#php-img {
+  width: 50%;
+}
+
+#js-img {
+  width: 40%;
+}
+
+#iut-img { 
+  width: 50%;
+  padding-top: 2%;
+}
+
+#css-html {
+  width: 40%;
 }
 
 .img_gprojet{
