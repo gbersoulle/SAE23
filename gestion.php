@@ -143,6 +143,12 @@
         require_once 'functions.php';
         $history = display_all_buildings([$nomBatiment], 1000, $nomCapteurSelectionne,
         $typeCapteurSelectionne, $triDate, $jourChoisi, $triValeur, $salleSelectionnee);
+        if(!isset($history)){
+            echo "<div class='block'>";
+            echo "<h3 class='center'>Aucune valeur à afficher</h3>"; //return null if empty
+            echo "<img class='picture' src='images/nothing-here.png' alt='Aucune valeur'>";
+            echo "</div>";
+        }
     echo "</div>";
     ?>
     </section>

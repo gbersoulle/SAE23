@@ -96,15 +96,14 @@ $typeCapteur, $triDate, $jourChoisi, $triValeur, $salle) {
             echo "</div>";
             echo "</div>"; // close the panel div for this room
         }
+        echo "</div>";
     }
     //if history isn't set it means no data corresponds to the filters
     if(isset($history)) {
         return $history; // Return the sensor data history if not empty
     }else {
-        echo "<h3 class='center'>Aucune valeur à afficher</h3>"; //return null if empty
-        echo "<img class='picture' src='images/nothing-here.png' alt='Aucune valeur'>";
+        return null;
     }
-
 }
 
 function Search_Type($room) {
@@ -265,7 +264,7 @@ function Display_data($nom_capteur, $data_type, $numberOfValues, $triDate, $jour
         // Return the values_history array for graph making
         return $values_history;
     } else if ($LineCount) {
-        $values_history[] = mysqli_fetch_assoc($request_content)['valeur_mesure'];
+        $values_history[] = mysqli_fetch_assoc($SQL_data)['valeur_mesure'];
         echo "<div id=\"$nom_capteur\" class=\"gauge\" data-value=\"$values_history[0]\" dataType=\"$data_type\"></div>";
     } else
         // If there are no rows in the result, display this message
