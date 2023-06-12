@@ -51,7 +51,7 @@
             <p class="parag"> Grâce à ces outils, notre travail a été optimisé et notre collaboration a été plus fluide et productive. </p>
             <p class="p_center"> Git - Github </p>
                 <figure>
-                    <img id="github"src="./images/github.png" alt="Repository Git-Hub de la SAE23" class="img_gprojet">
+                    <img id="github" src="./images/github.png" alt="Repository Git-Hub de la SAE23" class="img_gprojet">
                 </figure>
                 
             <p class="p_center"> Google Drive </p>
@@ -197,6 +197,15 @@
             details.style.display = details.style.display === 'block' ? 'none' : 'block';
         }
     </script>
+
+    <div class="blockgest">
+        <figure class="right"> 
+           <img id="vhtml" src="./images/vhtml.png" alt="PHP" class="img_gprojet">
+        </figure>
+        <figure class="left"> 
+            <img id="vcss" src="./images/vcss.gif" alt="JavaScript" class="img_gprojet">
+        </figure>
+    </div>
 
 </body>
 </html>

@@ -168,9 +168,14 @@ button {
   padding-top: 3%;
 }
 
+#vhtml {
+  width: 10%;
+}
+
 .img_gprojet{
   max-width: 100%;
 }
+
 /* CSS Homepage */
 
 .homepage {
@@ -391,44 +396,48 @@ fieldset{
   box-shadow: 0 5px 10px black;
 }
 
-body .add_c {
-  position: absolute;
-  width: 45%;
-  height: 25%;
-  top: 30%;
-  margin-left: 2%;
-  padding-left: 1.5%;
-  border-radius: 15px;
-}
-
-body .del_c {
-  position: absolute;
-  top: 60%;
-  width: 46%;
-  height: auto;
-  margin-left: 2%;
-  padding-left: 1.5%;
-  border-radius: 15px;
-  align-items: center;
-}
-
 body .add_b {
   position: absolute;
   width: 40%;
   height: 25%;
   top: 30%;
-  left: 54%;
-  padding-left: 2%;
+  margin-left: 2%;
+  padding-left: 1.5%;
   border-radius: 15px;
+  padding-right: 1.5%;
 }
 
 body .del_b {
   position: absolute;
+  top: 60%;
   width: 40%;
   height: auto;
+  margin-left: 2%;
+  padding-left: 1.5%;
+  padding-right: 1.5%;
+  border-radius: 15px;
+  align-items: center;
+}
+
+body .add_c {
+  position: absolute;
+  width: 45%;
+  height: 25%;
+  top: 30%;
+  left: 50%;
+  padding-left: 1.5%;
+  padding-right: 1.5%;
+  border-radius: 15px;
+}
+
+body .del_c {
+  position: absolute;
+  width: 45%;
+  height: auto;
   top: 60%;
-  margin-left: 54%;
-  padding-left: 2%;
+  margin-left: 50%;
+  padding-left: 1.5%;
+  padding-right: 1.5%;
   border-radius: 15px;
 }
 
@@ -480,7 +489,7 @@ body .updt_g {
 }
 
 .block {
-  width: 85%;
+  width: 80%;
   margin-left: 5%;
   padding-top: 10px;
   background-color: #ffffff4e;
