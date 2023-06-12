@@ -84,8 +84,8 @@ button {
 
 .a-download-button {
   display: flex;
-  justify-content: center; /* Centers horizontally */
-  align-items: center; /* Centers vertically */
+  justify-content: center;
+  align-items: center;
 }
 
 .download-button {
@@ -99,43 +99,31 @@ button {
 }
 
 .blockgest {
-  width:100%;
+  max-width:100%;
   height:auto;
   display:flex; 
 }
 
-.left
+.left, .right
 {
-   width: 50%;
-   margin: 1%;
-   text-align: justify;
+  width: 48%;
+  margin: 1%;
+  text-align: justify;
+}
+
+.left {
   float: left;
 }
 
 .right
 {
-  width: 50%;
-   margin: 1%;
-  text-align: justify;
   float: right;
 }
 
-.tier-1
+.tier-1, .tier-2, .tier-3
 {
    width: 33.33%;
    text-align: justify;
-}
-
-.tier-2
-{
-  width: 33.33%;
-  text-align: justify;
-}
-
-.tier-3
-{
-  width: 33.33%;
-  text-align: justify;
 }
 
 #gantt-initial {
@@ -167,21 +155,13 @@ button {
   width: 50%;
 }
 
-#js-img {
+#js-img, #rt-logo, #css-html {
   width: 40%;
 }
 
 #iut-img { 
   width: 50%;
   padding-top: 2%;
-}
-
-#css-html {
-  width: 40%;
-}
-
-#rt-logo {
-  width: 40%;
 }
 
 #jj-img {
