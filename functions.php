@@ -84,6 +84,8 @@ $typeCapteur, $triDate, $jourChoisi, $triValeur, $salle) {
           foreach ($data_type as $type) {
               // Retrieve the sensor name based on the room and type
               $sensor_name = Search_Name($room, $type);
+              //as this function is used to display avg to, it sends back an array of which we only need the fisrt cell
+              $sensor_name = $sensor_name[0];
               //check if this sensor name is in common with the first request list of sensors
               if (in_array($sensor_name, $list_sensors)) {
                     global $sensor_translation;
@@ -111,7 +113,10 @@ function Search_Type($room) {
     global $connexion;
 
     // Query to retrieve the sensor types in the given room
-    $query = "SELECT type_capteur FROM capteur WHERE Salle = '$room'";
+    $query = "SELECT DISTINCT type_capteur FROM capteur";
+    if (!empty($room)) {
+        $query .= " WHERE Salle = '$room'";
+    }
     $result = mysqli_query($connexion, $query);
 
     // Loop through the query result and add the sensor types to the array
@@ -130,12 +135,16 @@ function Search_Name($room, $type) {
     $name = '';
 
     // Query to retrieve the sensor name based on the room and type
-    $query = "SELECT nom_capteur FROM capteur WHERE Salle = '$room' AND type_capteur = '$type'";
+    $query = "SELECT nom_capteur FROM capteur WHERE type_capteur = '$type'";
+    if (!empty($room)) {
+        $query .= " AND Salle = '$room'";
+    }
     $result = mysqli_query($connexion, $query);
 
+    $name = [];
     // Loop through the query result and store the sensor name
     while ($row = mysqli_fetch_assoc($result)) {
-        $name = $row['nom_capteur'];
+        $name[] = $row['nom_capteur'];
     }
 
     return $name; // Return the sensor name
@@ -273,79 +282,48 @@ function display_data($nom_capteur, $data_type, $numberOfValues, $triDate, $jour
     }
 
 
-    function Display_moyenne($salle_ID, $nom_capteur, $data_type){
+function Display_moyenne(){
     // Access the global $connexion variable inside the function
     global $connexion;
+    $type = Search_Type("");
 
-    // Query to calculate the average value for the given sensor within the last 10 measurements
-    $query = "SELECT AVG(valeur_mesure) as moyenne FROM (SELECT valeur_mesure FROM mesure WHERE nom_capteur = '$nom_capteur' ORDER BY id_mesure DESC LIMIT 10) subquery";
-    $result = mysqli_query($connexion, $query);
-    $recup = mysqli_fetch_assoc($result);
-    $mo = $recup['moyenne'];
-    $format = number_format($mo, 2, ',', ' ');
-
-    // Query to retrieve the minimum value for the given sensor within the last 10 measurements
-    $min = mysqli_query($connexion, "SELECT MIN(valeur_mesure) as mini FROM (SELECT valeur_mesure FROM mesure WHERE nom_capteur = '$nom_capteur' ORDER BY id_mesure DESC LIMIT 10) subquery");
-
-    // Query to retrieve the maximum value for the given sensor within the last 10 measurements
-    $max = mysqli_query($connexion, "SELECT MAX(valeur_mesure) as maxi FROM (SELECT valeur_mesure FROM mesure WHERE nom_capteur = '$nom_capteur' ORDER BY id_mesure DESC LIMIT 10) subquery");
-
-    // Error handling for the query execution
-    if (!$result) {
-        die("Error: Can't retrieve data from mesure. " . mysqli_error($connexion));
-    }
-
-    if (!$min) {
-        die("Error: Can't retrieve data from mesure. " . mysqli_error($connexion));
-    }
-
-    if (!$max) {
-        die("Error: Can't retrieve data from mesure. " . mysqli_error($connexion));
-    }
-
-    // Display the average, minimum, and maximum values for the sensor
-    while ($li = mysqli_fetch_assoc($min) and $lin = mysqli_fetch_assoc($max)) {
-        echo "<tr>";
-        echo "<td>$salle_ID</td>";
-        echo "<td>$data_type</td>";
-        echo "<td>$format</td>";
-        echo "<td>" . $li['mini'] . "</td>";
-        echo "<td>" . $lin['maxi'] . "</td>";
-        echo "</tr>";
-    }
-
-    return $mo; // Return the average value
-}
-
-function Metrique_type($table, $d_type) {
-    $total = 0;
-    $minim = $table[0];
-    $maxim = $table[1];
-
-    // Calculate the total sum, minimum, and maximum values from the given table
-    for ($i = 0; $i < sizeof($table); $i++) {
-        $n = $table[$i];
-        $total += $n;
-        if ($n > $maxim) {
-            $maxim = $n;
+    foreach ($type as $data_type){
+        $name_sensor = [];
+        $name_sensor = Search_Name("", $data_type);
+        
+        
+        // Query to calculate the average value for the given sensors within the last 10 measurements
+        $query = "SELECT AVG(valeur_mesure) as moyenne,  MIN(valeur_mesure) as minimum, MAX(valeur_mesure) as maximum FROM mesure WHERE nom_capteur IN (";
+        $query .= "'" . $name_sensor[0] . "'";
+        
+        // Remove the first element of the array
+        array_shift($name_sensor);
+        
+        // Add each sensor name to the query
+        foreach ($name_sensor as $name) {
+            $query .= ", '" . $name . "'";
         }
-        if ($n < $minim) {
-            $minim = $n;
+        
+        $query .= ")";
+        
+        $result = mysqli_query($connexion, $query);
+
+        // Error handling for the query execution
+        if (!$result) {
+            die("Error: Can't retrieve data from mesure. " . mysqli_error($connexion));
+        }
+
+        // Display the average, minimum, and maximum values for the sensor
+        while ($line = mysqli_fetch_assoc($result)) {
+            $average_formated = number_format($line['moyenne'], 2, ',', ' ');
+            echo "<tr>";
+            echo "<td>$data_type</td>";
+            echo "<td>$average_formated</td>";
+            echo "<td>{$line['minimum']}</td>";
+            echo "<td>{$line['maximum']}</td>";
+            echo "</tr>";
         }
     }
 
-    // Calculate the average value and format the numbers
-    $moy = $total / sizeof($table);
-    $f_moy = number_format($moy, 2);
-    $f_min = number_format($minim, 2);
-    $f_max = number_format($maxim, 2);
-
-    // Display the metric information in a table row
-    echo "<tr>";
-    echo "<td>$d_type</td>";
-    echo "<td>$f_moy</td>";
-    echo "<td>$f_min</td>";
-    echo "<td>$f_max</td>";
-    echo "</tr>";
 }
 ?>

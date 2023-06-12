@@ -163,10 +163,49 @@
     <script src='./scripts/unroll.js'></script>
     <script src='https://cdn.jsdelivr.net/npm/chart.js'></script>
     <script src='./scripts/Make_Chart.js'></script>
-    <script>
+<script>
+        // Function to create a new chart (graph)
+        function createChart(sensor_name, chartData, color) {
+        // Get the canvas element by ID
+        var canvas = document.getElementById("Chart_" + sensor_name);
+
+        // reverse the array to have data classified in the right order
+        var data = chartData[sensor_name].reverse();
+
+        // Generate a random color (generate a random number between 0 and 16777215 and convert it to hexa)
+        var randomColor = '#' + Math.floor(Math.random() * 16777215).toString(16);
+
+        // Labels are the name of each point of the graph, each point being incremented by 1 (1 to i)
+        // Create an array for the labels
+        var labels = [];
+        for (var i = 0; i < data.length; i++) {
+            labels[i] = i + 1;
+        }
+        console.log(labels);
+
+        // specify each characteristic of our chart for chart.js to make
+        var chart = new Chart(canvas, {
+            type: 'line',
+            data: {
+            // Labels are the name of each point of the graph
+            labels: labels,
+            datasets: [
+                {
+                label: "évolution des 10 dernières valeurs",
+                pointRadius: 10,
+                pointHoverRadius: 15,
+                // Specify which data to use for the graph
+                data: data,
+                borderColor: randomColor,
+                }
+            ]
+            }
+        });
+        }
+
         // Get the historical data from PHP and store it in the historyData variable
         var historyData = <?php echo json_encode($history); ?>;
-        
+
         // Iterate over each sensor in the historyData object
         for (var sensor in historyData) {
             // Check if the sensor has data
@@ -175,6 +214,7 @@
                 createChart(sensor, historyData, 'red');
             }
         }
-    </script>
+
+</script>
 </body>
 </html>
