@@ -9,7 +9,6 @@ window.addEventListener("DOMContentLoaded", function() {
       content.classList.add("active");
       next.style.display = "none";
       scroll.style.display = "contents";
-      scroll.style.left = "0";
     });
   });
 
