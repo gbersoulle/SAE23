@@ -31,7 +31,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Management Page</title>
     <link rel="stylesheet" href="styles/style.css">
-    <script src="./scripts/index.js"></script>
+    <script src="./scripts/gestion.js"></script>
 </head>
 <body>
     <?php
