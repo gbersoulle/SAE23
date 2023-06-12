@@ -76,5 +76,15 @@
     }
 
 </script>
+
+    <div class="blockgest">
+        <figure class="right"> 
+           <img id="vhtml" src="./images/vhtml.png" alt="PHP" class="img_gprojet">
+        </figure>
+        <figure class="left"> 
+            <img id="vcss" src="./images/vcss.gif" alt="JavaScript" class="img_gprojet">
+        </figure>
+    </div>
+
 </body>
 </html>
