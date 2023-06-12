@@ -4,16 +4,14 @@
 require_once '../connexion_bdd.php';
 
 
-$command = 'mosquitto_sub -h mqtt.iut-blagnac.fr -t "Student/by-room/#" -C 1';
-//$output = array('[{"temperature":25.6,"humidity":57.5,"activity":0,"co2":434,"tvoc":212,"illumination":1,"infrared":1,"infrared_and_visible":1,"pressure":990.4,"Latitude":43.6488366,"Langitude":1.3741088},{"deviceName":"AM107-3","devEUI":"24e124128c011586","room":"B111","floor":1,"Building":"B"}]');
-exec($command, $json, $ReturnCode);
-if ($ReturnCode === 0) {
-    // Convertir le tableau en chaîne JSON
-    $jsonString = json_encode($json);
+// $command = 'mosquitto_sub -h mqtt.iut-blagnac.fr -t "Student/by-room/#" -C 1';
+$json = '[{"temperature":25.6,"humidity":57.5,"activity":0,"co2":434,"tvoc":212,"illumination":1,"infrared":1,"infrared_and_visible":1,"pressure":990.4,"Latitude":43.6488366,"Longitude":1.3741088},{"deviceName":"AM107-3","devEUI":"24e124128c011586","room":"B111","floor":1,"Building":"B"}]';
+// exec($command, $json, $ReturnCode);
+// Convertir le tableau en chaîne JSON
+$jsonString = json_encode($json);
 
-    // Convertir le JSON en tableau associatif
-    $output = json_decode($jsonString, true);
-print_r($output);
+// Convertir le JSON en tableau associatif
+$output = json_decode($jsonString, true);
 
 // Récupérer les informations sur les capteurs existants depuis la table "capteur"
 $query = "SELECT nom_capteur FROM capteur";
@@ -22,24 +20,26 @@ $capteurs_existants = [];
 while ($row = mysqli_fetch_assoc($result)) {
     $capteurs_existants[] = $row['nom_capteur'];
 }
+echo "aaaa";
+print_r($output);
 // Parcourir le tableau de output et insérer les données des capteurs existants dans la base de données
-foreach ($output as $mesure) {
-    foreach ($mesure as $capteur => $valeur) {
+    $room = $output['room'];
+    foreach ($output as $capteur => $valeur) {
         // Construire le nom_capteur
-        $nom_capteur = $output[1]["room"] . $capteur;
-        echo "nik";
-
+        $nom_capteur = $room . $capteur;
+        echo "$nom_capteur";
         // Vérifier si le capteur existe dans la table "capteur"
         if (in_array($nom_capteur, $capteurs_existants)) {
             // Insérer les données dans la table "mesure"
             $query = "INSERT INTO mesure (valeur_mesure, nom_capteur) VALUES ('$valeur', '$nom_capteur')";
+            echo "$query";
             mysqli_query($connexion, $query);
             echo "$query executed <br>";
         }
     }
-}
-}
-echo "nik";
+
+
+echo "fin d'ajout capteur";
 // Fermer la connexion à la base de données
 mysqli_close($connexion);
 ?>
