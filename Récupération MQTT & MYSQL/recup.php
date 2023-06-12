@@ -3,8 +3,7 @@
 // Inclure le fichier de connexion à la base de données
 require_once '../connexion_bdd.php';
 
-// while(true){
-// flush();
+
 $command = 'mosquitto_sub -h mqtt.iut-blagnac.fr -t "Student/by-room/#" -C 1';
 //$output = array('[{"temperature":25.6,"humidity":57.5,"activity":0,"co2":434,"tvoc":212,"illumination":1,"infrared":1,"infrared_and_visible":1,"pressure":990.4,"Latitude":43.6488366,"Langitude":1.3741088},{"deviceName":"AM107-3","devEUI":"24e124128c011586","room":"B111","floor":1,"Building":"B"}]');
 exec($command, $json, $ReturnCode);
@@ -27,11 +26,8 @@ while ($row = mysqli_fetch_assoc($result)) {
 foreach ($output as $mesure) {
     foreach ($mesure as $capteur => $valeur) {
         // Construire le nom_capteur
-        if ($capteur == "room") {
-            $nom_capteur = $output[1]["room"] . $capteur;
-        } else {
-            $nom_capteur = $output[1]["room"] . $capteur;
-        }
+        $nom_capteur = $output[1]["room"] . $capteur;
+        echo "nik";
 
         // Vérifier si le capteur existe dans la table "capteur"
         if (in_array($nom_capteur, $capteurs_existants)) {
@@ -43,6 +39,7 @@ foreach ($output as $mesure) {
     }
 }
 }
+echo "nik";
 // Fermer la connexion à la base de données
 mysqli_close($connexion);
 ?>

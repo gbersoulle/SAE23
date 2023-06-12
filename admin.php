@@ -1,23 +1,23 @@
 <?php
     // Check if a session is started
-    // if (session_status() == PHP_SESSION_NONE) {
-    //     session_start();
-    // }
+    if (session_status() == PHP_SESSION_NONE) {
+        session_start();
+    }
 
-    // // Check if the user is logged in
-    // if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {
-    //     // Check the user's source
-    //     if (isset($_SESSION['source']) && $_SESSION['source'] != 'administration') {
-    //         $error = "ERROR: You do not have the necessary credentials to access this page";
-    //         echo '<a href="index.php">Home</a><br>' ;
-    //         die($error);
-    //     }
-    // } 
-    // else {
-    //     $message = "You are not logged in";
-    //     echo '<a href="index.php">Home</a><br>' ;
-    //     die($message);
-    // }
+    // Check if the user is logged in
+    if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {
+        // Check the user's source
+        if (isset($_SESSION['source']) && $_SESSION['source'] != 'administration') {
+            $error = "ERROR: You do not have the necessary credentials to access this page";
+            echo '<a href="index.php">Home</a><br>' ;
+            die($error);
+        }
+    } 
+    else {
+        $message = "You are not logged in";
+        echo '<a href="index.php">Home</a><br>' ;
+        die($message);
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -126,7 +126,7 @@
         ?>
         </select><br><br>
         <label for="salle_capteur">Enter the room of the sensor</label>
-        <input type="text" id="salle_capteur" name="salle_capteur" placeholder="Ex: B206" required>
+        <input type="text" id="salle_capteur" name="salle_capteur" placeholder="Ex: B206" required><br><br>
         <input type="submit" name="submit_ajouter_capteur" value="Validate">
     </form>
 </fieldset>
@@ -211,7 +211,6 @@
 </form>
 </fieldset>
 
-z
 
     
 </body>
