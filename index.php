@@ -73,6 +73,15 @@
                         </figure>
                     </div>
 
+                    <div class="blockgest">
+                        <figure class="right"> 
+                            <img id="mysql-logo" src="./images/mysql-logo.png" alt="PHP" class="img_gprojet">
+                        </figure>
+                        <figure class="left"> 
+                            <img id="influx-logo" src="./images/influx-logo.png" alt="JavaScript" class="img_gprojet">
+                        </figure>
+                    </div>
+
                 </section>
                 
                 <section class="parag">  

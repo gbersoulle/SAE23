@@ -159,6 +159,14 @@ button {
   width: 40%;
 }
 
+#influx-logo {
+  width: 80%;
+}
+
+#mysql-logo {
+  width: 40%;
+}
+
 #iut-img { 
   width: 50%;
   padding-top: 2%;
