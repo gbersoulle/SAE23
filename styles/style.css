@@ -188,9 +188,14 @@ button {
   padding-top: 3%;
 }
 
+#vhtml {
+  width: 10%;
+}
+
 .img_gprojet{
   max-width: 100%;
 }
+
 /* CSS Homepage */
 
 .homepage {

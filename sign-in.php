@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link href="./Ange/style/style.css" rel="Stylesheet" type="text/css" /> 
     <script src="./scripts/script.js"></script>
     <link rel="stylesheet" href="styles/Sign-in.css">
     <title>Se Connecter</title>
@@ -15,7 +14,7 @@
                 <h2>Connectez Vous</h2>
             </div>
             <label for="user">Utilisateur :</label>
-            <input type="user" id="user" name="user" required>
+            <input type="text" id="user" name="user" required>
 
             <label for="password">Mot de passe :</label>
             <input type="password" id="password" name="password" required>
