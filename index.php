@@ -94,8 +94,8 @@
 
                 </section>
             
-                <section id="member1-details" class="member-details">
-                    <h2 class="t_center h2-acc" onclick="toggleDetails('member1')"> Mentions légales </h2>
+                <section>
+                    <h2 class="t_center h2-acc"> Mentions légales </h2>
                     <h2>Définitions</h2>
                     <p><b>Client :</b> tout professionnel ou personne physique capable au sens des articles 1123 et suivants du Code civil, ou personne morale, qui visite le Site objet des présentes conditions générales.<br>
                     <b>Prestations et Services :</b> <a href="https://bersoulle.fr/SAE23">https://bersoulle.fr/SAE23</a> met à disposition des Clients :</p>
@@ -254,17 +254,10 @@
                 </figure>
                     <figure class="left"> 
                         <img id="vcss" src="./images/vcss.gif" alt="JavaScript" class="img_gprojet">
-                    </figure>
+                </figure>
             </div>
 
             </div>
-
-        <script>
-            function toggleDetails(memberId) {
-                var details = document.getElementById(memberId + '-details');
-                details.style.display = details.style.display === 'block' ? 'none' : 'block';
-            }
-        </script>
         
         <a href="#top" id="scroll_b">
             <img src="./images/scroll_up.png" alt="UP" class="img_scrollb">
