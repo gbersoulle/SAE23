@@ -53,6 +53,7 @@
     //get the name of the building sensors
     $requeteCapteurs = "SELECT nom_capteur, type_capteur FROM capteur WHERE id_batiment = '$idBatiment'";
     $resultatCapteurs = mysqli_query($connexion, $requeteCapteurs);
+    mysqli_close($connexion);
     ?>
 
     <!-- create the filter button -->
@@ -103,7 +104,9 @@
             <?php
             //request all the rooms of the building from the DB
             $requeteSalles = "SELECT DISTINCT Salle FROM capteur WHERE id_batiment = '$idBatiment'";
+            require 'connexion_bdd.php';
             $resultatSalles = mysqli_query($connexion, $requeteSalles);
+            mysqli_close($connexion);
             //add every room collected as an option
 
             while ($ligneSalle = mysqli_fetch_assoc($resultatSalles)) {

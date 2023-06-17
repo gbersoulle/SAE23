@@ -1,6 +1,5 @@
 <?php
 // Require the database connection file
-require_once 'connexion_bdd.php';
 
 //create a table for data type translation
 $sensor_translation = array(
@@ -19,7 +18,7 @@ $sensor_translation = array(
 function display_all_buildings($buildings, $numberOfValues, $nomCapteur,
 $typeCapteur, $triDate, $jourChoisi, $triValeur, $salle) {
     // Access the global $connexion variable inside the function
-    global $connexion;
+    require 'connexion_bdd.php';
     // if building isn't specified take all of them
     if ($buildings === "all"){
         //get an array of all the building names
@@ -32,6 +31,8 @@ $typeCapteur, $triDate, $jourChoisi, $triValeur, $salle) {
 
     // Loop through the buildings
     foreach ($buildings as $building) {
+        require 'connexion_bdd.php';
+
         //get building id
         $requeteBatiment = "SELECT id_batiment FROM batiment WHERE nom_bat = '$building'";
         $resultatBatiment = mysqli_query($connexion, $requeteBatiment);
@@ -53,7 +54,7 @@ $typeCapteur, $triDate, $jourChoisi, $triValeur, $salle) {
         }
         //Ultimately, execute the request
         $resultatCapteursFiltre = mysqli_query($connexion, $requeteCapteursFiltre);
-
+        mysqli_close($connexion);
         $list_sensors = [];
         $rooms = [];
         //get all rooms
@@ -110,7 +111,7 @@ $typeCapteur, $triDate, $jourChoisi, $triValeur, $salle) {
 
 function Search_Type($room) {
     // Access the global $connexion variable inside the function
-    global $connexion;
+    require 'connexion_bdd.php';
 
     // Query to retrieve the sensor types in the given room
     $query = "SELECT DISTINCT type_capteur FROM capteur";
@@ -118,7 +119,7 @@ function Search_Type($room) {
         $query .= " WHERE Salle = '$room'";
     }
     $result = mysqli_query($connexion, $query);
-
+    mysqli_close($connexion);
     // Loop through the query result and add the sensor types to the array
     while ($row = mysqli_fetch_assoc($result)) {
         $types[] = $row['type_capteur'];
@@ -129,7 +130,7 @@ function Search_Type($room) {
 // Function to retrieve the sensor name based on the room and sensor type
 function Search_Name($room, $type) {
     // Access the global $connexion variable inside the function
-    global $connexion;
+    require 'connexion_bdd.php';
     
     // Initialize the $name variable
     $name = '';
@@ -140,7 +141,7 @@ function Search_Name($room, $type) {
         $query .= " AND Salle = '$room'";
     }
     $result = mysqli_query($connexion, $query);
-
+    mysqli_close($connexion);
     $name = [];
     // Loop through the query result and store the sensor name
     while ($row = mysqli_fetch_assoc($result)) {
@@ -154,52 +155,42 @@ function Search_Name($room, $type) {
 // Define the function display_data with parameters $nom_capteur and $data_type
 function display_data($nom_capteur, $data_type, $numberOfValues, $triDate, $jourChoisi, $triValeur) {
     // Access the global $connexion variable inside the function
-    global $connexion;
+    require 'connexion_bdd.php';
 
   // Collect and display the values based on the filters
 $request_content = "SELECT * FROM mesure WHERE nom_capteur = '$nom_capteur'";
 
-if (!empty($jourChoisi)) {
-    $request_content .= " AND DATE(date_mesure) = '$jourChoisi'";
-}
-
-if (!empty($triValeur)) {
-    // If sorting by value is specified
-    if ($triValeur == 'asc') {
-        $request_content .= " ORDER BY valeur_mesure ASC";
-    } elseif ($triValeur == 'desc') {
-        $request_content .= " ORDER BY valeur_mesure DESC";
+    if (!empty($jourChoisi)) {
+        $request_content .= " AND DATE(date_mesure) = '$jourChoisi'";
     }
-}
-
-if (!empty($triDate)) {
-    // If sorting by date is specified
     if (!empty($triValeur)) {
-        // If sorting by value is also specified, order by value first, then by date
-        $request_content .= ", date_mesure";
+        if ($triValeur == 'asc') {
+            $request_content .= " ORDER BY valeur_mesure ASC";
+        } elseif ($triValeur == 'desc') {
+            $request_content .= " ORDER BY valeur_mesure DESC";
+        }
+    }
+    if (!empty($triDate)) {
+        if (!empty($triValeur)) {
+            $request_content .= ", date_mesure";
+        } else {
+            $request_content .= " ORDER BY date_mesure";
+        }
+        
+        if ($triDate == 'asc') {
+            $request_content .= " ASC";
+        } elseif ($triDate == 'desc') {
+            $request_content .= " DESC";
+        }
     } else {
-        // If sorting by date only, order by date
-        $request_content .= " ORDER BY date_mesure";
+        if (empty($triValeur)) {
+            $request_content .= " ORDER BY date_mesure DESC"; // Tri par date par défaut si aucun tri n'est spécifié
+        }
     }
-    
-    if ($triDate == 'asc') {
-        // Sort dates in ascending order
-        $request_content .= " ASC";
-    } elseif ($triDate == 'desc') {
-        // Sort dates in descending order
-        $request_content .= " DESC";
-    }
-} else {
-    // If sorting by date is not specified
-    if (empty($triValeur)) {
-        // If sorting by value is also not specified, order by date in descending order
-        $request_content .= " ORDER BY date_mesure DESC"; 
-    }
-}
+           
+    $SQL_data = mysqli_query($connexion, $request_content);
 
-$SQL_data = mysqli_query($connexion, $request_content);
-
-
+    mysqli_close($connexion);
     // Count the number of rows in the result
     $LineCount = mysqli_num_rows($SQL_data);
 
@@ -276,7 +267,8 @@ $SQL_data = mysqli_query($connexion, $request_content);
         $resultatMoyCapteur = mysqli_query($connexion, $requeteMoyCapteur);
         $ligneMoyCapteur = mysqli_fetch_assoc($resultatMoyCapteur);
         $moyenneCapteur = $ligneMoyCapteur['moyenne'];
-        
+        mysqli_close($connexion);
+
         //display these averages
         echo "<h3 class='bot_block'>Moyenne du capteur de $sensor_translation[$data_type] : $moyenneCapteur $unite</h3>";
         echo "<h3 class='bot_block add_space'>Moyenne des mesures affichées : $moyenneAffichee $unite</h3>";
@@ -294,8 +286,6 @@ $SQL_data = mysqli_query($connexion, $request_content);
 
 
 function Display_moyenne(){
-    // Access the global $connexion variable inside the function
-    global $connexion;
     $type = Search_Type("");
 
     foreach ($type as $data_type){
@@ -317,9 +307,10 @@ function Display_moyenne(){
         }
         
         $query .= ")";
-        
-        $result = mysqli_query($connexion, $query);
+        require 'connexion_bdd.php';
 
+        $result = mysqli_query($connexion, $query);
+        mysqli_close($connexion);
         // Error handling for the query execution
         if (!$result) {
             die("Error: Can't retrieve data from mesure. " . mysqli_error($connexion));

@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
           UNION
           (SELECT 'batiment' AS source, login_gest AS user, mdp_gest AS password FROM batiment WHERE login_gest = '$user' AND mdp_gest = '$password')";
   $result = mysqli_query($connexion, $sql);
-
+  mysqli_close($connexion);
   // Check if a user was found
   if (mysqli_num_rows($result) == 1) {
     // Fetch the user information from the result

@@ -217,7 +217,7 @@ if (isset($_POST['submit_change_gestionnaire'])) {
 }
 
 
-
+    mysqli_close($connexion);
     // echo "ancien password". $ancienMdp;
     // echo "ancien username". $ancienUser;
     // echo "nv password". $nvMdp;
