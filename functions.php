@@ -156,44 +156,55 @@ function display_data($nom_capteur, $data_type, $numberOfValues, $triDate, $jour
     // Access the global $connexion variable inside the function
     global $connexion;
 
-    // Récupérer et afficher les valeurs historiques en fonction du tri (asc ou desc)
-    $request_content = "SELECT * FROM mesure WHERE nom_capteur = '$nom_capteur'";
+  // Collect and display the values based on the filters
+$request_content = "SELECT * FROM mesure WHERE nom_capteur = '$nom_capteur'";
 
-    if (!empty($jourChoisi)) {
-        $request_content .= " AND DATE(date_mesure) = '$jourChoisi'";
+if (!empty($jourChoisi)) {
+    $request_content .= " AND DATE(date_mesure) = '$jourChoisi'";
+}
+
+if (!empty($triValeur)) {
+    // If sorting by value is specified
+    if ($triValeur == 'asc') {
+        $request_content .= " ORDER BY valeur_mesure ASC";
+    } elseif ($triValeur == 'desc') {
+        $request_content .= " ORDER BY valeur_mesure DESC";
     }
+}
+
+if (!empty($triDate)) {
+    // If sorting by date is specified
     if (!empty($triValeur)) {
-        if ($triValeur == 'asc') {
-            $request_content .= " ORDER BY valeur_mesure ASC";
-        } elseif ($triValeur == 'desc') {
-            $request_content .= " ORDER BY valeur_mesure DESC";
-        }
-    }
-    if (!empty($triDate)) {
-        if (!empty($triValeur)) {
-            $request_content .= ", date_mesure";
-        } else {
-            $request_content .= " ORDER BY date_mesure";
-        }
-        
-        if ($triDate == 'asc') {
-            $request_content .= " ASC";
-        } elseif ($triDate == 'desc') {
-            $request_content .= " DESC";
-        }
+        // If sorting by value is also specified, order by value first, then by date
+        $request_content .= ", date_mesure";
     } else {
-        if (empty($triValeur)) {
-            $request_content .= " ORDER BY date_mesure DESC"; // Tri par date par défaut si aucun tri n'est spécifié
-        }
+        // If sorting by date only, order by date
+        $request_content .= " ORDER BY date_mesure";
     }
-           
-    $SQL_data = mysqli_query($connexion, $request_content);
+    
+    if ($triDate == 'asc') {
+        // Sort dates in ascending order
+        $request_content .= " ASC";
+    } elseif ($triDate == 'desc') {
+        // Sort dates in descending order
+        $request_content .= " DESC";
+    }
+} else {
+    // If sorting by date is not specified
+    if (empty($triValeur)) {
+        // If sorting by value is also not specified, order by date in descending order
+        $request_content .= " ORDER BY date_mesure DESC"; 
+    }
+}
+
+$SQL_data = mysqli_query($connexion, $request_content);
+
 
     // Count the number of rows in the result
     $LineCount = mysqli_num_rows($SQL_data);
 
 
-    // If there are rows in the result, proceed to display the data
+    // If there are rows in the result and the number of values to display is greater than 1 : we are displaying the "gestion" page
     if ($LineCount && $numberOfValues > 1) {
         // Add a canvas element for charting sensor data
         echo "<canvas id='Chart_$nom_capteur'></canvas>";
@@ -219,10 +230,10 @@ function display_data($nom_capteur, $data_type, $numberOfValues, $triDate, $jour
                 $unite = "lux";
                 break;
             case "infrared":
-                $unite = "infrarouge";
+                $unite = "W/m²";
                 break;
             case "infrared_and_visible":
-                $unite = "infrarouge et visible";
+                $unite = "W/m²";
                 break;
             case "pressure":
                 $unite = "hPa";
@@ -292,14 +303,15 @@ function Display_moyenne(){
         $name_sensor = Search_Name("", $data_type);
         
         
-        // Query to calculate the average value for the given sensors within the last 10 measurements
+        // Query to calculate the average value for the given sensors within the last measurements
         $query = "SELECT AVG(valeur_mesure) as moyenne,  MIN(valeur_mesure) as minimum, MAX(valeur_mesure) as maximum FROM mesure WHERE nom_capteur IN (";
+        //concatenate the first sensor name with the request
         $query .= "'" . $name_sensor[0] . "'";
         
-        // Remove the first element of the array
+        // Remove the first sensor from the array
         array_shift($name_sensor);
         
-        // Add each sensor name to the query
+        // Add each other sensor name to the query adding a coma before
         foreach ($name_sensor as $name) {
             $query .= ", '" . $name . "'";
         }

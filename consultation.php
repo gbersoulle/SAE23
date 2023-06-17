@@ -53,6 +53,7 @@
         infrared_and_visible: 100,
         pressure: 2000
     };
+ 
 
     for (var i = 0; i < gaugeElements.length; i++) {
         var gaugeElement = gaugeElements[i];
