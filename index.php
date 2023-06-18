@@ -11,7 +11,7 @@
 <body>
 
     
-
+    <!-- Homepage hiding the main index page -->
     <section class="homepage" id="acc-ent">
         
 
@@ -94,6 +94,9 @@
 
             </section>
 
+
+            <!-- Generated with legalstart.fr -->
+            
             <h2 class="t_center h2-acc" onclick="toggleDetails('member1')"> Mentions légales </h2>
         
             <section id="member1-details" class="member-details">

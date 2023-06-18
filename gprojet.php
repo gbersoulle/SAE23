@@ -72,7 +72,7 @@
     
     <ul>
 
-        <li> <h4 class="h4-acc" onclick="toggleDetails('member1')">Gaspard Bersoullé</h4>
+        <li> <h4 class="h4-acc" onclick="toggleDetails('member1')">Gaspard Bersoullé</h4> <!-- Allowing the part to be hidden by double-clicking on the name -->
         <section id="member1-details" class="member-details">
             
         <h3 class="h3-acc"> Synthèse personnelle : </h3>
@@ -176,7 +176,7 @@
        
     </section>
 
-    <!-- Effet machine à écrire du titre --> 
+    <!-- Typewriter effect for the title --> 
     <script>
         var text = "SAE23 - Gestion de projet";
         var index = 0;
@@ -190,7 +190,7 @@
         type();
     </script>
 
-    <!-- Menu de synthèse personnelle -->
+    <!-- "Personalized synthesis menu." -->
     <script>
         function toggleDetails(memberId) {
             var details = document.getElementById(memberId + '-details');
