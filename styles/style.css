@@ -1,6 +1,3 @@
-@import url(table.css);
-
-
 /* Styles pour le corps de la page */
 
 body {
@@ -84,8 +81,8 @@ button {
 
 .a-download-button {
   display: flex;
-  justify-content: center; /* Centers horizontally */
-  align-items: center; /* Centers vertically */
+  justify-content: center;
+  align-items: center;
 }
 
 .download-button {
@@ -99,43 +96,31 @@ button {
 }
 
 .blockgest {
-  width:100%;
+  max-width:100%;
   height:auto;
   display:flex; 
 }
 
-.left
+.left, .right
 {
-   width: 50%;
-   margin: 1%;
-   text-align: justify;
+  width: 48%;
+  margin: 1%;
+  text-align: justify;
+}
+
+.left {
   float: left;
 }
 
 .right
 {
-  width: 50%;
-   margin: 1%;
-  text-align: justify;
   float: right;
 }
 
-.tier-1
+.tier-1, .tier-2, .tier-3
 {
    width: 33.33%;
    text-align: justify;
-}
-
-.tier-2
-{
-  width: 33.33%;
-  text-align: justify;
-}
-
-.tier-3
-{
-  width: 33.33%;
-  text-align: justify;
 }
 
 #gantt-initial {
@@ -167,7 +152,15 @@ button {
   width: 50%;
 }
 
-#js-img {
+#js-img, #rt-logo, #css-html {
+  width: 40%;
+}
+
+#influx-logo {
+  width: 80%;
+}
+
+#mysql-logo {
   width: 40%;
 }
 
@@ -176,21 +169,18 @@ button {
   padding-top: 2%;
 }
 
-#css-html {
-  width: 40%;
-}
-
-#rt-logo {
-  width: 40%;
-}
-
 #jj-img {
   padding-top: 3%;
+}
+
+#vhtml {
+  width: 10%;
 }
 
 .img_gprojet{
   max-width: 100%;
 }
+
 /* CSS Homepage */
 
 .homepage {
@@ -411,44 +401,48 @@ fieldset{
   box-shadow: 0 5px 10px black;
 }
 
-body .add_c {
-  position: absolute;
-  width: 45%;
-  height: 25%;
-  top: 30%;
-  margin-left: 2%;
-  padding-left: 1.5%;
-  border-radius: 15px;
-}
-
-body .del_c {
-  position: absolute;
-  top: 60%;
-  width: 46%;
-  height: auto;
-  margin-left: 2%;
-  padding-left: 1.5%;
-  border-radius: 15px;
-  align-items: center;
-}
-
 body .add_b {
   position: absolute;
   width: 40%;
   height: 25%;
   top: 30%;
-  left: 54%;
-  padding-left: 2%;
+  margin-left: 2%;
+  padding-left: 1.5%;
   border-radius: 15px;
+  padding-right: 1.5%;
 }
 
 body .del_b {
   position: absolute;
+  top: 60%;
   width: 40%;
   height: auto;
+  margin-left: 2%;
+  padding-left: 1.5%;
+  padding-right: 1.5%;
+  border-radius: 15px;
+  align-items: center;
+}
+
+body .add_c {
+  position: absolute;
+  width: 45%;
+  height: 25%;
+  top: 30%;
+  left: 50%;
+  padding-left: 1.5%;
+  padding-right: 1.5%;
+  border-radius: 15px;
+}
+
+body .del_c {
+  position: absolute;
+  width: 45%;
+  height: auto;
   top: 60%;
-  margin-left: 54%;
-  padding-left: 2%;
+  margin-left: 50%;
+  padding-left: 1.5%;
+  padding-right: 1.5%;
   border-radius: 15px;
 }
 
@@ -500,7 +494,7 @@ body .updt_g {
 }
 
 .block {
-  width: 85%;
+  width: 80%;
   margin-left: 5%;
   padding-top: 10px;
   background-color: #ffffff4e;

@@ -27,6 +27,7 @@ while ($table = mysqli_fetch_array($requeteTables)) {
 
     // Récupération des lignes de la table
     $requeteLignes = mysqli_query($connexion, "SELECT * FROM $nomTable");
+    mysqli_close($connexion);
     if (!$requeteLignes) {
         die("Erreur : frérot t'as merdé" . mysqli_error($connexion));
     }
@@ -61,7 +62,7 @@ while ($table = mysqli_fetch_array($requeteTables)) {
 }
 
 // Fermeture de la connexion à la base de données
-mysqli_close($connexion);
+
 ?>
 
 

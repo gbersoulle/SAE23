@@ -10,15 +10,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   // Get the username and password from the form
   $user = $_POST['user'];
   $password = hash('sha256',$_POST['password']);
-  $pat=hash('sha256','Patoche');
-  echo "$pat";
 
   // Query the database for the user with the given username and password
   $sql = "(SELECT 'administration' AS source, user, password FROM administration WHERE user = '$user' AND password = '$password')
           UNION
           (SELECT 'batiment' AS source, login_gest AS user, mdp_gest AS password FROM batiment WHERE login_gest = '$user' AND mdp_gest = '$password')";
   $result = mysqli_query($connexion, $sql);
-
+  mysqli_close($connexion);
   // Check if a user was found
   if (mysqli_num_rows($result) == 1) {
     // Fetch the user information from the result
