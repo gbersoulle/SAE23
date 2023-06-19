@@ -104,7 +104,6 @@
                 </section>
 
 
-            </section>
 
             <h2 class="t_center h2-acc" onclick="toggleDetails('member1')"> Mentions légales </h2>
         
@@ -270,7 +269,7 @@
                 </figure>
             </div>
 
-            </div>
+        </div>
         
         <a href="#top" id="scroll_b">
             <img src="./images/scroll_up.png" alt="UP" class="img_scrollb">
